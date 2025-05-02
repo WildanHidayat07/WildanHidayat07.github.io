@@ -6,1234 +6,766 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portofolio Profesional Wildan Hidayat - Pengembang Web Junior dan Desainer Grafis.">
     <meta name="keywords" content="Wildan Hidayat, Portofolio, Web Developer, Junior Web Developer, Desainer Grafis, Rekayasa Perangkat Lunak, Bandung">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/IMG-20240302-WA0010.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <style>
+        /* --- Peningkatan & Penyempurnaan CSS --- */
+
         /* Basic Reset & Body Style */
-        html { scroll-behavior: smooth; }
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html { scroll-behavior: smooth; font-size: 16px; }
         body {
-            margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            background-color: #f0f2f5; color: #333; line-height: 1.6;
-            overflow-x: hidden; /* Mencegah scroll horizontal */
+            font-family: 'Poppins', sans-serif; background-color: #f4f7fc;
+            color: #343a40; line-height: 1.7; overflow-x: hidden;
+            -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
         }
         body.loading { overflow: hidden; }
-        .lang-en .lang-id { display: none; }
-        .lang-id .lang-en { display: none; }
-        :root { --navbar-height: 65px; }
+        .lang-en .lang-id, .lang-id .lang-en { display: none; }
 
-        /* Preloader */
+        :root {
+            --navbar-height: 70px; --primary-color: #0d47a1; --secondary-color: #ffc107;
+            --accent-color: #17a2b8; --light-bg: #f8f9fa; --dark-text: #343a40;
+            --light-text: #f8f9fa; --card-bg: #ffffff; --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.07);
+            --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1); --border-radius-sm: 5px;
+            --border-radius-md: 8px; --transition-speed: 0.3s;
+        }
+
+        /* --- PERUBAHAN 1 DIMULAI: Animasi Loading Baru --- */
         .preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #0d47a1; display: flex; justify-content: center; align-items: center;
-            z-index: 9999; opacity: 1; visibility: visible;
-            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
-            animation: fadeOutPreloader 1s ease-out 2.5s forwards;
+            background-color: var(--primary-color);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999;
+            opacity: 1; visibility: visible;
+            transition: opacity var(--transition-speed) ease-out 0.3s, visibility var(--transition-speed) ease-out 0.3s; /* Tambah delay sedikit */
         }
-        .preloader.show { opacity: 1; visibility: visible; animation: none; transition: none; }
-        .spinner {
-            width: 50px; height: 50px; border: 5px solid rgba(255, 255, 255, 0.3);
-            border-top-color: #ffcc00; border-radius: 50%; animation: spin 1s linear infinite;
+        .preloader.hidden {
+            opacity: 0; visibility: hidden; pointer-events: none;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes fadeOutPreloader { 0% { opacity: 1; visibility: visible; } 100% { opacity: 0; visibility: hidden; } }
 
-        /* Navbar */
+        /* Container untuk dots */
+        .loader-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Style untuk setiap dot */
+        .dot {
+            width: 18px; /* Ukuran dot */
+            height: 18px;
+            margin: 0 6px; /* Jarak antar dot */
+            background-color: var(--secondary-color); /* Warna dot kuning */
+            border-radius: 50%;
+            opacity: 0.8;
+            /* Terapkan animasi bounce */
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        /* Staggered delay untuk animasi */
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+        /* .dot:nth-child(3) tidak perlu delay */
+
+        /* Keyframes untuk animasi bounce */
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0.8) translateY(0);
+                opacity: 0.8;
+            }
+            40% {
+                transform: scale(1) translateY(-15px); /* Naik dan membesar */
+                opacity: 1;
+            }
+        }
+        /* Hapus CSS .spinner dan @keyframes spin yang lama */
+        /* --- PERUBAHAN 1 SELESAI --- */
+
+
+        /* --- Navbar Ditingkatkan (Tidak Berubah dari Versi Sebelumnya) --- */
         .navbar {
-            position: fixed; top: 0; width: 100%; background-color: #0d47a1; z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); height: var(--navbar-height);
-            display: flex; justify-content: center; align-items: center; padding: 0;
+            position: fixed; top: 0; width: 100%; background-color: var(--primary-color);
+            z-index: 1030; box-shadow: var(--shadow-md); height: var(--navbar-height);
+            display: flex; justify-content: center; align-items: center;
+            transition: background-color var(--transition-speed) ease;
         }
         .navbar-container {
             display: flex; justify-content: space-between; align-items: center;
             width: 100%; max-width: 1200px; padding: 0 25px;
         }
         .navbar .logo {
-            display: flex; align-items: center; color: white; font-weight: bold;
-            font-size: 20px; flex-shrink: 0; text-decoration: none; margin: 0 auto 0 0; padding: 0; text-align: left;
+            display: flex; align-items: center; color: var(--light-text);
+            font-weight: 600; font-size: 1.25rem; text-decoration: none; flex-shrink: 0;
         }
-        .navbar .logo img { width: 45px; height: 45px; border-radius: 50%; margin: 0 10px 0 0; object-fit: cover; display: block; }
-
-        /* --- REVISI 1 DIMULAI: Style Tombol Toggle Mobile --- */
+        .navbar .logo img {
+            width: 45px; height: 45px; border-radius: 50%; margin-right: 12px;
+            object-fit: cover; border: 2px solid var(--secondary-color);
+        }
+        .navbar .logo span { line-height: 1; }
         .menu-toggle {
-            display: none; /* Sembunyikan di desktop */
-            cursor: pointer; z-index: 1001; background: none; border: none;
-            padding: 5px 10px; /* Padding agar lebih mudah diklik */
-            margin-left: 15px; /* Jarak dari elemen sebelumnya jika ada */
+            display: none; cursor: pointer; z-index: 1001; background: none; border: none;
+            padding: 8px; margin-left: 15px; color: var(--secondary-color);
         }
-        .navbar .menu-toggle i {
-            color: #ffcc00; /* Warna kuning agar kontras */
-            font-size: 26px; /* Ukuran ikon disesuaikan */
-            display: block; /* Pastikan ikon tampil */
-            transition: color 0.3s ease;
+        .menu-toggle i {
+            font-size: 1.6rem; display: block;
+            transition: transform var(--transition-speed) ease, color var(--transition-speed) ease;
         }
-        .navbar .menu-toggle:hover i {
-            color: #fff; /* Warna putih saat hover */
+        .menu-toggle:hover i { color: #fff; }
+        .menu-toggle.active i { transform: rotate(90deg); }
+        .navbar .nav-menu { display: flex; gap: 5px; align-items: center; list-style: none; margin: 0; padding: 0; }
+        .navbar .nav-menu > li { margin: 0; padding: 0; }
+        .navbar .nav-menu a.nav-link {
+            color: var(--light-text); text-decoration: none; padding: 10px 15px;
+            border-radius: var(--border-radius-sm); transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, transform var(--transition-speed) ease;
+            font-size: 0.95rem; font-weight: 500; white-space: nowrap; position: relative; overflow: hidden;
         }
-        /* --- REVISI 1 SELESAI --- */
-
-        .navbar .nav-menu {
-            display: flex; gap: 20px; align-items: center; flex-grow: 1; justify-content: flex-end;
-            padding-left: 15px; transition: all 0.3s ease-in-out; z-index: 990;
+        .navbar .nav-menu a.nav-link::after {
+             content: ''; position: absolute; bottom: 0; left: -100%; width: 100%; height: 3px;
+             background-color: var(--secondary-color); transition: left var(--transition-speed) ease-out;
         }
-        .navbar .nav-menu a {
-            display: block; color: white; text-decoration: none; padding: 7px 12px; border-radius: 5px;
-            transition: all 0.3s ease; font-size: 15px; white-space: nowrap;
+        .navbar .nav-menu a.nav-link:hover::after, .navbar .nav-menu a.nav-link.active::after { left: 0; }
+        .navbar .nav-menu a.nav-link:hover { background-color: rgba(255, 255, 255, 0.1); color: #fff; }
+        .navbar .nav-menu a.nav-link.active { color: var(--secondary-color); font-weight: 600; }
+        .language-switcher { display: flex; align-items: center; margin-left: 20px; gap: 8px; }
+        .language-switcher button {
+            background: none; border: 1px solid rgba(255, 255, 255, 0.3); color: var(--light-text);
+            font-size: 0.8rem; font-weight: 500; cursor: pointer; padding: 5px 10px;
+            border-radius: var(--border-radius-sm); transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
         }
-        .navbar .nav-menu a:hover { background-color: rgba(143, 127, 63, 0.8); color: #0d47a1; transform: translateY(-2px); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        .navbar .nav-menu a.active { background-color: #ffcc00; color: #0d47a1; font-weight: 600; }
-        .language-switcher { display: flex; align-items: center; margin-left: 15px; gap: 6px; }
-        .language-switcher button { background: none; border: none; color: white; font-size: 13px; cursor: pointer; padding: 4px 7px; border-radius: 4px; transition: all 0.3s ease; }
-        .language-switcher button:hover { background-color: rgba(255, 255, 255, 0.2); }
-        .language-switcher button.active { background-color: #ffcc00; color: #0d47a1; font-weight: bold; }
-        .logout-button { background-color: #dc3545; border: none; cursor: pointer; transition: background-color 0.3s ease, transform 0.1s ease, opacity 0.3s ease; font-size: 15px; padding: 7px 12px; border-radius: 5px; color: white; text-decoration: none; margin-left: 20px; display: block; }
-        .logout-button:hover { background-color: #c82333; opacity: 0.9; }
+        .language-switcher button:hover { background-color: rgba(255, 255, 255, 0.1); }
+        .language-switcher button.active {
+            background-color: var(--secondary-color); color: var(--primary-color);
+            font-weight: 600; border-color: var(--secondary-color);
+        }
+        .logout-button {
+            background-color: #dc3545; border: none; cursor: pointer; transition: background-color var(--transition-speed) ease, transform 0.1s ease;
+            font-size: 0.95rem; padding: 10px 15px; border-radius: var(--border-radius-sm); color: white; text-decoration: none; margin-left: 20px; font-weight: 500;
+        }
+        .logout-button:hover { background-color: #c82333; }
         .logout-button:active { transform: scale(0.95); }
 
-        /* Home Section */
-        /* --- REVISI 3 Bagian A: Pastikan Home tetap 100vh --- */
-        /* Cari rule untuk #home */
-#home {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    padding: calc(var(--navbar-height) + 20px) 30px 40px 30px;
-    margin: 0 auto;
-    max-width: 100%;
-    box-sizing: border-box;
-    background-image: url('images/rencang-rencang.jpg');
-    background-repeat: no-repeat;
-    background-size: cover; /* Tetap cover agar memenuhi layar */
 
-    /* --- PERUBAHAN DISINI --- */
-    /* Ubah posisi fokus background ke tengah-atas */
-    background-position: center top; /* atau coba: 50% 10%; atau 50% 20%; */
-    /* --- PERUBAHAN SELESAI --- */
-}
+        /* --- PERUBAHAN 2 DIMULAI: Home Section dengan Animasi Background --- */
+        #home {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            position: relative; padding: var(--navbar-height) 30px 40px 30px; box-sizing: border-box;
+            background-image: url('images/rencang-rencang.jpg'); background-repeat: no-repeat;
+            background-size: cover;
+            /* Initial position (akan dioverride oleh animasi) */
+            background-position: center center;
+            /* Hapus background-attachment: fixed; agar animasi posisi bekerja lancar */
+            /* background-attachment: fixed; */
+            text-align: center; color: var(--light-text);
+            /* Terapkan animasi panning */
+            animation: backgroundPan 30s linear infinite alternate; /* Durasi 30s */
+        }
+        #home::before { /* Overlay Gradien (Tetap) */
+            content: ''; position: absolute; width: 100%; height: 100%;
+            top: 0; left: 0; z-index: 1;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.3) 100%);
+        }
+        /* Keyframes untuk animasi panning background */
+        @keyframes backgroundPan {
+            0% {
+                /* Mulai dari kiri-tengah sedikit atas */
+                background-position: 15% 40%;
+            }
+            100% {
+                /* Berakhir di kanan-tengah sedikit bawah */
+                background-position: 85% 60%;
+            }
+        }
+        /* Styling Home Content lainnya (Tidak berubah dari versi sebelumnya) */
+        .home-content { position: relative; z-index: 2; max-width: 800px; animation: fadeInUp 1s ease-out 0.5s forwards; }
+        .home-content img {
+            width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 20px auto; object-fit: cover;
+            border: 4px solid var(--secondary-color); box-shadow: 0 0 25px rgba(255, 193, 7, 0.5);
+            transition: transform 0.4s ease;
+        }
+        .home-content img:hover { transform: scale(1.05); }
+        .home-content h1 {
+            font-size: clamp(1.8rem, 5vw, 2.8rem); color: #fff; margin-bottom: 15px; font-weight: 700;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+        }
+        .home-content p {
+            font-size: clamp(1rem, 2.5vw, 1.15rem); color: #e9ecef; line-height: 1.8;
+            margin: 0 auto 30px auto; max-width: 650px; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); text-align: center;
+        }
+        .home-content p span[style*="color"] { font-weight: 600; }
+        .home-content .cta-button {
+            background-color: var(--secondary-color); color: var(--primary-color); padding: 14px 35px;
+            border-radius: 30px; text-decoration: none; transition: all var(--transition-speed) ease;
+            font-size: clamp(0.95rem, 2.5vw, 1.1rem); font-weight: 600; display: inline-block; cursor: pointer;
+            box-shadow: var(--shadow-sm); border: none;
+        }
+        .home-content .cta-button:hover {
+            background-color: #ffca2c; color: var(--primary-color); box-shadow: var(--shadow-md); transform: translateY(-3px);
+        }
+        .home-content .cta-button:active { transform: translateY(0); box-shadow: var(--shadow-sm); }
+        /* --- PERUBAHAN 2 SELESAI --- */
 
-/* ... (Kode CSS lainnya tetap sama) ... */
 
-/* Cari juga di dalam media query mobile */
-@media (max-width: 768px) {
-     /* ... (rule media query lainnya) ... */
-
-     #home {
-        /* --- PERUBAHAN DISINI (MOBILE) --- */
-        /* Sesuaikan juga posisi di mobile, prioritaskan bagian atas */
-        background-position: center 10%; /* Coba 10% dari atas, atau 'center top' */
-        /* Hapus atau komentari animasi jika mengganggu posisi tetap */
-        /* animation: backgroundPanMobile 20s linear infinite alternate; */
-        /* --- PERUBAHAN SELESAI (MOBILE) --- */
-     }
-     /* Hapus atau komentari @keyframes jika animasinya dihapus */
-     /* @keyframes backgroundPanMobile {
-         0% { background-position: 25% 10%; } /* Sesuaikan jika perlu */
-     /* 100% { background-position: 75% 20%; } /* Sesuaikan jika perlu */
-     /* } */
-
-     /* ... (rule media query lainnya) ... */
-}
-        /* --- REVISI 3 Bagian A SELESAI --- */
-        #home::before { content: ''; position: absolute; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.65); top: 0; left: 0; z-index: 1; }
-        .home-content { position: relative; z-index: 2; text-align: center; max-width: 850px; color: white; animation: fadeIn 1.5s ease; }
-        @keyframes textPulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-        @keyframes fadeIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
-        .home-content img { width: 140px; height: 140px; border-radius: 50%; margin-bottom: 15px; object-fit: cover; border: 4px solid #fff; box-shadow: 0 0 15px rgba(255, 255, 255, 0.7); }
-        .home-content h1 { font-size: 30px; color: #ffcc00; margin-bottom: 15px; animation: textPulse 2.5s infinite ease-in-out; font-weight: 700; }
-        .home-content p { font-size: 17px; color: #f0f0f0; line-height: 1.8; margin-bottom: 25px; text-align: center; text-shadow: 1px 1px 3px rgba(0,0,0,0.6); }
-        .home-content .cta-button { background-color: #007bff; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; transition: all 0.3s ease; font-size: 17px; font-weight: 600; display: inline-block; cursor: pointer; }
-        .home-content .cta-button:hover { background-color: #0056b3; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); transform: scale(1.05); }
-
-        /* General Section Styling */
+        /* --- General Section Styling (Tidak Berubah dari Versi Sebelumnya) --- */
         .content-section {
-     /* min-height: 100vh; */
-     display: flex;
-     flex-direction: column;
-     justify-content: flex-start;
-     align-items: center;
-     padding: calc(var(--navbar-height) + 10px) 30px 40px 30px; /* Padding atas sudah disesuaikan */
-     box-sizing: border-box;
-     width: 100%;
-     text-align: center;
-     position: relative;
-     overflow: hidden;
-     /* --- TAMBAHKAN BARIS INI --- */
-     margin-bottom: 40px; /* Menambahkan jarak 40px di bawah setiap section */
-     /* --- AKHIR TAMBAHAN --- */
-}
-
-@media (max-width: 576px) {
-     .content-section {
-          padding: calc(var(--navbar-height) + 10px) 15px 30px 15px; /* Padding atas mobile */
-          /* --- SESUAIKAN JUGA DI MOBILE --- */
-          margin-bottom: 30px; /* Mengurangi sedikit jarak di bawah section pada tampilan mobile */
-          /* --- AKHIR PENYESUAIAN MOBILE --- */
-     }
-     /* ... CSS mobile lainnya ... */
-}
-        /* --- REVISI 3 Bagian B SELESAI --- */
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 80px 30px; box-sizing: border-box; width: 100%; text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .content-section:nth-of-type(odd) { background-color: var(--card-bg); }
+        .content-section:nth-of-type(even) { background-color: #f4f7fc; }
+        #home, footer { background-color: initial; } /* Override */
         .content-section .content-wrapper {
-            max-width: 850px; width: 100%; position: relative; z-index: 3;
-            background-color: rgba(255, 255, 255, 0.9); padding: 30px; border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            max-width: 900px; width: 100%; position: relative; z-index: 3;
+            background-color: transparent; padding: 0; border-radius: var(--border-radius-md);
+            opacity: 0; transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-         .content-section.is-visible .content-wrapper {
-             opacity: 1;
-             transform: translateY(0);
-         }
-
-        /* Keyframes Animasi */
-         @keyframes fadeInUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
-         @keyframes slideInLeft { 0% { opacity: 0; transform: translateX(-50px); } 100% { opacity: 1; transform: translateX(0); } }
-         @keyframes slideInRight { 0% { opacity: 0; transform: translateX(50px); } 100% { opacity: 1; transform: translateX(0); } }
-         @keyframes scaleIn { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
-
-        /* Background Video Styling */
-        .section-background-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: 1; overflow: hidden; }
-        .section-background-video video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: auto; height: auto; object-fit: cover; }
-        .content-section .video-overlay { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 2; }
-
-        /* === TENTANG SECTION === */
-        #tentang .content-wrapper p { text-align: justify; max-width: 700px; margin: 20px auto 0 auto; font-size: 17px; line-height: 1.9; }
-        #tentang img { display: block; width: 140px; height: 140px; border-radius: 50%; margin: 25px auto 25px auto; object-fit: cover; object-position: center 20%; border: 4px solid #fff; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        #tentang img:hover { box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); transform: scale(1.08); }
-        #tentang.is-visible .content-wrapper h2 { animation: slideInLeft 0.8s ease-out 0.2s forwards; }
-        #tentang.is-visible .content-wrapper img { animation: scaleIn 0.8s ease-out 0.4s forwards; }
-        #tentang.is-visible .content-wrapper p { animation: slideInRight 0.8s ease-out 0.6s forwards; }
-
-
-        /* === KEAHLIAN Hingga KONTAK Styling Dasar === */
-        #keahlian ul, #pendidikan ul, #pengalaman ul, #organisasi ul, #kontak ul { list-style: none; padding-left: 0; font-size: 17px; color: #333; line-height: 1.9; margin-top: 25px; }
-        #keahlian li, #pendidikan li, #pengalaman li, #organisasi li, #kontak li { margin-bottom: 15px; background-color: rgba(233, 236, 239, 0.9); padding: 12px 15px 12px 45px; border-radius: 5px; position: relative; text-align: left; }
-        /* Style dasar ikon di list item */
-        #keahlian li i, #pendidikan li i, #pengalaman li i, #organisasi li i, #kontak li i {
-            position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
-            font-size: 1.1em; /* Ukuran ikon */
-            color: #0d47a1; /* Warna default ikon biru */
-            transition: transform 0.3s ease;
-            display: inline-block; /* Pastikan ikon tampil */
-            opacity: 1; /* Pastikan ikon terlihat */
-            visibility: visible; /* Pastikan visible */
+        .content-section.is-visible .content-wrapper { opacity: 1; transform: translateY(0); }
+        .content-section h2 {
+             font-size: clamp(1.8rem, 5vw, 2.5rem); color: var(--primary-color); margin-bottom: 40px;
+             font-weight: 700; position: relative; display: inline-block; padding-bottom: 10px;
         }
-        #keahlian li:hover i, #pendidikan li:hover i, #pengalaman li:hover i, #organisasi li:hover i, #kontak li:hover i { transform: translateY(-50%) scale(1.1); }
-        /* Specific Icon Colors (Tetap Berlaku) */
-        #keahlian li .fa-code, #keahlian li .fa-laptop-code, #keahlian li .fa-paint-brush, #keahlian li .fa-users, #keahlian li .fa-lightbulb { color: #0d47a1; }
-        #pendidikan li .fa-school, #pendidikan li .fa-user-graduate { color: #0d47a1; }
-        #pengalaman li .fa-briefcase, #pengalaman li .fa-store, #pengalaman li .fa-laptop { color: #0d47a1; }
-        #organisasi li .fa-users-cog { color: #0d47a1; } #organisasi li .fa-shield-alt { color: #28a745; } #organisasi li .fa-book-reader { color: #0d47a1; } #organisasi li .fa-mosque { color: #17a2b8; }
-        #kontak li .fa-instagram { color: #E1306C; } #kontak li .fa-facebook { color: #1877F2; } #kontak li .fa-whatsapp { color: #25D366; } #kontak li .fa-map-marker-alt { color: #dc3545; }
-        #kontak a { color: #0d47a1; text-decoration: none; font-weight: 500; transition: color 0.3s ease;}
-        #kontak a:hover { color: #0056b3; }
-        #pengalaman .experience-details { font-size: 0.9em; color: #555; display: block; margin-top: 3px;}
-        #pengalaman li i { line-height: normal; }
-        #pengalaman .experience-text-container { overflow: hidden; }
-
-        /* === PORTOFOLIO Styling Dasar === */
-        #portofolio .portfolio-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; margin-bottom: 20px; margin-top: 25px; }
-        #portofolio .portfolio-item { background-color: #f8f9fa; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 250px; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease;}
-        #portofolio .portfolio-item:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
-        #portofolio .portfolio-item img { max-width: 100%; height: 150px; object-fit: cover; border-radius: 4px; margin-bottom: 10px; }
-        #portofolio .project-title { font-weight: 600; margin-bottom: 5px; color: #333; }
-        #portofolio .project-desc { font-size: 0.9em; color: #555; }
-        #portofolio .portfolio-note { margin-top: 20px; font-style: italic; color: #666; font-size: 0.95em; }
-
-        /* === KONTAK Styling Dasar === */
-        #kontak .content-wrapper > p { font-size: 17px; color: #555; margin-bottom: 30px; margin-top: 20px; }
-
-
-        /* === CSS ANIMASI untuk Section Keahlian s/d Kontak saat .is-visible === */
-        .content-section.is-visible .content-wrapper h2 {
-            animation: fadeInUp 0.7s ease-out forwards;
-            animation-delay: 0.2s;
+        .content-section h2::after {
+             content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+             width: 60px; height: 4px; background-color: var(--secondary-color); border-radius: 2px;
         }
-        .content-section.is-visible ul li {
-            animation: fadeInUp 0.6s ease-out forwards;
+        @keyframes fadeInUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInLeft { 0% { opacity: 0; transform: translateX(-50px); } 100% { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInRight { 0% { opacity: 0; transform: translateX(50px); } 100% { opacity: 1; transform: translateX(0); } }
+        @keyframes scaleIn { 0% { opacity: 0; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
+        @keyframes zoomIn { 0% { opacity: 0; transform: scale(0.5); } 100% { opacity: 1; transform: scale(1); } }
+        .list-section ul {
+            list-style: none; padding: 0; max-width: 750px; margin: 25px auto 0 auto;
+            font-size: clamp(0.95rem, 2.5vw, 1.05rem); color: #555; line-height: 1.8;
         }
-        .content-section.is-visible ul li:nth-child(1) { animation-delay: 0.4s; }
-        .content-section.is-visible ul li:nth-child(2) { animation-delay: 0.5s; }
-        .content-section.is-visible ul li:nth-child(3) { animation-delay: 0.6s; }
-        .content-section.is-visible ul li:nth-child(4) { animation-delay: 0.7s; }
-        .content-section.is-visible ul li:nth-child(5) { animation-delay: 0.8s; }
-
-         #kontak.is-visible .content-wrapper > p {
-            animation: fadeInUp 0.6s ease-out forwards;
-            animation-delay: 0.4s;
-         }
-        #kontak.is-visible ul li:nth-child(1) { animation-delay: 0.5s; }
-        #kontak.is-visible ul li:nth-child(2) { animation-delay: 0.6s; }
-        #kontak.is-visible ul li:nth-child(3) { animation-delay: 0.7s; }
-        #kontak.is-visible ul li:nth-child(4) { animation-delay: 0.8s; }
-
-        #portofolio.is-visible .portfolio-item {
-            animation: scaleIn 0.6s ease-out forwards;
+        .list-section li {
+            background-color: var(--card-bg); padding: 18px 20px 18px 60px; border-radius: var(--border-radius-md);
+            position: relative; text-align: left; margin-bottom: 18px; box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            overflow: hidden; border-left: 5px solid transparent;
         }
-         #portofolio.is-visible .portfolio-item:nth-child(1) { animation-delay: 0.4s; }
-         #portofolio.is-visible .portfolio-item:nth-child(2) { animation-delay: 0.5s; }
-         #portofolio.is-visible .portfolio-item:nth-child(3) { animation-delay: 0.6s; }
-
-         #portofolio.is-visible .portfolio-note {
-             animation: fadeInUp 0.6s ease-out forwards;
-             animation-delay: 0.7s;
-         }
-
-
-        /* Footer */
-        footer { background-color: #0b3b80; color: white; text-align: center; padding: 35px 20px; margin-top: 0; border-top: 4px solid #ffcc00; }
-        footer h4 { font-size: 19px; font-weight: 600; margin-bottom: 18px; }
-        footer .social-icon { margin-bottom: 22px; }
-        footer .social-icon a { color: white; font-size: 24px; margin: 0 10px; transition: color 0.3s ease, transform 0.3s ease; text-decoration: none; display: inline-block; }
-        footer .social-icon a:hover { transform: translateY(-3px); }
-        /* --- REVISI 2 Bagian B: Pastikan ikon footer terlihat & punya warna --- */
-        footer .social-icon a i { /* Target <i> di dalam link */
-             display: inline-block !important;
-             opacity: 1 !important;
-             visibility: visible !important;
+        .list-section li:hover {
+             transform: translateY(-3px) scale(1.01); box-shadow: var(--shadow-md); border-left-color: var(--secondary-color);
         }
-        footer .social-icon .fa-instagram { color: #E1306C; }
-        footer .social-icon .fa-facebook { color: #1877F2; }
-        footer .social-icon .fa-whatsapp { color: #25D366; }
-        /* --- REVISI 2 Bagian B SELESAI --- */
-        footer .social-icon .fa-instagram:hover { color: #c13584; }
-        footer .social-icon .fa-facebook:hover { color: #1565C0; }
-        footer .social-icon .fa-whatsapp:hover { color: #128C7E; }
-        footer p { margin-bottom: 15px; font-size: 16px; }
-        footer .copyright { font-size: 14px; margin-top: 20px; border-top: 1px solid #4e7ac7; padding-top: 18px; opacity: 0.8; }
-        footer .copyright a { color: #ffdd44; text-decoration: none; font-weight: bold; }
-        footer .copyright a:hover { text-decoration: underline; }
+        .list-section li i {
+            position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.3em;
+            color: var(--primary-color); transition: transform var(--transition-speed) ease, color var(--transition-speed) ease;
+            width: 25px; text-align: center;
+        }
+        .list-section li:hover i { color: var(--secondary-color); transform: translateY(-50%) rotate(10deg); }
+        #keahlian li i { color: #007bff; }
+        #pendidikan li i { color: #6f42c1; }
+        #pengalaman li i { color: #198754; }
+        #organisasi li i { color: #fd7e14; }
+        #kontak li .fa-whatsapp { color: #25D366; } #kontak li .fa-instagram { color: #E1306C; }
+        #kontak li .fa-facebook { color: #1877F2; } #kontak li .fa-envelope { color: #dc3545; }
+        #kontak ul { max-width: 500px; }
+        #kontak li { background-color: transparent; box-shadow: none; border-left: none; padding-left: 55px; }
+        #kontak li:hover { transform: none; box-shadow: none; background-color: rgba(0,0,0,0.02); }
+        #kontak a {
+            color: var(--primary-color); text-decoration: none; font-weight: 500;
+            transition: color var(--transition-speed) ease, letter-spacing var(--transition-speed) ease; display: inline-block;
+        }
+        #kontak a:hover { color: var(--accent-color); letter-spacing: 0.5px; }
 
-        /* === Responsive === */
+        /* Penyesuaian Section Spesifik (Tidak Berubah) */
+        #tentang .content-wrapper { max-width: 850px; }
+        #tentang img { display: block; width: 160px; height: 160px; border-radius: 50%; margin: 30px auto 30px auto; object-fit: cover; object-position: center 20%; border: 5px solid #fff; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease; }
+        #tentang img:hover { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); transform: scale(1.05) rotate(2deg); }
+        #tentang p { text-align: justify; max-width: 700px; margin: 0 auto; font-size: clamp(1rem, 2.5vw, 1.1rem); line-height: 1.8; color: #495057; }
+        #tentang p strong { color: var(--primary-color); } #tentang p span[style*="color"] { color: var(--accent-color) !important; font-weight: 600;}
+        #keahlian img.skill-photo { display: block; max-height: 280px; width: auto; max-width: 90%; object-fit: contain; margin: 30px auto 35px auto; border-radius: var(--border-radius-md); box-shadow: var(--shadow-sm); }
+        #pklCarousel { max-width: 700px; margin: 30px auto 35px auto; border-radius: var(--border-radius-md); overflow: hidden; box-shadow: var(--shadow-md); }
+        #pklCarousel .carousel-inner { border-radius: var(--border-radius-md); }
+        #pklCarousel .carousel-item img { display: block; width: 100%; height: auto; max-height: 400px; object-fit: contain; }
+        .carousel-control-prev-icon, .carousel-control-next-icon { background-color: rgba(0, 0, 0, 0.6); background-size: 60%; border-radius: 50%; padding: 15px; }
+        .carousel-control-prev, .carousel-control-next { opacity: 0.7; transition: opacity var(--transition-speed) ease; }
+        .carousel-control-prev:hover, .carousel-control-next:hover { opacity: 1; }
+        #pengalaman .experience-details { font-size: 0.9em; color: #6c757d; display: block; margin-top: 5px; text-align: justify; }
+        #pengalaman li { padding-right: 20px; }
+        #organisasi img.profile-photo { display: block; max-height: 300px; width: auto; max-width: 90%; object-fit: contain; margin: 30px auto 35px auto; border-radius: var(--border-radius-md); box-shadow: var(--shadow-sm); }
+        #portofolio .content-wrapper { max-width: 1100px; }
+        #portofolio .portfolio-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin: 30px auto 20px auto; }
+        #portofolio .portfolio-item { background-color: var(--card-bg); padding: 0; border-radius: var(--border-radius-md); box-shadow: var(--shadow-sm); text-align: left; transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease; display: flex; flex-direction: column; overflow: hidden; }
+        #portofolio .portfolio-item:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+        #portofolio .portfolio-item img { width: 100%; height: 180px; object-fit: cover; margin-bottom: 0; }
+        .portfolio-item-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        #portofolio .project-title { font-weight: 600; margin-bottom: 10px; color: var(--primary-color); font-size: 1.1rem; line-height: 1.4; }
+        #portofolio .project-desc { font-size: 0.95rem; color: #555; text-align: justify; flex-grow: 1; margin-bottom: 15px; }
+        #portofolio .portfolio-note { margin-top: 40px; font-style: italic; color: #666; font-size: 1rem; }
+        #kontak .content-wrapper > p { font-size: clamp(1rem, 2.5vw, 1.1rem); color: #555; margin-bottom: 35px; margin-top: 0; }
+
+        /* Footer Ditingkatkan (Tidak Berubah) */
+        footer { background-color: #0a3d7a; color: rgba(255, 255, 255, 0.8); text-align: center; padding: 50px 20px 30px 20px; margin-top: 0; border-top: 5px solid var(--secondary-color); position: relative; }
+        footer h4 { font-size: 1.3rem; font-weight: 600; margin-bottom: 25px; color: #fff; }
+        footer .social-icon { margin-bottom: 30px; }
+        footer .social-icon a { color: rgba(255, 255, 255, 0.8); font-size: 1.6rem; margin: 0 12px; transition: color var(--transition-speed) ease, transform var(--transition-speed) ease; text-decoration: none; display: inline-block; }
+        footer .social-icon a:hover { transform: translateY(-4px) scale(1.1); color: #fff; }
+        footer .social-icon a:hover .fa-whatsapp { color: #25D366; } footer .social-icon a:hover .fa-instagram { color: #E1306C; }
+        footer .social-icon a:hover .fa-facebook { color: #1877F2; } footer .social-icon a:hover .fa-envelope { color: #dc3545; }
+        footer p { margin-bottom: 15px; font-size: 1rem; }
+        footer p i.fa-map-marker-alt { color: var(--secondary-color); margin-right: 8px; }
+        footer .copyright { font-size: 0.9rem; margin-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 25px; opacity: 0.9; color: rgba(255, 255, 255, 0.7); }
+        footer .copyright a { color: var(--secondary-color); text-decoration: none; font-weight: 600; }
+        footer .copyright a:hover { text-decoration: underline; color: #fff; }
+
+        /* CSS ANIMASI Section Visibility Ditingkatkan (Tidak Berubah) */
+        .content-section { opacity: 0; transition: opacity 0.5s ease-out; }
+        .content-section.is-visible { opacity: 1; }
+        .content-section:nth-of-type(odd) .content-wrapper { transform: translateX(-30px); }
+        .content-section:nth-of-type(odd).is-visible .content-wrapper { transform: translateX(0); transition-delay: 0.2s; }
+        .content-section:nth-of-type(even) .content-wrapper { transform: translateX(30px); }
+        .content-section:nth-of-type(even).is-visible .content-wrapper { transform: translateX(0); transition-delay: 0.2s; }
+        #home .home-content { transform: translateY(30px); } #home.is-visible .home-content { transform: translateY(0); }
+        .content-section.is-visible h2 { animation: fadeInUp 0.6s ease-out 0.4s forwards; opacity: 0; }
+        .content-section.is-visible p, .content-section.is-visible img, .content-section.is-visible ul, .content-section.is-visible .portfolio-container, .content-section.is-visible .carousel, .content-section.is-visible .portfolio-note { animation: fadeInUp 0.6s ease-out 0.6s forwards; opacity: 0; }
+        .list-section.is-visible li { animation: scaleIn 0.5s ease-out forwards; opacity: 0; }
+        .list-section.is-visible li:nth-child(1) { animation-delay: 0.7s; } .list-section.is-visible li:nth-child(2) { animation-delay: 0.75s; }
+        .list-section.is-visible li:nth-child(3) { animation-delay: 0.8s; } .list-section.is-visible li:nth-child(4) { animation-delay: 0.85s; }
+        .list-section.is-visible li:nth-child(5) { animation-delay: 0.9s; }
+        #portofolio.is-visible .portfolio-item { animation: zoomIn 0.5s ease-out forwards; opacity: 0; }
+        #portofolio.is-visible .portfolio-item:nth-child(1) { animation-delay: 0.7s; } #portofolio.is-visible .portfolio-item:nth-child(2) { animation-delay: 0.75s; }
+        #portofolio.is-visible .portfolio-item:nth-child(3) { animation-delay: 0.8s; }
+        #portofolio.is-visible .portfolio-note { animation-delay: 0.9s; }
+
+        /* === Responsive Ditingkatkan === */
         @media (max-width: 992px) {
-             .navbar-container { max-width: 960px; padding: 0 20px; }
-             .navbar .nav-menu { gap: 15px; padding-left: 10px; }
-             .navbar .nav-menu a { padding: 8px 12px; font-size: 15px; }
-             .language-switcher { margin-left: 15px; gap: 5px;}
-             .language-switcher button { font-size: 12px; padding: 4px 6px; }
-             .logout-button { margin-left: 15px; }
-             .home-content { max-width: 700px; }
-             .home-content h1 { font-size: 28px; }
-             .home-content p { font-size: 16px; }
-             .content-section .content-wrapper { max-width: 720px; padding: 25px; }
-             .content-section h2 { font-size: 26px; }
-             #portofolio .portfolio-item { width: calc(50% - 30px); }
-             #tentang .content-wrapper p { font-size: 16px; }
-             #keahlian ul, #pendidikan ul, #pengalaman ul, #organisasi ul, #kontak ul { font-size: 16px; }
+            :root { --navbar-height: 65px; }
+            .navbar-container { padding: 0 20px; }
+            .navbar .nav-menu a.nav-link { padding: 8px 12px; font-size: 0.9rem; }
+            .language-switcher { margin-left: 15px; gap: 6px;}
+            .language-switcher button { font-size: 0.75rem; padding: 4px 8px; }
+            .content-section { padding: 70px 20px; }
+            .content-section h2 { font-size: 2.2rem; margin-bottom: 35px; }
+            .home-content img { width: 130px; height: 130px; } #tentang img { width: 140px; height: 140px; }
+            #portofolio .portfolio-container { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
+            #portofolio .portfolio-item img { height: 160px; }
+            .list-section ul { max-width: 650px; }
         }
 
         @media (max-width: 768px) {
-             .navbar-container { padding: 0 15px; }
-             /* --- REVISI 1 DIMULAI: Tampilkan tombol toggle di mobile --- */
-             .menu-toggle { display: block; } /* Tampilkan tombol toggle */
-             /* --- REVISI 1 SELESAI --- */
+            html { font-size: 15px; }
+            .menu-toggle { display: block; }
+            .navbar .nav-menu {
+                display: none; flex-direction: column; align-items: stretch; width: 100%; position: absolute;
+                top: var(--navbar-height); left: 0; background-color: rgba(13, 71, 161, 0.98);
+                backdrop-filter: blur(5px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); padding: 15px;
+                max-height: calc(100vh - var(--navbar-height) - 20px); overflow-y: auto;
+                border-top: 1px solid rgba(255, 255, 255, 0.1); transform: translateY(-100%);
+                opacity: 0; transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s ease; z-index: 999;
+            }
+            .navbar .nav-menu.open { display: flex; transform: translateY(0); opacity: 1; }
+            .navbar .nav-menu > li { width: 100%; }
+            .navbar .nav-menu a.nav-link, .navbar .nav-menu .logout-button {
+                display: block; width: 100%; padding: 12px 15px; text-align: left; font-size: 1rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1); margin: 0 0 5px 0; border-radius: var(--border-radius-sm); color: var(--light-text);
+            }
+            .navbar .nav-menu a.nav-link:last-of-type { border-bottom: none; margin-bottom: 10px; }
+            .navbar .nav-menu a.nav-link:hover { background-color: rgba(255, 255, 255, 0.15); }
+            .navbar .nav-menu a.nav-link.active { background-color: var(--secondary-color); color: var(--primary-color); }
+            .logout-button { margin-top: 10px; background-color: #dc3545; text-align: center; }
+            .language-switcher {
+                 display: flex; width: 100%; justify-content: center; margin: 15px 0 10px 0; padding: 10px 0;
+                 border-top: 1px solid rgba(255, 255, 255, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.1); gap: 10px;
+            }
+            .language-switcher button { padding: 8px 15px; flex-grow: 1; text-align: center; font-size: 0.9rem; }
+            .navbar .logo { margin-right: auto; }
+            .content-section { padding: 60px 15px; }
+            .content-section h2 { font-size: 2rem; margin-bottom: 30px; }
+            .home-content h1 { font-size: 2rem; }
+            .home-content p { font-size: 1rem; max-width: 90%; }
+            .home-content .cta-button { padding: 12px 30px; font-size: 1rem; }
+            #portofolio .portfolio-container { grid-template-columns: 1fr; gap: 20px; }
+            #portofolio .portfolio-item img { height: 200px; }
 
-             /* Style untuk menu dropdown mobile */
-             .navbar .nav-menu {
-                 /* Sembunyikan menu flex-row default */
-                 display: none;
-                 /* Style saat jadi dropdown */
-                 flex-direction: column; width: 100%; position: absolute; top: var(--navbar-height); left: 0;
-                 background-color: #0d47a1; box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-                 padding: 10px 15px;
-                 box-sizing: border-box; transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; z-index: 990;
-                 overflow-y: auto; max-height: calc(100vh - var(--navbar-height));
-                 transform: translateY(-10px); opacity: 0; pointer-events: none;
-             }
-             .navbar .nav-menu.open { /* Kelas ini ditambahkan oleh JS */
-                 display: flex; /* Tampilkan menu dropdown */
-                 transform: translateY(0); opacity: 1; pointer-events: auto;
-             }
-             /* Style item menu di mobile */
-             .navbar .nav-menu a.nav-link,
-             .navbar .nav-menu .logout-button {
-                 display: block;
-                 padding: 10px 15px;
-                 width: 100%;
-                 text-align: left; font-size: 16px; box-sizing: border-box;
-                 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                 margin-left: 0; /* Reset margin */
-                 border-radius: 4px;
-                 margin-bottom: 5px; /* Jarak antar item */
-             }
-             .navbar .nav-menu a.nav-link:last-of-type { border-bottom: none; margin-bottom: 10px; }
-             .navbar .nav-menu a.active { background-color: #ffcc00; color: #0d47a1; font-weight: 600; }
-             .logout-button { margin-top: 5px; margin-bottom: 0; background-color: #dc3545; }
-             .logout-button:hover { background-color: #c82333; }
+            /* --- PERUBAHAN 2 (Mobile): Animasi Background Home --- */
+            #home {
+                /* background-attachment: scroll; /* Biarkan scroll agar tidak berat */
+                /* Terapkan animasi panning yang berbeda/disesuaikan untuk mobile */
+                animation: backgroundPanMobile 25s linear infinite alternate; /* Durasi sedikit lebih cepat */
+            }
+            /* Keyframes khusus mobile (bisa sama atau beda range dari desktop) */
+            @keyframes backgroundPanMobile {
+                 0% {
+                     /* Mulai dari kiri-atas */
+                     background-position: 25% 20%;
+                 }
+                 100% {
+                     /* Berakhir di kanan-bawah */
+                     background-position: 75% 40%;
+                 }
+            }
+            /* --- PERUBAHAN 2 SELESAI (Mobile) --- */
 
-             /* Language switcher di mobile */
-             .language-switcher {
-                 display: flex; margin-left: 0; width: 100%; justify-content: center;
-                 margin-top: 10px; margin-bottom: 10px; padding: 8px 0;
-                 box-sizing: border-box;
-                 border-top: 1px solid rgba(255, 255, 255, 0.1);
-                 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                 gap: 10px;
-             }
-             .language-switcher button { padding: 8px 15px; flex-grow: 1; text-align: center; }
-
-             .navbar .logo { margin-right: auto; margin-left: 0; padding: 0; }
-             .navbar .logo img { margin-right: 8px; }
-
-             #portofolio .portfolio-item { width: calc(50% - 20px); }
-
-             /* Posisi dan animasi background home mobile */
-             #home {
-                background-position: center 30%;
-                animation: backgroundPanMobile 20s linear infinite alternate;
-             }
-             @keyframes backgroundPanMobile {
-                 0% { background-position: 25% 20%; }
-                 100% { background-position: 75% 40%; }
-             }
-             #home .home-content { padding: 0 15px; }
-
-             /* --- REVISI 2 DIMULAI: Memastikan SEMUA ikon terlihat di mobile --- */
-             /* Targetkan ikon di dalam list item dan footer secara spesifik */
-             #keahlian li i, #pendidikan li i, #pengalaman li i, #organisasi li i, #kontak li i,
-             footer .social-icon a i {
-                display: inline-block !important; /* Paksa display */
-                opacity: 1 !important;         /* Paksa terlihat */
-                visibility: visible !important; /* Paksa visible */
-                /* Pastikan ukuran font tidak 0 atau aneh */
-                font-size: inherit; /* Warisi ukuran dari parent atau atur default */
-                /* Contoh atur default jika inherit bermasalah: font-size: 1em !important; */
-                /* Warna sudah diatur oleh rule spesifik, pastikan tidak tertimpa jadi transparan */
-             }
-             /* Hapus rule 'Revisi 4' yang lama jika ada, karena sudah digabung di atas */
-             /* --- REVISI 2 SELESAI --- */
+            footer .social-icon a i { display: inline-block !important; }
         }
 
         @media (max-width: 576px) {
              :root { --navbar-height: 60px; }
-             .navbar-container { padding: 0 10px; }
-             .navbar .logo { font-size: 18px; }
-             .navbar .logo img { width: 40px; height: 40px; }
-             #home { padding-top: var(--navbar-height); min-height: unset; height: 100vh; }
-             #home .home-content { max-width: 95%; padding-top: 30px; }
-             .home-content img { width: 110px; height: 110px; }
-             .home-content h1 { font-size: 24px; }
-             .home-content p { font-size: 14px; }
-             .home-content .cta-button { font-size: 15px; padding: 10px 20px; }
-
-             .content-section { padding: calc(var(--navbar-height) + 30px) 15px 30px 15px; }
-             .content-section .content-wrapper { padding: 20px; }
-             .content-section h2 { font-size: 22px; margin-bottom: 15px; }
-
-             #tentang .content-wrapper p { font-size: 15px; }
-             #keahlian ul, #pendidikan ul, #pengalaman ul, #organisasi ul, #kontak ul { font-size: 15px; }
-             #keahlian li, #pendidikan li, #pengalaman li, #organisasi li, #kontak li { padding: 10px 15px 10px 40px; }
-             #keahlian li i, #pendidikan li i, #pengalaman li i, #organisasi li i, #kontak li i { left: 10px; font-size: 1em; }
-
-             #portofolio .portfolio-container { gap: 15px; }
-             #portofolio .portfolio-item { width: calc(100% - 10px); }
+             html { font-size: 14px; }
+             .navbar-container { padding: 0 15px; }
+             .navbar .logo { font-size: 1.1rem; }
+             .navbar .logo img { width: 40px; height: 40px; margin-right: 10px; border-width: 1px; }
+             .menu-toggle i { font-size: 1.4rem; }
+             #home { padding-top: var(--navbar-height); }
+             .home-content img { width: 110px; height: 110px; border-width: 3px; }
+             .home-content h1 { margin-bottom: 10px; }
+             .home-content p { margin-bottom: 25px; line-height: 1.7; }
+             .content-section { padding: 50px 15px; }
+             .content-section h2 { font-size: 1.8rem; margin-bottom: 25px; }
+             .content-section h2::after { width: 50px; height: 3px; }
+             .list-section ul { margin-top: 20px; }
+             .list-section li { padding: 15px 15px 15px 50px; margin-bottom: 15px; }
+             .list-section li i { left: 15px; font-size: 1.2em; }
+             #tentang img { width: 120px; height: 120px; }
+             #tentang p { font-size: 1rem; }
+             #keahlian img.skill-photo, #organisasi img.profile-photo { max-height: 200px; }
              #portofolio .portfolio-item img { height: 180px; }
-
-             footer h4 { font-size: 18px; }
-             footer p { font-size: 15px; }
-             footer .copyright { font-size: 13px; }
-             footer .social-icon a { font-size: 22px; margin: 0 8px; }
+             .portfolio-item-content { padding: 15px; }
+             #portofolio .project-title { font-size: 1rem; }
+             #portofolio .project-desc { font-size: 0.9rem; }
+             #portofolio .portfolio-note { font-size: 0.9rem; margin-top: 30px; }
+             #pklCarousel { margin: 25px auto 30px auto; }
+             #pklCarousel .carousel-item img { max-height: 300px; }
+             .carousel-control-prev-icon, .carousel-control-next-icon { padding: 12px; }
+             footer { padding: 40px 15px 25px 15px; }
+             footer h4 { font-size: 1.2rem; margin-bottom: 20px; }
+             footer .social-icon { margin-bottom: 25px; }
+             footer .social-icon a { font-size: 1.4rem; margin: 0 10px; }
+             footer p { font-size: 0.95rem; }
+             footer .copyright { font-size: 0.85rem; margin-top: 25px; padding-top: 20px; }
         }
+
+        /* Hapus Style Inline yang sudah dipindahkan */
+        #home p, #tentang p, #keahlian ul li, #pendidikan ul li, #pengalaman ul li, #organisasi ul li, #portofolio .project-desc { text-align: inherit; }
+        #tentang p, #pengalaman .experience-details, #organisasi ul li, #portofolio .project-desc, #keahlian ul li, #pendidikan ul li, #pengalaman ul li:not(:has(.experience-details)) { text-align: justify; }
+        #home p { text-align: center; }
+        #kontak ul li { text-align: left; }
 
     </style>
 </head>
 
 <body class="lang-id">
     <div class="preloader">
-        <div class="spinner"></div>
+        <div class="loader-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
     </div>
-
     <nav class="navbar">
         <div class="navbar-container">
             <a href="#home" class="logo internal-link">
                 <img src="images/IMG-20240302-WA0010.jpg" alt="Logo Wildan Hidayat">
-                </a>
-            <button class="menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">
-                <i class="fas fa-bars"></i> </button>
-            <div class="nav-menu"> <a href="#home" class="nav-link home-link internal-link"><span class="lang-id">Home</span><span class="lang-en">Home</span></a>
-                <a href="#tentang" class="nav-link about-link internal-link"><span class="lang-id">Tentang</span><span class="lang-en">About</span></a>
-                <a href="#keahlian" class="nav-link skills-link internal-link"><span class="lang-id">Keahlian</span><span class="lang-en">Skills</span></a>
-                <a href="#pendidikan" class="nav-link education-link internal-link"><span class="lang-id">Pendidikan</span><span class="lang-en">Education</span></a>
-                <a href="#pengalaman" class="nav-link experience-link internal-link"><span class="lang-id">Pengalaman</span><span class="lang-en">Experience</span></a>
-                <a href="#organisasi" class="nav-link organization-link internal-link"><span class="lang-id">Organisasi</span><span class="lang-en">Organization</span></a>
-                <a href="#portofolio" class="nav-link portfolio-link internal-link"><span class="lang-id">Portofolio</span><span class="lang-en">Portfolio</span></a>
-                <a href="#kontak" class="nav-link contact-link internal-link"><span class="lang-id">Kontak</span><span class="lang-en">Contact</span></a>
-                 <div class="language-switcher">
-                     <button data-lang="id" class="active">ID</button>
-                     <button data-lang="en">EN</button>
-                 </div>
-             </div>
+                <span>Wildan Hidayat</span>
+            </a>
+            <button class="menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link home-link internal-link active"><span class="lang-id">Home</span><span class="lang-en">Home</span></a></li>
+                <li><a href="#tentang" class="nav-link about-link internal-link"><span class="lang-id">Tentang</span><span class="lang-en">About</span></a></li>
+                <li><a href="#keahlian" class="nav-link skills-link internal-link"><span class="lang-id">Keahlian</span><span class="lang-en">Skills</span></a></li>
+                <li><a href="#pendidikan" class="nav-link education-link internal-link"><span class="lang-id">Pendidikan</span><span class="lang-en">Education</span></a></li>
+                <li><a href="#pengalaman" class="nav-link experience-link internal-link"><span class="lang-id">Pengalaman</span><span class="lang-en">Experience</span></a></li>
+                <li><a href="#organisasi" class="nav-link organization-link internal-link"><span class="lang-id">Organisasi</span><span class="lang-en">Organization</span></a></li>
+                <li><a href="#portofolio" class="nav-link portfolio-link internal-link"><span class="lang-id">Portofolio</span><span class="lang-en">Portfolio</span></a></li>
+                <li><a href="#kontak" class="nav-link contact-link internal-link"><span class="lang-id">Kontak</span><span class="lang-en">Contact</span></a></li>
+                <li class="language-switcher-li">
+                    <div class="language-switcher">
+                        <button data-lang="id" class="active">ID</button>
+                        <button data-lang="en">EN</button>
+                    </div>
+                </li>
+            </ul>
         </div>
     </nav>
 
     <section id="home">
-      <style>
-        #home p {
-          text-align: justify;
-        }
-      </style>
-      <div class="home-content">
-        <img src="images/IMG-20240302-WA0010.jpg" alt="Foto Profil Wildan Hidayat">
-        <h1>
-          <span class="lang-id">Selamat Datang di Portofolio Saya!</span>
-          <span class="lang-en">Welcome to My Portfolio!</span>
-        </h1>
-        <p>
-          <span class="lang-id">
-            Perkenalkan, saya Wildan Hidayat, seorang profesional muda yang bersemangat dalam bidang
-            <span style="color: #20c9ff; font-weight: 600;">teknologi</span>,
-            <span style="color: #20c9ff; font-weight: 600;">pemrograman</span>, dan
-            <span style="color: #20c9ff; font-weight: 600;">desain</span>.
-            Dengan latar belakang pendidikan Rekayasa Perangkat Lunak, saya berdedikasi untuk terus belajar dan berkembang dalam industri teknologi.
-          </span>
-          <span class="lang-en">
-            Let me introduce myself, I am Wildan Hidayat, a young professional passionate about
-            <span style="color: #20c9ff; font-weight: 600;">technology</span>,
-            <span style="color: #20c9ff; font-weight: 600;">programming</span>, and
-            <span style="color: #20c9ff; font-weight: 600;">design</span>.
-            With an educational background in Software Engineering, I am dedicated to continuously learning and growing in the technology industry.
-          </span>
-        </p>
-        <a href="#tentang" class="cta-button internal-link">
-          <span class="lang-id">Selengkapnya Tentang Saya</span>
-          <span class="lang-en">Learn More About Me</span>
-        </a>
-      </div>
+        <div class="home-content">
+            <img src="images/IMG-20240302-WA0010.jpg" alt="Foto Profil Wildan Hidayat">
+            <h1>
+                <span class="lang-id">Selamat Datang di Portofolio Saya!</span>
+                <span class="lang-en">Welcome to My Portfolio!</span>
+            </h1>
+            <p>
+                <span class="lang-id">
+                    Perkenalkan, saya Wildan Hidayat, seorang profesional muda yang bersemangat dalam bidang
+                    <span style="color: #ffc107;">teknologi</span>,
+                    <span style="color: #ffc107;">pemrograman</span>, dan
+                    <span style="color: #ffc107;">desain</span>.
+                    Dengan latar belakang pendidikan Rekayasa Perangkat Lunak, saya berdedikasi untuk terus belajar dan berkembang dalam industri teknologi.
+                </span>
+                <span class="lang-en">
+                    Let me introduce myself, I am Wildan Hidayat, a young professional passionate about
+                    <span style="color: #ffc107;">technology</span>,
+                    <span style="color: #ffc107;">programming</span>, and
+                    <span style="color: #ffc107;">design</span>.
+                    With an educational background in Software Engineering, I am dedicated to continuously learning and growing in the technology industry.
+                </span>
+            </p>
+            <a href="#tentang" class="cta-button internal-link">
+                <span class="lang-id">Selengkapnya Tentang Saya</span>
+                <span class="lang-en">Learn More About Me</span>
+            </a>
+        </div>
     </section>
-    
 
-    <section id="tentang" class="animated-section content-section">
-      <style>
-        #tentang p {
-          text-align: justify;
-        }
-      </style>
-      <div class="content-wrapper">
-        <h2>
-          <span class="lang-id">Tentang Saya</span>
-          <span class="lang-en">About Me</span>
-        </h2>
-        <img src="images/kiansantang.jpeg" alt="Foto Wildan Hidayat">
-        <p>
-          <span class="lang-id">
-            Saya <strong>Wildan Hidayat</strong>, lulusan terbaru (tahun 2025) dari
-            <strong>SMK PGRI 35 Solokanjeruk</strong>, dengan jurusan <strong>Rekayasa Perangkat Lunak</strong>.
-            Saya memiliki antusiasme tinggi terhadap perkembangan
-            <span style="color: #007BFF; font-weight: 600;">teknologi</span> dan
-            <span style="color: #007BFF; font-weight: 600;">pemrograman</span>.
-            Saya termotivasi untuk terus menggali pengetahuan baru, khususnya dalam lanskap teknologi yang dinamis.
-            Saya adalah individu yang kolaboratif, komunikatif, dan memiliki komitmen kuat untuk pengembangan diri berkelanjutan.
-          </span>
-          <span class="lang-en">
-            I am <strong>Wildan Hidayat</strong>, a recent graduate (year 2025) from
-            <strong>SMK PGRI 35 Solokanjeruk</strong>, majoring in <strong>Software Engineering</strong>.
-            I have high enthusiasm for the development of
-            <span style="color: #007BFF; font-weight: 600;">technology</span> and
-            <span style="color: #007BFF; font-weight: 600;">programming</span>.
-            I am motivated to continuously learn and grow in the technology industry.
-            I am a collaborative, communicative individual with a strong commitment to continuous self-development.
-          </span>
-        </p>
-      </div>
-    </section>
-    
-
-    <section id="keahlian" class="animated-section-alt content-section">
-      <style>
-        #keahlian ul li {
-          text-align: justify;
-        }
-    
-        /* Atur gambar agar serupa dengan gambar di bagian organisasi */
-        #keahlian img.skill-photo {
-          display: block;
-          max-height: 300px;
-          width: auto;
-          max-width: 100%;
-          object-fit: contain;
-          margin: 20px auto;
-          border-radius: 8px;
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-      </style>
-    
-      <div class="content-wrapper">
-        <h2>
-          <span class="lang-id">Kompetensi Inti</span>
-          <span class="lang-en">Core Competencies</span>
-        </h2>
-    
-        <!-- Gambar ditambahkan di sini -->
-        <img src="images/pcproyekpribadi.jpeg" alt="Ilustrasi Keahlian" class="skill-photo" />
-    
-        <ul>
-          <li>
-            <i class="fas fa-code"></i>
-            <span class="lang-id"><strong>Pemrograman Dasar:</strong> Pengembangan aplikasi desktop (Java/NetBeans) & pondasi pengembangan web.</span>
-            <span class="lang-en"><strong>Basic Programming:</strong> Desktop application development (Java/NetBeans) & web development fundamentals.</span>
-          </li>
-          <li>
-            <i class="fas fa-laptop-code"></i>
-            <span class="lang-id"><strong>Pengembangan Web:</strong> HTML, CSS, framework front-end (Bootstrap 5/AdminLTE).</span>
-            <span class="lang-en"><strong>Web Development:</strong> HTML, CSS, front-end frameworks (Bootstrap 5/AdminLTE).</span>
-          </li>
-          <li>
-            <i class="fas fa-paint-brush"></i>
-            <span class="lang-id"><strong>Desain Grafis:</strong> Pembuatan aset visual menggunakan Canva.</span>
-            <span class="lang-en"><strong>Graphic Design:</strong> Creating visual assets using Canva.</span>
-          </li>
-          <li>
-            <i class="fas fa-users"></i>
-            <span class="lang-id"><strong>Keterampilan Interpersonal:</strong> Komunikasi efektif & kemampuan bekerja dalam tim.</span>
-            <span class="lang-en"><strong>Interpersonal Skills:</strong> Effective communication & ability to work in a team.</span>
-          </li>
-          <li>
-            <i class="fas fa-lightbulb"></i>
-            <span class="lang-id"><strong>Atribut Pribadi:</strong> Pembelajar mandiri yang proaktif & bermotivasi tinggi.</span>
-            <span class="lang-en"><strong>Personal Attributes:</strong> Proactive & highly motivated self-learner.</span>
-          </li>
-        </ul>
-      </div>
-    </section>
-    
-  
-  <section id="pendidikan" class="animated-section content-section">
-    <style>
-        #pendidikan ul li {
-            text-align: justify;
-        }
-    </style>
-    <div class="content-wrapper">
-        <h2>
-            <span class="lang-id">Riwayat Pendidikan</span>
-            <span class="lang-en">Education History</span>
-        </h2>
-        <ul>
-            <li>
-                <i class="fas fa-school"></i>
-                <span class="lang-id">SDN Bojongemas 04 (2013 - 2019)</span>
-                <span class="lang-en">Bojongemas 04 Elementary School (2013 - 2019)</span>
-            </li>
-            <li>
-                <i class="fas fa-school"></i>
-                <span class="lang-id">MTsS Al Fauzani (2019 - 2022)</span>
-                <span class="lang-en">Al Fauzani Islamic Junior High School (2019 - 2022)</span>
-            </li>
-            <li>
-                <i class="fas fa-user-graduate"></i>
-                <span class="lang-id">SMK PGRI 35 Solokanjeruk - Rekayasa Perangkat Lunak (2022 - 2025)</span>
-                <span class="lang-en">SMK PGRI 35 Solokanjeruk - Software Engineering (2022 - 2025)</span>
-            </li>
-        </ul>
-    </div>
-</section>
-
-
-<section id="pengalaman" class="animated-section-alt content-section">
-  <style>
-    /* Teks deskripsi pengalaman (experience-details) rata kanan-kiri */
-    #pengalaman ul li {
-      text-align: justify;
-    }
-
-    /* Atur container carousel agar tidak terlalu besar */
-    #pklCarousel {
-      max-height: 300px; /* Sesuaikan tinggi maksimal sesuai kebutuhan */
-      overflow: hidden;
-      margin-bottom: 20px;
-      position: relative;
-    }
-
-    /* Pastikan setiap item carousel selalu tampil di tengah container */
-    #pklCarousel .carousel-inner {
-      height: 300px; /* Tentukan tinggi container sesuai kebutuhan */
-    }
-
-    #pklCarousel .carousel-item {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 300px;
-    }
-
-    /* Gambar diatur agar tampil utuh (tidak terpotong) dan menyesuaikan ukurannya */
-    #pklCarousel .carousel-item img {
-      max-height: 100%;
-      width: auto;
-      object-fit: contain;
-    }
-
-    /* Styling panah navigasi agar terlihat jelas */
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 10px;
-      border-radius: 50%;
-    }
-  </style>
-
-  <div class="content-wrapper">
-    <h2>
-      <span class="lang-id">Pengalaman Relevan</span>
-      <span class="lang-en">Relevant Experience</span>
-    </h2>
-
-    <!-- Carousel untuk menampilkan screenshot PKL -->
-    <div id="pklCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="images/1.png" alt="Screenshot 1">
-        </div>
-        <div class="carousel-item">
-          <img src="images/2.png" alt="Screenshot 2">
-        </div>
-        <div class="carousel-item">
-          <img src="images/3.png" alt="Screenshot 3">
-        </div>
-        <div class="carousel-item">
-          <img src="images/4.png" alt="Screenshot 4">
-        </div>
-        <div class="carousel-item">
-          <img src="images/5.png" alt="Screenshot 5">
-        </div>
-        <div class="carousel-item">
-          <img src="images/6.png" alt="Screenshot 6">
-        </div>
-        <div class="carousel-item">
-          <img src="images/7.png" alt="Screenshot 7">
-        </div>
-      </div>
-      <!-- Tombol navigasi: panah kiri -->
-      <button class="carousel-control-prev" type="button" data-bs-target="#pklCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Sebelumnya</span>
-      </button>
-      <!-- Tombol navigasi: panah kanan -->
-      <button class="carousel-control-next" type="button" data-bs-target="#pklCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Berikutnya</span>
-      </button>
-    </div>
-
-    <ul>
-      <!-- Pengalaman 1 -->
-      <li>
-        <i class="fas fa-briefcase"></i>
-        <div class="experience-text-container">
-          <span class="lang-id">
-            <strong>Praktik Kerja Lapangan (PKL) - Pengembangan Website Company Profile Menggunakan CSS Bootstrap 5</strong><br>
-            <span class="experience-details">
-              (Bumiwangi, Ciparay | 3 Bulan) – Selama masa PKL, saya bertanggung jawab untuk merancang dan mengembangkan website "SMK Setia Bhakti" dengan fokus utama pada tampilan depan (front-end) dan antarmuka pengguna yang responsif serta estetis.
-            </span>
-          </span>
-          <span class="lang-en">
-            <strong>Field Work Practice (PKL) - Company Profile Website Development Using CSS Bootstrap 5</strong><br>
-            <span class="experience-details">
-              (Bumiwangi, Ciparay | 3 Months) – During the internship period, I was responsible for designing and developing the "SMK Setia Bhakti" website with a main focus on the front-end and responsive and aesthetic user interface.
-            </span>
-          </span>
-        </div>
-      </li>
-
-      <!-- Pengalaman 2 -->
-      <li>
-        <i class="fas fa-store"></i>
-        <div class="experience-text-container">
-          <span class="lang-id">
-            <strong>Operator Toko Fotokopi & Desain</strong><br>
-            <span class="experience-details">
-              Bertanggung jawab atas layanan pelanggan, pengelolaan operasional harian, merapihkan tata letak dan penulisan dokumen word, serta pembuatan desain grafis sederhana menggunakan Canva yang memenuhi kebutuhan klien.
-            </span>
-          </span>
-          <span class="lang-en">
-            <strong>Copy Shop & Design Operator</strong><br>
-            <span class="experience-details">
-              Responsible for customer service, managing daily operations, tidying up the layout and writing of word documents, and creating simple graphic designs using Canva that meet client needs.
-            </span>
-          </span>
-        </div>
-      </li>
-
-      <!-- Pengalaman 3 -->
-      <li>
-        <i class="fas fa-laptop"></i>
-        <div class="experience-text-container">
-          <span class="lang-id">
-            <strong>Proyek Pengembangan Mandiri</strong><br>
-            <span class="experience-details">
-              Secara mandiri, saya mengasah keterampilan dengan mengembangkan aplikasi dan website sederhana. Proyek-proyek ini mengintegrasikan elemen front-end modern dan desain responsif, serta menerapkan solusi teknologi inovatif guna meningkatkan user experience dan fungsionalitas.
-            </span>
-          </span>
-          <span class="lang-en">
-            <strong>Independent Development Projects</strong><br>
-            <span class="experience-details">
-              Independently, I honed my skills by developing simple applications and websites. These projects incorporate modern front-end elements and responsive design, while employing innovative technological solutions to enhance user experience and functionality.
-            </span>
-          </span>
-        </div>
-      </li>
-    </ul>
-  </div>
-</section>
-
-      
-    
-
-<section id="organisasi" class="animated-section content-section">
-  <style>
-    #organisasi ul li {
-      text-align: justify;
-    }
-
-    /* Atur ukuran gambar agar tidak terlalu besar */
-    #organisasi img.profile-photo {
-      display: block;
-      max-height: 300px;   /* Batasi tinggi gambar */
-      width: auto;
-      max-width: 100%;
-      object-fit: contain;
-      margin: 20px auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Opsional: Tambahkan bayangan halus */
-    }
-  </style>
-
-  <div class="content-wrapper">
-    <h2>
-      <span class="lang-id">Pengalaman Organisasi</span>
-      <span class="lang-en">Organization Activities</span>
-    </h2>
-    
-    <!-- Gambar ditambahkan di sini -->
-    <img src="images/ustadz.jpeg" alt="Foto Profil" class="profile-photo" />
-
-    <ul>
-      <li>
-        <i class="fas fa-users-cog"></i>
-        <span class="lang-id">
-          <strong>IPNU (Ikatan Pelajar Nahdlatul Ulama):</strong> Berkontribusi aktif dalam kegiatan kepelajaran dan sosial keagamaan tingkat lokal.
-        </span>
-        <span class="lang-en">
-          <strong>IPNU (Nahdlatul Ulama Student Association):</strong> Actively contributed to local student and religious social activities.
-        </span>
-      </li>
-      <li>
-        <i class="fas fa-shield-alt"></i>
-        <span class="lang-id">
-          <strong>BANSER (Barisan Ansor Serbaguna):</strong> Berperan sebagai kader dalam pengamanan acara dan kegiatan pengabdian masyarakat.
-        </span>
-        <span class="lang-en">
-          <strong>BANSER (Multipurpose Ansor Front):</strong> Served as a cadre in securing events and community service activities.
-        </span>
-      </li>
-      <li>
-        <i class="fas fa-book-reader"></i>
-        <span class="lang-id">
-          <strong>Rijalul Ansor:</strong> Mengikuti kajian keagamaan rutin dan aktivitas kepemudaan NU.
-        </span>
-        <span class="lang-en">
-          <strong>Rijalul Ansor:</strong> Participated in regular religious studies and NU youth activities.
-        </span>
-      </li>
-      <li>
-        <i class="fas fa-mosque"></i>
-        <span class="lang-id">
-          <strong>IRMA (Ikatan Remaja Masjid):</strong> Pernah menjabat sebagai ketua, memimpin dan mengelola kegiatan peribadatan, bakti sosial, dan pengembangan remaja masjid.
-        </span>
-        <span class="lang-en">
-          <strong>IRMA (Mosque Youth Association):</strong> Served as chairman, leading and managing worship activities, community service, and youth development at the mosque.
-        </span>
-      </li>
-    </ul>
-  </div>
-</section>
-
-
-<section id="portofolio" class="animated-section-alt content-section">
-  <style>
-    /* CSS untuk membuat teks deskripsi proyek rata kanan-kiri */
-    #portofolio .project-desc {
-      text-align: justify;
-    }
-  </style>
-  <div class="content-wrapper" style="max-width: 950px;">
-    <h2>
-      <span class="lang-id">Galeri Proyek</span>
-      <span class="lang-en">Project Gallery</span>
-    </h2>
-    <div class="portfolio-container">
-      <!-- Proyek 1 -->
-      <div class="portfolio-item">
-        <img src="images/aplikasicatatankeuangan(netbeanside8.2).png" alt="Aplikasi Manajemen Keuangan Desktop">
-        <p class="project-title">
-          <span class="lang-id">Aplikasi Manajemen Keuangan Desktop</span>
-          <span class="lang-en">Desktop Financial Management Application</span>
-        </p>
-        <p class="project-desc">
-          <span class="lang-id">
-            Proyek latihan pribadi yang dikembangkan menggunakan Java Swing dan NetBeans IDE 8.2, menyajikan solusi pengelolaan keuangan sederhana dengan antarmuka yang intuitif dan fungsional.
-          </span>
-          <span class="lang-en">
-            A personal learning project built with Java Swing on NetBeans IDE 8.2, delivering a streamlined solution for managing finances with an intuitive and functional interface.
-          </span>
-        </p>
-      </div>
-      <!-- Proyek 2 -->
-      <div class="portfolio-item">
-        <img src="images/projeklaravelujikom.png" alt="Aplikasi Perhitungan Diskon">
-        <p class="project-title">
-          <span class="lang-id">Aplikasi Perhitungan Diskon</span>
-          <span class="lang-en">Discount Calculation Application</span>
-        </p>
-        <p class="project-desc">
-          <span class="lang-id">
-            Proyek Laravel 10 "Aplikasi Perhitungan Diskon" yang awalnya dibuat untuk validasi uji kompetensi. Aplikasi ini dikembangkan lebih lanjut dengan penambahan animasi loading sebelum form login, animasi logout, serta integrasi informasi profil pribadi. Menu-menu tambahan seperti data pembeli dan katalog produk turut disematkan untuk mendukung perhitungan diskon secara komprehensif.
-          </span>
-          <span class="lang-en">
-            Laravel 10 project "Discount Calculation Application" which was originally created for competency test validation. This application is further developed by adding loading animation before the login form, logout animation, and integration of personal profile information. Additional menus such as buyer data and product catalogs are also embedded to support comprehensive discount calculations.
-          </span>
-        </p>
-      </div>
-      <!-- Proyek 3 -->
-      <div class="portfolio-item">
-        <img src="images/desaincanva.jpeg" alt="Banner Desain Warung 3 Putri Teh Ika">
-        <p class="project-title">
-          <span class="lang-id">Desain Banner Warung 3 Putri Teh Ika</span>
-          <span class="lang-en">Banner Design for Warung 3 Putri Teh Ika</span>
-        </p>
-        <p class="project-desc">
-          <span class="lang-id">
-            Banner yang saya rancang dengan Canva untuk Warung 3 Putri Teh Ika, dikerjakan saat saya masih di kelas 11 sebagai proyek sampingan dalam layanan pembuatan desain. Proyek ini menonjolkan kemampuan saya dalam menggabungkan kreativitas dengan pemahaman terhadap kebutuhan klien untuk menghasilkan desain yang komunikatif dan estetis.
-          </span>
-          <span class="lang-en">
-            A banner designed with Canva for Warung 3 Putri Teh Ika, created during my 11th-grade year as a side project within my freelance design services. This project highlights my ability to merge creativity with client requirements to produce communicative and aesthetically pleasing designs.
-          </span>
-        </p>
-      </div>
-    </div>
-    <p class="portfolio-note">
-      <span class="lang-id">(Proyek-proyek ini mencerminkan keahlian dan dedikasi saya.)</span>
-      <span class="lang-en">(These projects reflect my skills and dedication.)</span>
-    </p>
-  </div>
-</section>
-
-      
-
-       <section id="kontak" class="animated-section content-section">
+    <section id="tentang" class="content-section">
         <div class="content-wrapper">
-            <h2><span class="lang-id">Hubungi Saya</span><span class="lang-en">Contact Me</span></h2>
-            <p><span class="lang-id">Silakan hubungi saya melalui salah satu kanal berikut:</span><span class="lang-en">Please contact me through one of the following channels:</span></p>
+            <h2>
+                <span class="lang-id">Tentang Saya</span>
+                <span class="lang-en">About Me</span>
+            </h2>
+            <img src="images/kiansantang.jpeg" alt="Foto Wildan Hidayat">
+            <p>
+                <span class="lang-id">
+                    Saya <strong>Wildan Hidayat</strong>, lulusan terbaru (tahun 2025) dari
+                    <strong>SMK PGRI 35 Solokanjeruk</strong>, dengan jurusan <strong>Rekayasa Perangkat Lunak</strong>.
+                    Saya memiliki antusiasme tinggi terhadap perkembangan
+                    <span style="color: #007BFF;">teknologi</span> dan
+                    <span style="color: #007BFF;">pemrograman</span>.
+                    Saya termotivasi untuk terus menggali pengetahuan baru, khususnya dalam lanskap teknologi yang dinamis.
+                    Saya adalah individu yang kolaboratif, komunikatif, dan memiliki komitmen kuat untuk pengembangan diri berkelanjutan.
+                </span>
+                <span class="lang-en">
+                    I am <strong>Wildan Hidayat</strong>, a recent graduate (year 2025) from
+                    <strong>SMK PGRI 35 Solokanjeruk</strong>, majoring in <strong>Software Engineering</strong>.
+                    I have high enthusiasm for the development of
+                    <span style="color: #007BFF;">technology</span> and
+                    <span style="color: #007BFF;">programming</span>.
+                    I am motivated to continuously learn and grow in the technology industry.
+                    I am a collaborative, communicative individual with a strong commitment to continuous self-development.
+                </span>
+            </p>
+        </div>
+    </section>
+
+    <section id="keahlian" class="content-section list-section">
+        <div class="content-wrapper">
+            <h2>
+                <span class="lang-id">Kompetensi Inti</span>
+                <span class="lang-en">Core Competencies</span>
+            </h2>
+            <img src="images/pcproyekpribadi.jpeg" alt="Ilustrasi Keahlian" class="skill-photo" />
             <ul>
-                <li><i class="fab fa-whatsapp"></i><a href="https://wa.me/6283875759507" target="_blank" rel="noopener noreferrer">WhatsApp: 0838-7575-9507</a></li>
-                <li><i class="fab fa-instagram"></i><a href="https://www.instagram.com/wildan_assidqi_furi" target="_blank" rel="noopener noreferrer">Instagram: @wildan_assidqi_furi</a></li>
-                <li><i class="fab fa-facebook"></i><a href="https://www.facebook.com/wealduns.comeng" target="_blank" rel="noopener noreferrer">Facebook: Wealdan Sfarllos II</a></li>
-                <li>
-                    <i class="fas fa-envelope"></i>
-                    <a href="mailto:wealdanh3@gmail.com">
-                        <span class="lang-id">Email: wealdanh3@gmail.com</span>
-                        <span class="lang-en">Email: wealdanh3@gmail.com</span>
-                    </a>
-                </li>
+                <li><i class="fas fa-code"></i><div><span class="lang-id"><strong>Pemrograman Dasar:</strong> Pengembangan aplikasi desktop (Java/NetBeans) & pondasi pengembangan web.</span><span class="lang-en"><strong>Basic Programming:</strong> Desktop application development (Java/NetBeans) & web development fundamentals.</span></div></li>
+                <li><i class="fas fa-laptop-code"></i><div><span class="lang-id"><strong>Pengembangan Web:</strong> HTML, CSS, framework front-end (Bootstrap 5/AdminLTE).</span><span class="lang-en"><strong>Web Development:</strong> HTML, CSS, front-end frameworks (Bootstrap 5/AdminLTE).</span></div></li>
+                <li><i class="fas fa-paint-brush"></i><div><span class="lang-id"><strong>Desain Grafis:</strong> Pembuatan aset visual menggunakan Canva.</span><span class="lang-en"><strong>Graphic Design:</strong> Creating visual assets using Canva.</span></div></li>
+                <li><i class="fas fa-users"></i><div><span class="lang-id"><strong>Keterampilan Interpersonal:</strong> Komunikasi efektif & kemampuan bekerja dalam tim.</span><span class="lang-en"><strong>Interpersonal Skills:</strong> Effective communication & ability to work in a team.</span></div></li>
+                <li><i class="fas fa-lightbulb"></i><div><span class="lang-id"><strong>Atribut Pribadi:</strong> Pembelajar mandiri yang proaktif & bermotivasi tinggi.</span><span class="lang-en"><strong>Personal Attributes:</strong> Proactive & highly motivated self-learner.</span></div></li>
             </ul>
         </div>
     </section>
 
-<footer>
-    <h4><span class="lang-id">Terhubung Dengan Saya</span><span class="lang-en">Connect With Me</span></h4>
-    <div class="social-icon">
-        <a href="https://wa.me/6283875759507" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-        <a href="https://www.instagram.com/wildan_assidqi_furi" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.facebook.com/wealduns.comeng" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-        <a href="mailto:wealdanh3@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
-    </div>
-    <p><i class="fas fa-map-marker-alt" style="color: white; margin-right: 5px;"></i> <span class="lang-id">Solokanjeruk - Bandung, Jawa Barat</span><span class="lang-en">Solokanjeruk - Bandung, West Java</span></p>
-    <p class="copyright">
-        <span class="lang-id">Dirancang oleh</span><span class="lang-en">Designed by</span> <a href="#home" class="internal-link">Wildan Hidayat</a> &copy; 2025
-    </p>
-</footer>
+    <section id="pendidikan" class="content-section list-section">
+        <div class="content-wrapper">
+            <h2>
+                <span class="lang-id">Riwayat Pendidikan</span>
+                <span class="lang-en">Education History</span>
+            </h2>
+            <ul>
+                <li><i class="fas fa-school"></i><div><span class="lang-id">SDN Bojongemas 04 (2013 - 2019)</span><span class="lang-en">Bojongemas 04 Elementary School (2013 - 2019)</span></div></li>
+                <li><i class="fas fa-school"></i><div><span class="lang-id">MTsS Al Fauzani (2019 - 2022)</span><span class="lang-en">Al Fauzani Islamic Junior High School (2019 - 2022)</span></div></li>
+                <li><i class="fas fa-user-graduate"></i><div><span class="lang-id">SMK PGRI 35 Solokanjeruk - Rekayasa Perangkat Lunak (2022 - 2025)</span><span class="lang-en">SMK PGRI 35 Solokanjeruk - Software Engineering (2022 - 2025)</span></div></li>
+            </ul>
+        </div>
+    </section>
 
+    <section id="pengalaman" class="content-section list-section">
+        <div class="content-wrapper">
+            <h2>
+                <span class="lang-id">Pengalaman Relevan</span>
+                <span class="lang-en">Relevant Experience</span>
+            </h2>
+            <div id="pklCarousel" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="3000">
+                <div class="carousel-inner">
+                    <div class="carousel-item active"><img src="images/1.png" alt="Screenshot PKL 1"></div>
+                    <div class="carousel-item"><img src="images/2.png" alt="Screenshot PKL 2"></div>
+                    <div class="carousel-item"><img src="images/3.png" alt="Screenshot PKL 3"></div>
+                    <div class="carousel-item"><img src="images/4.png" alt="Screenshot PKL 4"></div>
+                    <div class="carousel-item"><img src="images/5.png" alt="Screenshot PKL 5"></div>
+                    <div class="carousel-item"><img src="images/6.png" alt="Screenshot PKL 6"></div>
+                    <div class="carousel-item"><img src="images/7.png" alt="Screenshot PKL 7"></div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#pklCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span></button>
+                <button class="carousel-control-next" type="button" data-bs-target="#pklCarousel" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span></button>
+            </div>
+            <ul>
+                <li><i class="fas fa-briefcase"></i><div class="experience-text-container"><span class="lang-id"><strong>Praktik Kerja Lapangan (PKL) - Pengembangan Website Company Profile Menggunakan CSS Bootstrap 5</strong><br><span class="experience-details">(Bumiwangi, Ciparay | 3 Bulan) – Selama masa PKL, saya bertanggung jawab untuk merancang dan mengembangkan website "SMK Setia Bhakti" dengan fokus utama pada tampilan depan (front-end) dan antarmuka pengguna yang responsif serta estetis.</span></span><span class="lang-en"><strong>Field Work Practice (PKL) - Company Profile Website Development Using CSS Bootstrap 5</strong><br><span class="experience-details">(Bumiwangi, Ciparay | 3 Months) – During the internship period, I was responsible for designing and developing the "SMK Setia Bhakti" website with a main focus on the front-end and responsive and aesthetic user interface.</span></span></div></li>
+                <li><i class="fas fa-store"></i><div class="experience-text-container"><span class="lang-id"><strong>Operator Toko Fotokopi & Desain</strong><br><span class="experience-details">Bertanggung jawab atas layanan pelanggan, pengelolaan operasional harian, merapihkan tata letak dan penulisan dokumen word, serta pembuatan desain grafis sederhana menggunakan Canva yang memenuhi kebutuhan klien.</span></span><span class="lang-en"><strong>Copy Shop & Design Operator</strong><br><span class="experience-details">Responsible for customer service, managing daily operations, tidying up the layout and writing of word documents, and creating simple graphic designs using Canva that meet client needs.</span></span></div></li>
+                <li><i class="fas fa-laptop"></i><div class="experience-text-container"><span class="lang-id"><strong>Proyek Pengembangan Mandiri</strong><br><span class="experience-details">Secara mandiri, saya mengasah keterampilan dengan mengembangkan aplikasi dan website sederhana. Proyek-proyek ini mengintegrasikan elemen front-end modern dan desain responsif, serta menerapkan solusi teknologi inovatif guna meningkatkan user experience dan fungsionalitas.</span></span><span class="lang-en"><strong>Independent Development Projects</strong><br><span class="experience-details">Independently, I honed my skills by developing simple applications and websites. These projects incorporate modern front-end elements and responsive design, while employing innovative technological solutions to enhance user experience and functionality.</span></span></div></li>
+            </ul>
+        </div>
+    </section>
 
+    <section id="organisasi" class="content-section list-section">
+        <div class="content-wrapper">
+            <h2>
+                <span class="lang-id">Pengalaman Organisasi</span>
+                <span class="lang-en">Organization Activities</span>
+            </h2>
+            <img src="images/ustadz.jpeg" alt="Foto Kegiatan Organisasi" class="profile-photo" />
+            <ul>
+                <li><i class="fas fa-users-cog"></i><div><span class="lang-id"><strong>IPNU (Ikatan Pelajar Nahdlatul Ulama):</strong> Berkontribusi aktif dalam kegiatan kepelajaran dan sosial keagamaan tingkat lokal.</span><span class="lang-en"><strong>IPNU (Nahdlatul Ulama Student Association):</strong> Actively contributed to local student and religious social activities.</span></div></li>
+                <li><i class="fas fa-shield-alt"></i><div><span class="lang-id"><strong>BANSER (Barisan Ansor Serbaguna):</strong> Berperan sebagai kader dalam pengamanan acara dan kegiatan pengabdian masyarakat.</span><span class="lang-en"><strong>BANSER (Multipurpose Ansor Front):</strong> Served as a cadre in securing events and community service activities.</span></div></li>
+                <li><i class="fas fa-book-reader"></i><div><span class="lang-id"><strong>Rijalul Ansor:</strong> Mengikuti kajian keagamaan rutin dan aktivitas kepemudaan NU.</span><span class="lang-en"><strong>Rijalul Ansor:</strong> Participated in regular religious studies and NU youth activities.</span></div></li>
+                <li><i class="fas fa-mosque"></i><div><span class="lang-id"><strong>IRMA (Ikatan Remaja Masjid):</strong> Pernah menjabat sebagai ketua, memimpin dan mengelola kegiatan peribadatan, bakti sosial, dan pengembangan remaja masjid.</span><span class="lang-en"><strong>IRMA (Mosque Youth Association):</strong> Served as chairman, leading and managing worship activities, community service, and youth development at the mosque.</span></div></li>
+            </ul>
+        </div>
+    </section>
 
+    <section id="portofolio" class="content-section">
+        <div class="content-wrapper">
+            <h2>
+                <span class="lang-id">Galeri Proyek</span>
+                <span class="lang-en">Project Gallery</span>
+            </h2>
+            <div class="portfolio-container">
+                <div class="portfolio-item">
+                    <img src="images/aplikasicatatankeuangan(netbeanside8.2).png" alt="Aplikasi Manajemen Keuangan Desktop">
+                    <div class="portfolio-item-content"><p class="project-title"><span class="lang-id">Manajemen Keuangan Desktop</span><span class="lang-en">Desktop Financial Management</span></p><p class="project-desc"><span class="lang-id">Proyek latihan pribadi Java Swing (NetBeans IDE 8.2), menyajikan solusi pengelolaan keuangan sederhana dengan antarmuka intuitif.</span><span class="lang-en">A personal learning project with Java Swing (NetBeans IDE 8.2), delivering a streamlined solution for finances with an intuitive interface.</span></p></div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="images/projeklaravelujikom.png" alt="Aplikasi Perhitungan Diskon Laravel">
+                    <div class="portfolio-item-content"><p class="project-title"><span class="lang-id">Aplikasi Kalkulator Diskon (Laravel)</span><span class="lang-en">Discount Calculator App (Laravel)</span></p><p class="project-desc"><span class="lang-id">Proyek Laravel 10 untuk Ujikom, dikembangkan dengan animasi loading, logout, info profil, data pembeli, dan katalog produk.</span><span class="lang-en">Laravel 10 project for competency test, enhanced with loading/logout animations, profile info, buyer data, and product catalog.</span></p></div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="images/desaincanva.jpeg" alt="Banner Desain Warung 3 Putri Teh Ika">
+                    <div class="portfolio-item-content"><p class="project-title"><span class="lang-id">Desain Banner Warung (Canva)</span><span class="lang-en">Store Banner Design (Canva)</span></p><p class="project-desc"><span class="lang-id">Banner untuk Warung 3 Putri Teh Ika (dibuat saat kelas 11), menampilkan kreativitas dan pemahaman kebutuhan klien dalam desain komunikatif.</span><span class="lang-en">Banner for Warung 3 Putri Teh Ika (created in 11th grade), showcasing creativity and client needs understanding in communicative design.</span></p></div>
+                </div>
+            </div>
+            <p class="portfolio-note"><span class="lang-id">(Beberapa proyek pilihan yang menunjukkan perkembangan keahlian saya.)</span><span class="lang-en">(A selection of projects demonstrating my skill progression.)</span></p>
+        </div>
+    </section>
+
+    <section id="kontak" class="content-section list-section">
+        <div class="content-wrapper">
+            <h2><span class="lang-id">Hubungi Saya</span><span class="lang-en">Contact Me</span></h2>
+            <p><span class="lang-id">Jangan ragu untuk menghubungi saya melalui kanal favorit Anda di bawah ini:</span><span class="lang-en">Feel free to reach out through your preferred channel below:</span></p>
+            <ul>
+                <li><i class="fab fa-whatsapp"></i><a href="https://wa.me/6283875759507" target="_blank" rel="noopener noreferrer">WhatsApp: 0838-7575-9507</a></li>
+                <li><i class="fab fa-instagram"></i><a href="https://www.instagram.com/wildan_assidqi_furi" target="_blank" rel="noopener noreferrer">Instagram: @wildan_assidqi_furi</a></li>
+                <li><i class="fab fa-facebook"></i><a href="https://www.facebook.com/wealduns.comeng" target="_blank" rel="noopener noreferrer">Facebook: Wealdan Sfarllos II</a></li>
+                <li><i class="fas fa-envelope"></i><a href="mailto:wealdanh3@gmail.com"><span class="lang-id">Email: wealdanh3@gmail.com</span><span class="lang-en">Email: wealdanh3@gmail.com</span></a></li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <h4><span class="lang-id">Terhubung Dengan Saya</span><span class="lang-en">Connect With Me</span></h4>
+            <div class="social-icon">
+                <a href="https://wa.me/6283875759507" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/wildan_assidqi_furi" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/wealduns.comeng" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="mailto:wealdanh3@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p><i class="fas fa-map-marker-alt"></i> <span class="lang-id">Solokanjeruk - Bandung, Jawa Barat</span><span class="lang-en">Solokanjeruk - Bandung, West Java</span></p>
+            <p class="copyright">
+                <span class="lang-id">Dirancang & Dikembangkan oleh</span><span class="lang-en">Designed & Developed by</span> <a href="#home" class="internal-link">Wildan Hidayat</a> &copy; <span id="currentYear"></span>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
+        // JavaScript tidak berubah dari versi sebelumnya karena sudah menangani
+        // preloader hiding, language switching, mobile menu, active link,
+        // dan section animation observer dengan baik.
         document.addEventListener('DOMContentLoaded', () => {
-            // === Variabel Global & Selektor ===
             const body = document.querySelector('body');
             const preloader = document.querySelector('.preloader');
-            const logoutButton = document.querySelector('.logout-button');
             const langSwitcher = document.querySelector('.language-switcher');
             const langButtons = langSwitcher ? langSwitcher.querySelectorAll('button') : [];
             const pageTitle = document.getElementById('pageTitle');
-            const mobileMenuToggle = document.getElementById('mobileMenuToggle'); // Selektor Tombol Toggle
-            const navMenu = document.querySelector('.navbar .nav-menu'); // Selektor Kontainer Menu
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navMenu = document.querySelector('.navbar .nav-menu');
             const navLinks = document.querySelectorAll('.nav-menu a.nav-link');
+            const allMobileNavClickables = document.querySelectorAll('.navbar .nav-menu a.nav-link, .navbar .nav-menu .language-switcher button');
             const internalLinks = document.querySelectorAll('.internal-link');
-            const allNavClickables = document.querySelectorAll('.navbar .nav-menu a, .navbar .nav-menu button');
-            const animatedSections = document.querySelectorAll('.animated-section, .animated-section-alt');
+            const contentSections = document.querySelectorAll('.content-section');
+            const currentYearSpan = document.getElementById('currentYear');
+            const langContent = { 'id': { pageTitle: 'Wildan Hidayat - Portofolio Profesional' }, 'en': { pageTitle: 'Wildan Hidayat - Professional Portfolio' } };
 
-            const langContent = {
-                'id': { pageTitle: 'Wildan Hidayat - Portofolio Profesional' },
-                'en': { pageTitle: 'Wildan Hidayat - Professional Portfolio' }
-            };
+            if (currentYearSpan) { currentYearSpan.textContent = new Date().getFullYear(); }
 
-            // === Fungsi Preloader ===
             function hidePreloader() {
-                body.classList.remove('loading');
-                if (preloader) {
-                    preloader.style.transition = 'opacity 0.5s ease-out, visibility 0.5s ease-out';
-                    preloader.style.opacity = '0';
-                    preloader.style.visibility = 'hidden';
-                    preloader.classList.remove('show');
+                if (preloader && !preloader.classList.contains('hidden')) {
+                    preloader.classList.add('hidden');
+                    body.classList.remove('loading');
                 }
             }
-
             if (preloader) {
-                let preloaderHidden = false;
-                const hideTimeout = setTimeout(() => {
-                    if (!preloaderHidden) hidePreloader();
-                }, 3000);
+                 body.classList.add('loading');
+                 const hideTimeout = setTimeout(hidePreloader, 3000);
+                 preloader.addEventListener('animationend', hidePreloader, { once: true });
+                 preloader.addEventListener('transitionend', hidePreloader, { once: true });
+            } else { body.classList.remove('loading'); }
 
-                preloader.addEventListener('animationend', () => {
-                    clearTimeout(hideTimeout);
-                    if (!preloaderHidden) hidePreloader();
-                    preloaderHidden = true;
-                }, { once: true });
-                preloader.addEventListener('transitionend', () => {
-                    if (!preloaderHidden) hidePreloader();
-                     preloaderHidden = true;
-                }, { once: true });
-            } else {
-                body.classList.remove('loading');
-            }
-
-            // === Fungsi Tombol Logout ===
-            if (logoutButton) {
-                logoutButton.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    window.location.href = 'about:blank';
-                });
-            }
-
-            // === Fungsi Ganti Bahasa ===
             function setLanguage(lang) {
                 if (!['id', 'en'].includes(lang)) { lang = 'id'; }
-                body.classList.remove('lang-id', 'lang-en');
-                body.classList.add('lang-' + lang);
-                langButtons.forEach(button => {
-                    button.classList.toggle('active', button.dataset.lang === lang);
-                });
-                if (langContent[lang] && langContent[lang].pageTitle) {
-                    pageTitle.textContent = langContent[lang].pageTitle;
-                }
-                try { localStorage.setItem('portfolioLang', lang); } catch (e) { /* ignore */ }
+                body.classList.remove('lang-id', 'lang-en'); body.classList.add('lang-' + lang);
+                langButtons.forEach(button => { button.classList.toggle('active', button.dataset.lang === lang); });
+                if (langContent[lang] && langContent[lang].pageTitle) { pageTitle.textContent = langContent[lang].pageTitle; }
+                try { localStorage.setItem('portfolioLang', lang); } catch (e) { console.warn("Could not save language preference."); }
+            }
+            if (langSwitcher) { langButtons.forEach(button => { button.addEventListener('click', (e) => { e.stopPropagation(); setLanguage(button.dataset.lang); }); }); }
+            let savedLang = 'id'; try { savedLang = localStorage.getItem('portfolioLang') || 'id'; } catch (e) { /* ignore */ } setLanguage(savedLang);
+
+            function closeMobileMenu(delay = 0) {
+                 if (navMenu && navMenu.classList.contains('open') && mobileMenuToggle) { setTimeout(() => { navMenu.classList.remove('open'); mobileMenuToggle.classList.remove('active'); mobileMenuToggle.setAttribute('aria-expanded', 'false'); }, delay); }
+            }
+            if (mobileMenuToggle && navMenu) {
+                 mobileMenuToggle.addEventListener('click', (e) => { e.stopPropagation(); const isOpen = navMenu.classList.toggle('open'); mobileMenuToggle.classList.toggle('active', isOpen); mobileMenuToggle.setAttribute('aria-expanded', isOpen); });
+                 allMobileNavClickables.forEach(clickable => { clickable.addEventListener('click', (e) => { if (clickable.classList.contains('internal-link')) { closeMobileMenu(250); } }); });
+                 document.addEventListener('click', (event) => { if (navMenu.classList.contains('open')) { const isClickInsideMenu = navMenu.contains(event.target); const isClickOnToggle = mobileMenuToggle.contains(event.target); if (!isClickInsideMenu && !isClickOnToggle) { closeMobileMenu(); } } });
+                 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && navMenu.classList.contains('open')) { closeMobileMenu(); } });
             }
 
-            if (langSwitcher) {
-                langButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        setLanguage(button.dataset.lang);
-                    });
-                });
-            }
-
-            let savedLang = 'id';
-            try { savedLang = localStorage.getItem('portfolioLang') || 'id'; } catch (e) { /* ignore */ }
-            setLanguage(savedLang);
-
-             // === Fungsi Menu Mobile (Revisi 1) ===
-             function closeMobileMenu(delay = 0) {
-                 if (navMenu && navMenu.classList.contains('open') && mobileMenuToggle) {
-                     setTimeout(() => {
-                         navMenu.classList.remove('open');
-                         const icon = mobileMenuToggle.querySelector('i');
-                         if (icon) {
-                             // Ganti ikon kembali ke hamburger
-                             icon.classList.remove('fa-times');
-                             icon.classList.add('fa-bars');
-                         }
-                     }, delay);
-                 }
-             }
-
-             if (mobileMenuToggle && navMenu) {
-                 // Event listener untuk tombol toggle
-                 mobileMenuToggle.addEventListener('click', (e) => {
-                     e.stopPropagation(); // Hentikan event bubbling
-                     navMenu.classList.toggle('open'); // Tambah/hapus kelas 'open' pada menu
-                     const icon = mobileMenuToggle.querySelector('i');
-                     if (icon) {
-                         // Ganti ikon antara hamburger (fa-bars) dan silang (fa-times)
-                         icon.classList.toggle('fa-bars', !navMenu.classList.contains('open'));
-                         icon.classList.toggle('fa-times', navMenu.classList.contains('open'));
-                     }
-                 });
-
-                 // Set ikon awal ke hamburger jika menu tidak terbuka
-                 const initialIcon = mobileMenuToggle.querySelector('i');
-                 if (initialIcon && !navMenu.classList.contains('open')) {
-                      initialIcon.classList.remove('fa-times');
-                      initialIcon.classList.add('fa-bars');
-                 }
-
-                 // Event listener untuk menutup menu saat klik di luar area menu/toggle
-                 document.addEventListener('click', (event) => {
-                    if (navMenu.classList.contains('open')) {
-                         const isClickInsideMenu = navMenu.contains(event.target);
-                         const isClickOnToggle = mobileMenuToggle.contains(event.target);
-                         // Jika klik BUKAN di dalam menu DAN BUKAN pada tombol toggle
-                         if (!isClickInsideMenu && !isClickOnToggle) {
-                             closeMobileMenu(); // Tutup menu
-                         }
-                    }
-                 });
-
-                 // Event listener untuk menutup menu saat item di menu mobile diklik
-                 allNavClickables.forEach(clickable => {
-                      clickable.addEventListener('click', (e) => {
-                           // Hanya tutup jika menu sedang terbuka DAN yang diklik bukan tombol toggle
-                           if (navMenu.classList.contains('open') && !mobileMenuToggle.contains(clickable)) {
-                                // Beri sedikit delay agar user melihat feedback klik sebelum menu hilang
-                                const isNavLink = clickable.classList.contains('nav-link') || clickable.classList.contains('internal-link');
-                                closeMobileMenu(isNavLink ? 250 : 100); // Delay lebih lama untuk link navigasi
-                           }
-                      });
-                 });
-            }
-
-
-            // === Fungsi Navigasi & Update Active Link ===
+            const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 70;
             function scrollToSectionAndUpdateNav(targetId) {
                 const targetSection = document.getElementById(targetId);
-                if (targetSection) {
-                    const navbarHeight = document.querySelector('.navbar').offsetHeight || 65;
-                    const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - navbarHeight - 10; // Sedikit offset
-                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-
-                    // Update active link di navbar utama
-                    const correspondingLink = document.querySelector(`.nav-menu a.nav-link[href="#${targetId}"]`);
-                    if (correspondingLink) {
-                        navLinks.forEach(nav => nav.classList.remove('active'));
-                        correspondingLink.classList.add('active');
-                    }
-                }
+                if (targetSection) { const targetPosition = targetSection.offsetTop - navbarHeight - 10; window.scrollTo({ top: targetPosition, behavior: 'smooth' }); }
             }
+            function setActiveNavLink(targetId) {
+                 navLinks.forEach(nav => nav.classList.remove('active')); const correspondingLink = document.querySelector(`.nav-menu a.nav-link[href="#${targetId}"]`); if (correspondingLink) { correspondingLink.classList.add('active'); }
+            }
+            internalLinks.forEach(link => { link.addEventListener('click', (event) => { const href = link.getAttribute('href'); if (href && href.startsWith('#')) { event.preventDefault(); const targetId = href.substring(1); if (targetId) { scrollToSectionAndUpdateNav(targetId); } } }); });
 
-            internalLinks.forEach(link => {
-                 link.addEventListener('click', (event) => {
-                     const href = link.getAttribute('href');
-                     if (href && href.startsWith('#')) {
-                         event.preventDefault();
-                         const targetId = href.substring(1);
-                         if (targetId) { scrollToSectionAndUpdateNav(targetId); }
-                     }
-                 });
-            });
-
-            // === Observer untuk Navigasi Aktif saat Scroll ===
-            const navObserverOptions = {
-                root: null,
-                rootMargin: `-${(document.querySelector('.navbar')?.offsetHeight || 65) + 5}px 0px -50% 0px`,
-                threshold: 0
-            };
+            const navObserverOptions = { root: null, rootMargin: `-${navbarHeight}px 0px -40% 0px`, threshold: 0 };
+            let lastActiveSectionId = null;
             const navObserverCallback = (entries) => {
-                let latestIntersectingEntry = null;
-                 entries.forEach(entry => { if (entry.isIntersecting) { latestIntersectingEntry = entry; } });
-                 if (latestIntersectingEntry) {
-                     const targetId = latestIntersectingEntry.target.id;
-                     const correspondingLink = document.querySelector(`.nav-menu a.nav-link[href="#${targetId}"]`);
-                     // Cek lagi apakah link ditemukan sebelum mengubah kelas
-                     if (correspondingLink) {
-                          // Hanya update jika link yang terdeteksi BUKAN link yang sudah aktif
-                          if (!correspondingLink.classList.contains('active')) {
-                               navLinks.forEach(link => link.classList.remove('active'));
-                               correspondingLink.classList.add('active');
-                          }
-                     }
-                 } else {
-                     // Jika tidak ada section yang intersecting di area deteksi atas,
-                     // cek apakah kita berada di paling atas (dekat #home)
-                     if (window.pageYOffset < (window.innerHeight * 0.5)) { // Jika scroll di paruh atas layar pertama
-                         const homeLink = document.querySelector('.nav-menu a.home-link');
-                         if (homeLink && !homeLink.classList.contains('active')) {
-                             navLinks.forEach(link => link.classList.remove('active'));
-                             homeLink.classList.add('active');
-                         }
-                     }
-                 }
+                let sectionToActivate = null;
+                entries.forEach(entry => { if (entry.isIntersecting) { if (!sectionToActivate || entry.target.offsetTop < sectionToActivate.offsetTop) { sectionToActivate = entry.target; } } });
+                if (sectionToActivate) { if (lastActiveSectionId !== sectionToActivate.id) { setActiveNavLink(sectionToActivate.id); lastActiveSectionId = sectionToActivate.id; } }
+                else if (window.pageYOffset < window.innerHeight * 0.5) { if (lastActiveSectionId !== 'home') { setActiveNavLink('home'); lastActiveSectionId = 'home'; } }
             };
             const navObserver = new IntersectionObserver(navObserverCallback, navObserverOptions);
-            document.querySelectorAll('section[id]').forEach(section => {
-                 // Pastikan hanya observe section yang memiliki link navigasi di menu utama
-                 if(document.querySelector(`.nav-menu a.nav-link[href="#${section.id}"]`)) {
-                      navObserver.observe(section);
-                 }
-            });
+            document.querySelectorAll('section[id]').forEach(section => { navObserver.observe(section); });
 
-            // === Observer untuk Animasi Section saat Scroll ===
-            const sectionObserverOptions = {
-                root: null, rootMargin: '0px 0px -15% 0px', threshold: 0.1 // Sedikit threshold agar animasi mulai saat section sedikit terlihat
-            };
+            const sectionObserverOptions = { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.1 };
             const sectionObserverCallback = (entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                         entry.target.classList.add('is-visible');
-                         // Optional: unobserve setelah animasi aktif sekali
-                         // observer.unobserve(entry.target);
-                    } else {
-                         // Optional: Hapus kelas jika ingin animasi berulang saat scroll keluar/masuk
-                         entry.target.classList.remove('is-visible');
-                    }
-                });
+                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); } else { entry.target.classList.remove('is-visible'); } });
             };
             const sectionObserver = new IntersectionObserver(sectionObserverCallback, sectionObserverOptions);
-            animatedSections.forEach(section => { if (section) { sectionObserver.observe(section); } });
+            contentSections.forEach(section => { if (section.id !== 'home') { sectionObserver.observe(section); } });
 
-            // Cek section & nav aktif saat load awal
-             setTimeout(() => {
-                  // Cek section visible awal
-                  animatedSections.forEach(section => {
-                      if (section) {
-                         const rect = section.getBoundingClientRect();
-                         const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-                         // Cek apakah bagian atas section berada dalam viewport (dengan margin 15% dari bawah)
-                         if (rect.top < windowHeight * 0.85 && rect.bottom > 0) {
-                              section.classList.add('is-visible');
-                         }
-                      }
-                  });
-
-                  // Update nav active state awal
-                  let firstVisibleSectionId = null;
-                  const navHeight = (document.querySelector('.navbar')?.offsetHeight || 65);
-                  // Cari section pertama yang bagian atasnya terlihat di bawah navbar
-                  for (const section of document.querySelectorAll('section[id]')) {
-                      const rect = section.getBoundingClientRect();
-                       // Jika bagian atas section <= tinggi navbar + sedikit buffer DAN bagian bawahnya > tinggi navbar
-                       if (rect.top <= navHeight + 50 && rect.bottom > navHeight) {
-                           firstVisibleSectionId = section.id;
-                           break; // Ambil yang pertama ditemukan
-                       }
-                  }
-
-                  navLinks.forEach(link => link.classList.remove('active')); // Reset dulu semua
-                  if (firstVisibleSectionId) {
-                       const correspondingLink = document.querySelector(`.nav-menu a.nav-link[href="#${firstVisibleSectionId}"]`);
-                       if (correspondingLink) {
-                           correspondingLink.classList.add('active');
-                       } else { // Fallback ke Home jika section ada tapi link tidak ditemukan
-                           const homeLink = document.querySelector('.nav-menu a.home-link');
-                           if(homeLink) homeLink.classList.add('active');
-                       }
-                  } else { // Jika tidak ada section lain yang visible di awal, aktifkan Home
-                        const homeLink = document.querySelector('.nav-menu a.home-link');
-                        if(homeLink) homeLink.classList.add('active');
-                  }
-             }, 200); // Delay sedikit untuk memastikan layout stabil
-
-        }); // Akhir DOMContentLoaded
+            setTimeout(() => {
+                  let currentActiveSectionId = 'home';
+                  for (const section of document.querySelectorAll('section[id]')) { const rect = section.getBoundingClientRect(); if (rect.top <= navbarHeight + 50) { currentActiveSectionId = section.id; } else { break; } }
+                  setActiveNavLink(currentActiveSectionId); lastActiveSectionId = currentActiveSectionId;
+             }, 100);
+        });
     </script>
 
 </body>
