@@ -769,12 +769,29 @@
     #organisasi ul li {
       text-align: justify;
     }
+
+    /* Atur ukuran gambar agar tidak terlalu besar */
+    #organisasi img.profile-photo {
+      display: block;
+      max-height: 300px;   /* Batasi tinggi gambar */
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+      margin: 20px auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Opsional: Tambahkan bayangan halus */
+    }
   </style>
+
   <div class="content-wrapper">
     <h2>
       <span class="lang-id">Pengalaman Organisasi</span>
       <span class="lang-en">Organization Activities</span>
     </h2>
+    
+    <!-- Gambar ditambahkan di sini -->
+    <img src="images/ustadz.jpeg" alt="Foto Profil" class="profile-photo" />
+
     <ul>
       <li>
         <i class="fas fa-users-cog"></i>
