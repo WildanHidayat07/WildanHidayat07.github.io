@@ -451,6 +451,80 @@
         #home p { text-align: center; }
         #kontak ul li { text-align: left; }
 
+        /* Modal CSS untuk Portfolio dengan responsivitas dan animasi */
+#portfolioModal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#portfolioModal.show {
+  display: block;
+  opacity: 1;
+}
+
+/* Modal content responsif dengan animasi tampil */
+#portfolioModal .modal-content {
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 800px;
+  width: 90%; /* Lebar 90% agar nyaman di perangkat kecil */
+  position: relative;
+  animation: modalShow 0.5s ease-out;
+}
+
+/* Keyframes untuk animasi modal */
+@keyframes modalShow {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Styling untuk tombol close modal */
+#portfolioModal .close-button {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Tombol "Lihat Selengkapnya" dengan animasi klik */
+.btn-view-more {
+  margin-top: 10px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.btn-view-more:hover {
+  background-color: #0056b3;
+}
+.btn-view-more:active {
+  transform: scale(0.95);
+}
+
+
+
     </style>
 </head>
 
@@ -626,41 +700,299 @@
 
     <section id="portofolio" class="content-section">
         <div class="content-wrapper">
-            <h2>
-                <span class="lang-id">Galeri Proyek</span>
-                <span class="lang-en">Project Gallery</span>
-            </h2>
-            <div class="portfolio-container">
-                <div class="portfolio-item">
-                    <img src="images/aplikasicatatankeuangan(netbeanside8.2).png" alt="Aplikasi Manajemen Keuangan Desktop">
-                    <div class="portfolio-item-content"><p class="project-title"><span class="lang-id">Manajemen Keuangan Desktop</span><span class="lang-en">Desktop Financial Management</span></p><p class="project-desc"><span class="lang-id">Proyek latihan pribadi Java Swing (NetBeans IDE 8.2), menyajikan solusi pengelolaan keuangan sederhana dengan antarmuka intuitif.</span><span class="lang-en">A personal learning project with Java Swing (NetBeans IDE 8.2), delivering a streamlined solution for finances with an intuitive interface.</span></p></div>
-                </div>
-                <div class="portfolio-item">
-                    <img src="images/projeklaravelujikom.png" alt="Aplikasi Perhitungan Diskon Laravel">
-                    <div class="portfolio-item-content"><p class="project-title"><span class="lang-id">Aplikasi Kalkulator Diskon (Laravel)</span><span class="lang-en">Discount Calculator App (Laravel)</span></p><p class="project-desc"><span class="lang-id">Proyek Laravel 10 untuk Ujikom, dikembangkan dengan animasi loading, logout, info profil, data pembeli, dan katalog produk.</span><span class="lang-en">Laravel 10 project for competency test, enhanced with loading/logout animations, profile info, buyer data, and product catalog.</span></p></div>
-                </div>
-                <div class="portfolio-item">
-                    <img src="images/desaincanva.jpeg" alt="Banner Desain Warung 3 Putri Teh Ika">
-                    <div class="portfolio-item-content"><p class="project-title"><span class="lang-id">Desain Banner Warung (Canva)</span><span class="lang-en">Store Banner Design (Canva)</span></p><p class="project-desc"><span class="lang-id">Banner untuk Warung 3 Putri Teh Ika (dibuat saat kelas 11), menampilkan kreativitas dan pemahaman kebutuhan klien dalam desain komunikatif.</span><span class="lang-en">Banner for Warung 3 Putri Teh Ika (created in 11th grade), showcasing creativity and client needs understanding in communicative design.</span></p></div>
-                </div>
+          <h2>
+            <span class="lang-id">Galeri Proyek</span>
+            <span class="lang-en">Project Gallery</span>
+          </h2>
+          <div class="portfolio-container">
+            <!-- Contoh Portfolio Item: Desktop Financial Management -->
+            <div class="portfolio-item">
+              <img src="images/aplikasicatatankeuangan(netbeanside8.2).png" alt="Aplikasi Manajemen Keuangan Desktop">
+              <div class="portfolio-item-content">
+                <p class="project-title">
+                  <span class="lang-id">Manajemen Keuangan Desktop</span>
+                  <span class="lang-en">Desktop Financial Management</span>
+                </p>
+                <p class="project-desc">
+                  <span class="lang-id">Proyek latihan pribadi Java Swing (NetBeans IDE 8.2), menyajikan solusi pengelolaan keuangan sederhana dengan antarmuka intuitif.</span>
+                  <span class="lang-en">A personal learning project with Java Swing (NetBeans IDE 8.2), delivering a streamlined solution for finances with an intuitive interface.</span>
+                </p>
+                <!-- Tombol Lihat Selengkapnya -->
+                <button class="btn-view-more"
+                  data-image="images/aplikasicatatankeuangan(netbeanside8.2).png"
+                  data-title-id="Manajemen Keuangan Desktop - Detail"
+                  data-title-en="Desktop Financial Management - Details"
+                  data-extdesc-id="Proyek ini merupakan inisiatif belajar pribadi untuk mengembangkan sistem manajemen keuangan yang intuitif dan efisien. Dibangun menggunakan Java Swing di NetBeans IDE 8.2, aplikasi ini menyajikan fitur pencatatan transaksi, laporan keuangan, dan grafik analisis secara real-time. Pendekatan desain yang user-friendly memastikan kemudahan navigasi dan akses cepat ke berbagai fungsi penting, sehingga mendukung pengambilan keputusan finansial yang tepat."
+                  data-extdesc-en="This project is a personal learning initiative aimed at developing an intuitive and efficient financial management system. Built with Java Swing on NetBeans IDE 8.2, the app incorporates transaction recording, financial reporting, and real-time analytical graphics. Its user-friendly design ensures easy navigation and fast access to essential features, supporting effective financial decision-making."
+                >Lihat Selengkapnya</button>
+              </div>
             </div>
-            <p class="portfolio-note"><span class="lang-id">(Beberapa proyek pilihan yang menunjukkan perkembangan keahlian saya.)</span><span class="lang-en">(A selection of projects demonstrating my skill progression.)</span></p>
+      
+            <!-- Contoh Portfolio Item: Discount Calculator App (Laravel) -->
+            <div class="portfolio-item">
+              <img src="images/projeklaravelujikom.png" alt="Aplikasi Perhitungan Diskon Laravel">
+              <div class="portfolio-item-content">
+                <p class="project-title">
+                  <span class="lang-id">Aplikasi Kalkulator Diskon (Laravel)</span>
+                  <span class="lang-en">Discount Calculator App (Laravel)</span>
+                </p>
+                <p class="project-desc">
+                  <span class="lang-id">Proyek Laravel 10 untuk Ujikom, dikembangkan dengan animasi loading, logout, info profil, data pembeli, dan katalog produk.</span>
+                  <span class="lang-en">Laravel 10 project for competency test, enhanced with loading/logout animations, profile info, buyer data, and product catalog.</span>
+                </p>
+                <button class="btn-view-more"
+                  data-image="images/projeklaravelujikom.png"
+                  data-title-id="Aplikasi Kalkulator Diskon - Detail"
+                  data-title-en="Discount Calculator App - Details"
+                  data-extdesc-id="Proyek ini mengusung konsep pengembangan aplikasi kalkulator diskon berbasis Laravel 10 yang modern dan responsif. Dengan penekanan pada kecepatan akses dan kemudahan penggunaan, setiap fitur didesain agar intuitif dan dapat menyajikan animasi yang menarik, memastikan pengalaman pengguna yang dinamis dan interaktif."
+                  data-extdesc-en="This project embodies the concept of building a modern, responsive discount calculator app based on Laravel 10. Emphasizing fast access and ease of use, every feature is designed to be intuitive and to display engaging animations, ensuring a dynamic and interactive user experience."
+                >Lihat Selengkapnya</button>
+              </div>
+            </div>
+      
+            <!-- Contoh Portfolio Item: Store Banner Design (Canva) -->
+            <div class="portfolio-item">
+              <img src="images/desaincanva.jpeg" alt="Banner Desain Warung 3 Putri Teh Ika">
+              <div class="portfolio-item-content">
+                <p class="project-title">
+                  <span class="lang-id">Desain Banner Warung (Canva)</span>
+                  <span class="lang-en">Store Banner Design (Canva)</span>
+                </p>
+                <p class="project-desc">
+                  <span class="lang-id">Banner untuk Warung 3 Putri Teh Ika (dibuat saat kelas 11), menampilkan kreativitas dan pemahaman kebutuhan klien dalam desain komunikatif.</span>
+                  <span class="lang-en">Banner for Warung 3 Putri Teh Ika (created in 11th grade), showcasing creativity and client needs understanding in communicative design.</span>
+                </p>
+                <button class="btn-view-more"
+                  data-image="images/desaincanva.jpeg"
+                  data-title-id="Desain Banner Warung - Detail"
+                  data-title-en="Store Banner Design - Details"
+                  data-extdesc-id="Desain banner ini dirancang dengan detail yang luar biasa, menggabungkan elemen estetika modern dengan sentuhan tradisional. Dengan pemilihan warna harmonis dan komposisi yang teliti, banner ini menyampaikan pesan brand secara tegas, mendemonstrasikan kepekaan desain dan profesionalisme yang tinggi."
+                  data-extdesc-en="This banner design is crafted with exceptional attention to detail, merging modern aesthetic elements with a traditional touch. With a harmonious color scheme and meticulous composition, it delivers a clear brand message, demonstrating high design sensitivity and professionalism."
+                >Lihat Selengkapnya</button>
+              </div>
+            </div>
+      
+            <!-- Portfolio Item 4: Banner Ucapan Selamat Datang (Ponpes Al-Hidayah) -->
+            <div class="portfolio-item">
+              <img src="images/banner_ucapan_selamat_datang_di_ponpes_alhidayah.jpeg" alt="Banner Ucapan Selamat Datang di Ponpes Al-Hidayah">
+              <div class="portfolio-item-content">
+                <p class="project-title">
+                  <span class="lang-id">Banner Ucapan Selamat Datang (Ponpes Al-Hidayah)</span>
+                  <span class="lang-en">Welcome Banner (Ponpes Al-Hidayah)</span>
+                </p>
+                <button class="btn-view-more"
+                  data-image="images/banner_ucapan_selamat_datang_di_ponpes_alhidayah.jpeg"
+                  data-title-id="Banner Ucapan Selamat Datang - Detail"
+                  data-title-en="Welcome Banner - Details"
+                  data-extdesc-id="Desain ini dirancang untuk menyambut tamu dengan kehangatan dan profesionalisme tinggi. Memadukan keseimbangan warna dan tipografi elegan, banner ini menyuguhkan kesan pertama yang menarik serta merefleksikan identitas Pesantren Al-Hidayah secara mendalam."
+                  data-extdesc-en="This design is crafted to warmly welcome guests with a high degree of professionalism. Combining balanced colors with elegant typography, this banner delivers a striking first impression that deeply reflects the identity of Ponpes Al-Hidayah."
+                >Lihat Selengkapnya</button>
+              </div>
+            </div>
+      
+            <!-- Portfolio Item 5: Banner Walimatul Khitan Abizar -->
+            <div class="portfolio-item">
+              <img src="images/banner_walimatul_khitan_abizar.jpeg" alt="Banner Walimatul Khitan Abizar">
+              <div class="portfolio-item-content">
+                <p class="project-title">
+                  <span class="lang-id">Banner Walimatul Khitan Abizar</span>
+                  <span class="lang-en">Abizar’s Circumcision Banner</span>
+                </p>
+                <button class="btn-view-more"
+                  data-image="images/banner_walimatul_khitan_abizar.jpeg"
+                  data-title-id="Banner Walimatul Khitan - Detail"
+                  data-title-en="Circumcision Banner - Details"
+                  data-extdesc-id="Banner ini dibuat khusus untuk merayakan momen Walimatul Khitan dengan nuansa elegan dan hangat. Elemen desain yang elegan dan modern dipadukan secara harmonis untuk menciptakan suasana penuh makna, yang mendukung perayaan tradisional dengan sentuhan kontemporer."
+                  data-extdesc-en="This banner is specifically designed for a significant circumcision celebration, blending elegant and warm tones. Its modern and graceful design elements are harmoniously integrated to create a meaningful atmosphere that supports traditional festivities with a contemporary twist."
+                >Lihat Selengkapnya</button>
+              </div>
+            </div>
+      
+            <!-- Portfolio Item 6: Logo Majelis Ta'lim Saung Ngopi (New) -->
+            <div class="portfolio-item">
+              <img src="images/logo_majelis_ta'lim_saung_ngopi_new.jpeg" alt="Logo Majelis Ta'lim Saung Ngopi Baru">
+              <div class="portfolio-item-content">
+                <p class="project-title">
+                  <span class="lang-id">Logo Majelis Ta'lim Saung Ngopi (Baru)</span>
+                  <span class="lang-en">Majelis Ta'lim Saung Ngopi Logo (New)</span>
+                </p>
+                <button class="btn-view-more"
+                  data-image="images/logo_majelis_ta'lim_saung_ngopi_new.jpeg"
+                  data-title-id="Logo Majelis Ta'lim (Baru) - Detail"
+                  data-title-en="Majelis Ta'lim (New) Logo - Details"
+                  data-extdesc-id="Logo ini dirancang untuk mencerminkan dinamika modern dan semangat komunitas dalam Majelis Ta'lim Saung Ngopi. Dengan desain yang bersih dan kontemporer, logo ini mengintegrasikan simbol-simbol keagamaan yang kuat dan mudah dikenali, serta menyampaikan pesan persatuan dan kebersamaan."
+                  data-extdesc-en="This logo is designed to reflect the modern dynamics and community spirit of Majelis Ta'lim Saung Ngopi. Featuring a clean, contemporary design, it integrates strong, recognizable religious symbols and conveys a message of unity and togetherness."
+                >Lihat Selengkapnya</button>
+              </div>
+            </div>
+      
+            <!-- Portfolio Item 7: Logo Majelis Ta'lim Saung Ngopi (Classic) -->
+            <div class="portfolio-item">
+              <img src="images/logo_majelis_ta'lim_saungngopi_old.jpeg" alt="Logo Majelis Ta'lim Saung Ngopi Klasik">
+              <div class="portfolio-item-content">
+                <p class="project-title">
+                  <span class="lang-id">Logo Majelis Ta'lim Saung Ngopi (Klasik)</span>
+                  <span class="lang-en">Majelis Ta'lim Saung Ngopi Logo (Classic)</span>
+                </p>
+                <button class="btn-view-more"
+                  data-image="images/logo_majelis_ta'lim_saungngopi_old.jpeg"
+                  data-title-id="Logo Majelis Ta'lim (Klasik) - Detail"
+                  data-title-en="Majelis Ta'lim (Classic) Logo - Details"
+                  data-extdesc-id="Desain logo klasik ini menonjolkan kekuatan tradisional dan keabadian nilai budaya. Dengan tata letak simetris dan elemen dekoratif yang halus, logo ini menyampaikan pesan tentang integritas dan keaslian, memberikan identitas yang mendalam bagi komunitas."
+                  data-extdesc-en="This classic logo design highlights the strength of tradition and the timeless nature of cultural values. With a symmetrical layout and subtle decorative elements, it delivers a message of integrity and authenticity, providing a deep identity for the community."
+                >Lihat Selengkapnya</button>
+              </div>
+            </div>
+      
+            <!-- Portfolio Item 8: Logo Persatuan Dai Muda (Persada) -->
+            <div class="portfolio-item">
+              <img src="images/logo_persatuan_dai_muda(persada).jpeg" alt="Logo Persatuan Dai Muda (Persada)">
+              <div class="portfolio-item-content">
+                <p class="project-title">
+                  <span class="lang-id">Logo Persatuan Dai Muda (Persada)</span>
+                  <span class="lang-en">Persatuan Dai Muda (Persada) Logo</span>
+                </p>
+                <button class="btn-view-more"
+                  data-image="images/logo_persatuan_dai_muda(persada).jpeg"
+                  data-title-id="Logo Persatuan Dai Muda - Detail"
+                  data-title-en="Persatuan Dai Muda Logo - Details"
+                  data-extdesc-id="Logo ini menampilkan inovasi visual yang mencerminkan semangat muda dan integritas dalam kolaborasi keagamaan. Dengan garis tegas dan warna berani, desain ini menyampaikan visi dinamis sebagai wadah aspirasi serta komitmen keagamaan yang tinggi."
+                  data-extdesc-en="This logo features innovative visual elements that reflect youthful spirit and integrity in religious collaboration. With bold lines and striking colors, the design conveys a dynamic vision as a hub for strong religious aspiration and commitment."
+                >Lihat Selengkapnya</button>
+              </div>
+            </div>
+      
+            <!-- Portfolio Item 9: Logo Seni Beladiri Pencak Silat Macanputih -->
+            <div class="portfolio-item">
+              <img src="images/logo_seni_beladiri_pencak_silat_macanputih.jpeg" alt="Logo Seni Beladiri Pencak Silat Macanputih">
+              <div class="portfolio-item-content">
+                <p class="project-title">
+                  <span class="lang-id">Logo Seni Beladiri Pencak Silat Macanputih</span>
+                  <span class="lang-en">Pencak Silat Macanputih Martial Arts Logo</span>
+                </p>
+                <button class="btn-view-more"
+                  data-image="images/logo_seni_beladiri_pencak_silat_macanputih.jpeg"
+                  data-title-id="Logo Seni Beladiri - Detail"
+                  data-title-en="Pencak Silat Logo - Details"
+                  data-extdesc-id="Logo ini menggabungkan unsur dinamis dan tradisional, mencerminkan kekuatan dan semangat keberanian dalam pencak silat. Desainnya yang detail dan berani menginspirasi, mendemonstrasikan keanggunan bela diri Indonesia serta nilai-nilai budaya yang mendalam."
+                  data-extdesc-en="This logo integrates dynamic and traditional elements, representing strength and the spirit of courage in pencak silat. Its detailed and bold design inspires, demonstrating the elegance of Indonesian martial arts along with profound cultural values."
+                >Lihat Selengkapnya</button>
+              </div>
+            </div>
+      
+            <!-- Portfolio Item 10: Logo Seni Terbangan Sholawat Allatif -->
+            <div class="portfolio-item">
+              <img src="images/logo_seni_terbangan_sholawat_allatif.jpeg" alt="Logo Seni Terbangan Sholawat Allatif">
+              <div class="portfolio-item-content">
+                <p class="project-title">
+                  <span class="lang-id">Logo Seni Terbangan Sholawat Allatif</span>
+                  <span class="lang-en">Sholawat Allatif Dynamic Logo</span>
+                </p>
+                <button class="btn-view-more"
+                  data-image="images/logo_seni_terbangan_sholawat_allatif.jpeg"
+                  data-title-id="Logo Seni Terbangan - Detail"
+                  data-title-en="Sholawat Allatif Logo - Details"
+                  data-extdesc-id="Menggabungkan estetika modern dengan inspirasi spiritual, logo ini menonjolkan keunikan seni terbangan sholawat. Desain inovatifnya menekankan harmoni antara elemen visual dan makna mendalam, menciptakan identitas yang kuat dan penuh resonansi."
+                  data-extdesc-en="Merging modern aesthetics with spiritual inspiration, this logo highlights the unique dynamics of sholawat art. Its innovative design emphasizes harmony between visual elements and deep meaning, resulting in a strong and resonant identity."
+                >Lihat Selengkapnya</button>
+              </div>
+            </div>
+      
+            <!-- Portfolio Item 11: Pamflet Penerimaan Santri Baru -->
+            <div class="portfolio-item">
+              <img src="images/pamplet_menerima santri baru alhidayah gratis.png" alt="Pamflet Penerimaan Santri Baru Al-Hidayah">
+              <div class="portfolio-item-content">
+                <p class="project-title">
+                  <span class="lang-id">Pamflet Penerimaan Santri Baru</span>
+                  <span class="lang-en">New Student Enrollment Pamphlet</span>
+                </p>
+                <button class="btn-view-more"
+                  data-image="images/pamplet_menerima santri baru alhidayah gratis.png"
+                  data-title-id="Pamflet Penerimaan Santri Baru - Detail"
+                  data-title-en="New Student Enrollment Pamphlet - Details"
+                  data-extdesc-id="Pamflet ini menonjolkan informasi yang mendetail dan tersusun rapi, dengan layout bersih serta tipografi profesional. Dirancang untuk mendukung kampanye penerimaan santri baru di Pesantren Al-Hidayah, pamflet ini mengintegrasikan elemen visual dan narasi untuk menyampaikan pesan secara efektif."
+                  data-extdesc-en="This pamphlet features detailed and well-organized information with a clean layout and professional typography. Designed to support a new student enrollment campaign at Ponpes Al-Hidayah, it seamlessly integrates visuals and narrative to effectively deliver its message."
+                >Lihat Selengkapnya</button>
+              </div>
+            </div>
+      
+            <!-- Portfolio Item 12: Pamflet Rotib dan Manaqib -->
+            <div class="portfolio-item">
+              <img src="images/pamplet_rotib dan manaqib.png" alt="Pamflet Rotib dan Manaqib">
+              <div class="portfolio-item-content">
+                <p class="project-title">
+                  <span class="lang-id">Pamflet Rotib dan Manaqib</span>
+                  <span class="lang-en">Rotib and Manaqib Pamphlet</span>
+                </p>
+                <button class="btn-view-more"
+                  data-image="images/pamplet_rotib dan manaqib.png"
+                  data-title-id="Pamflet Rotib & Manaqib - Detail"
+                  data-title-en="Rotib & Manaqib Pamphlet - Details"
+                  data-extdesc-id="Pamflet ini menyajikan narasi visual dan teks yang mendalam, mengungkap cerita dan nilai-nilai budaya yang terkandung di dalamnya. Dengan desain yang elegan dan komposisi harmonis, pamflet ini tidak hanya informatif tetapi juga memikat penonton dengan keindahan visualnya."
+                  data-extdesc-en="This pamphlet offers a deep narrative of visuals and text, unfolding a story and cultural values embedded within. With its elegant design and harmonious composition, it is both informative and visually captivating."
+                >Lihat Selengkapnya</button>
+              </div>
+            </div>
+          </div>
+          <p class="portfolio-note">
+            <span class="lang-id">(Beberapa proyek pilihan yang menunjukkan perkembangan keahlian saya.)</span>
+            <span class="lang-en">(A selection of projects demonstrating my skill progression.)</span>
+          </p>
         </div>
-    </section>
-
-    <section id="kontak" class="content-section list-section">
-        <div class="content-wrapper">
-            <h2><span class="lang-id">Hubungi Saya</span><span class="lang-en">Contact Me</span></h2>
-            <p><span class="lang-id">Jangan ragu untuk menghubungi saya melalui kanal favorit Anda di bawah ini:</span><span class="lang-en">Feel free to reach out through your preferred channel below:</span></p>
-            <ul>
-                <li><i class="fab fa-whatsapp"></i><a href="https://wa.me/6283875759507" target="_blank" rel="noopener noreferrer">WhatsApp: 0838-7575-9507</a></li>
-                <li><i class="fab fa-instagram"></i><a href="https://www.instagram.com/wildan_assidqi_furi" target="_blank" rel="noopener noreferrer">Instagram: @wildan_assidqi_furi</a></li>
-                <li><i class="fab fa-facebook"></i><a href="https://www.facebook.com/wealduns.comeng" target="_blank" rel="noopener noreferrer">Facebook: Wealdan Sfarllos II</a></li>
-                <li><i class="fas fa-envelope"></i><a href="mailto:wealdanh3@gmail.com"><span class="lang-id">Email: wealdanh3@gmail.com</span><span class="lang-en">Email: wealdanh3@gmail.com</span></a></li>
-            </ul>
-        </div>
-    </section>
-
+      </section>
+      <!-- Modal Structure -->
+<div id="portfolioModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <img id="modal-image" src="" alt="" style="max-width:100%; height:auto;">
+      <h3 id="modal-title"></h3>
+      <p id="modal-description"></p>
+    </div>
+  </div>
+  
+  <section id="kontak" class="content-section list-section">
+    <div class="content-wrapper">
+      <h2>
+        <span class="lang-id">Hubungi Saya</span>
+        <span class="lang-en">Contact Me</span>
+      </h2>
+      <p>
+        <span class="lang-id">Jangan ragu untuk menghubungi saya melalui kanal favorit Anda di bawah ini:</span>
+        <span class="lang-en">Feel free to reach out through your preferred channel below:</span>
+      </p>
+      <ul>
+        <li>
+          <i class="fab fa-whatsapp"></i>
+          <a href="https://wa.me/6283875759507" target="_blank" rel="noopener noreferrer">
+            WhatsApp: 0838-7575-9507
+          </a>
+        </li>
+        <hr>
+        <li>
+          <i class="fab fa-instagram"></i>
+          <a href="https://www.instagram.com/wildan_assidqi_furi" target="_blank" rel="noopener noreferrer">
+            Instagram: @wildan_assidqi_furi
+          </a>
+        </li>
+        <hr>
+        <li>
+          <i class="fab fa-facebook"></i>
+          <a href="https://www.facebook.com/wealduns.comeng" target="_blank" rel="noopener noreferrer">
+            Facebook: Wealdan Sfarllos II
+          </a>
+        </li>
+        <hr>
+        <li>
+          <i class="fas fa-envelope"></i>
+          <a href="mailto:wealdanh3@gmail.com">
+            <span class="lang-id">Email: wealdanh3@gmail.com</span>
+            <span class="lang-en">Email: wealdanh3@gmail.com</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+  
     <footer>
         <div class="container">
             <h4><span class="lang-id">Terhubung Dengan Saya</span><span class="lang-en">Connect With Me</span></h4>
@@ -678,95 +1010,252 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-        // JavaScript tidak berubah dari versi sebelumnya karena sudah menangani
-        // preloader hiding, language switching, mobile menu, active link,
-        // dan section animation observer dengan baik.
-        document.addEventListener('DOMContentLoaded', () => {
-            const body = document.querySelector('body');
-            const preloader = document.querySelector('.preloader');
-            const langSwitcher = document.querySelector('.language-switcher');
-            const langButtons = langSwitcher ? langSwitcher.querySelectorAll('button') : [];
-            const pageTitle = document.getElementById('pageTitle');
-            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-            const navMenu = document.querySelector('.navbar .nav-menu');
-            const navLinks = document.querySelectorAll('.nav-menu a.nav-link');
-            const allMobileNavClickables = document.querySelectorAll('.navbar .nav-menu a.nav-link, .navbar .nav-menu .language-switcher button');
-            const internalLinks = document.querySelectorAll('.internal-link');
-            const contentSections = document.querySelectorAll('.content-section');
-            const currentYearSpan = document.getElementById('currentYear');
-            const langContent = { 'id': { pageTitle: 'Wildan Hidayat - Portofolio Profesional' }, 'en': { pageTitle: 'Wildan Hidayat - Professional Portfolio' } };
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const body = document.querySelector('body');
+        const preloader = document.querySelector('.preloader');
+        const langSwitcher = document.querySelector('.language-switcher');
+        const langButtons = langSwitcher ? langSwitcher.querySelectorAll('button') : [];
+        const pageTitle = document.getElementById('pageTitle');
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navMenu = document.querySelector('.navbar .nav-menu');
+        const navLinks = document.querySelectorAll('.nav-menu a.nav-link');
+        const allMobileNavClickables = document.querySelectorAll('.navbar .nav-menu a.nav-link, .navbar .nav-menu .language-switcher button');
+        const internalLinks = document.querySelectorAll('.internal-link');
+        const contentSections = document.querySelectorAll('.content-section');
+        const currentYearSpan = document.getElementById('currentYear');
+        const langContent = {
+            'id': { pageTitle: 'Wildan Hidayat - Portofolio Profesional' },
+            'en': { pageTitle: 'Wildan Hidayat - Professional Portfolio' }
+        };
 
-            if (currentYearSpan) { currentYearSpan.textContent = new Date().getFullYear(); }
+        if (currentYearSpan) { 
+            currentYearSpan.textContent = new Date().getFullYear();
+        }
 
-            function hidePreloader() {
-                if (preloader && !preloader.classList.contains('hidden')) {
-                    preloader.classList.add('hidden');
-                    body.classList.remove('loading');
+        function hidePreloader() {
+            if (preloader && !preloader.classList.contains('hidden')) {
+                preloader.classList.add('hidden');
+                body.classList.remove('loading');
+            }
+        }
+        if (preloader) {
+            body.classList.add('loading');
+            const hideTimeout = setTimeout(hidePreloader, 3000);
+            preloader.addEventListener('animationend', hidePreloader, { once: true });
+            preloader.addEventListener('transitionend', hidePreloader, { once: true });
+        } else { 
+            body.classList.remove('loading');
+        }
+
+        function setLanguage(lang) {
+            if (!['id', 'en'].includes(lang)) { lang = 'id'; }
+            body.classList.remove('lang-id', 'lang-en');
+            body.classList.add('lang-' + lang);
+            langButtons.forEach(button => { 
+                button.classList.toggle('active', button.dataset.lang === lang); 
+            });
+            if (langContent[lang] && langContent[lang].pageTitle) { 
+                pageTitle.textContent = langContent[lang].pageTitle; 
+            }
+            try { 
+                localStorage.setItem('portfolioLang', lang); 
+            } catch (e) { 
+                console.warn("Could not save language preference."); 
+            }
+        }
+        if (langSwitcher) { 
+            langButtons.forEach(button => { 
+                button.addEventListener('click', (e) => { 
+                    e.stopPropagation(); 
+                    setLanguage(button.dataset.lang); 
+                }); 
+            }); 
+        }
+        let savedLang = 'id';
+        try { 
+            savedLang = localStorage.getItem('portfolioLang') || 'id'; 
+        } catch (e) { /* ignore */ }
+        setLanguage(savedLang);
+
+        function closeMobileMenu(delay = 0) {
+            if (navMenu && navMenu.classList.contains('open') && mobileMenuToggle) { 
+                setTimeout(() => { 
+                    navMenu.classList.remove('open'); 
+                    mobileMenuToggle.classList.remove('active'); 
+                    mobileMenuToggle.setAttribute('aria-expanded', 'false'); 
+                }, delay);
+            }
+        }
+        if (mobileMenuToggle && navMenu) {
+            mobileMenuToggle.addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                const isOpen = navMenu.classList.toggle('open'); 
+                mobileMenuToggle.classList.toggle('active', isOpen); 
+                mobileMenuToggle.setAttribute('aria-expanded', isOpen); 
+            });
+            allMobileNavClickables.forEach(clickable => { 
+                clickable.addEventListener('click', (e) => { 
+                    if (clickable.classList.contains('internal-link')) { 
+                        closeMobileMenu(250); 
+                    } 
+                });
+            });
+            document.addEventListener('click', (event) => { 
+                if (navMenu.classList.contains('open')) { 
+                    const isClickInsideMenu = navMenu.contains(event.target);
+                    const isClickOnToggle = mobileMenuToggle.contains(event.target);
+                    if (!isClickInsideMenu && !isClickOnToggle) { 
+                        closeMobileMenu(); 
+                    } 
+                }
+            });
+            document.addEventListener('keydown', (event) => { 
+                if (event.key === 'Escape' && navMenu.classList.contains('open')) { 
+                    closeMobileMenu(); 
+                } 
+            });
+        }
+
+        const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 70;
+        function scrollToSectionAndUpdateNav(targetId) {
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) { 
+                const targetPosition = targetSection.offsetTop - navbarHeight - 10;
+                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+            }
+        }
+        function setActiveNavLink(targetId) {
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            const correspondingLink = document.querySelector(`.nav-menu a.nav-link[href="#${targetId}"]`);
+            if (correspondingLink) { 
+                correspondingLink.classList.add('active'); 
+            }
+        }
+        internalLinks.forEach(link => { 
+            link.addEventListener('click', (event) => { 
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('#')) { 
+                    event.preventDefault(); 
+                    const targetId = href.substring(1);
+                    if (targetId) { 
+                        scrollToSectionAndUpdateNav(targetId); 
+                    }
+                }
+            });
+        });
+
+        const navObserverOptions = { 
+            root: null, 
+            rootMargin: `-${navbarHeight}px 0px -40% 0px`, 
+            threshold: 0 
+        };
+        let lastActiveSectionId = null;
+        const navObserverCallback = (entries) => {
+            let sectionToActivate = null;
+            entries.forEach(entry => { 
+                if (entry.isIntersecting) { 
+                    if (!sectionToActivate || entry.target.offsetTop < sectionToActivate.offsetTop) { 
+                        sectionToActivate = entry.target; 
+                    }
+                }
+            });
+            if (sectionToActivate) { 
+                if (lastActiveSectionId !== sectionToActivate.id) { 
+                    setActiveNavLink(sectionToActivate.id); 
+                    lastActiveSectionId = sectionToActivate.id;
+                }
+            } else if (window.pageYOffset < window.innerHeight * 0.5) { 
+                if (lastActiveSectionId !== 'home') { 
+                    setActiveNavLink('home'); 
+                    lastActiveSectionId = 'home';
                 }
             }
-            if (preloader) {
-                 body.classList.add('loading');
-                 const hideTimeout = setTimeout(hidePreloader, 3000);
-                 preloader.addEventListener('animationend', hidePreloader, { once: true });
-                 preloader.addEventListener('transitionend', hidePreloader, { once: true });
-            } else { body.classList.remove('loading'); }
-
-            function setLanguage(lang) {
-                if (!['id', 'en'].includes(lang)) { lang = 'id'; }
-                body.classList.remove('lang-id', 'lang-en'); body.classList.add('lang-' + lang);
-                langButtons.forEach(button => { button.classList.toggle('active', button.dataset.lang === lang); });
-                if (langContent[lang] && langContent[lang].pageTitle) { pageTitle.textContent = langContent[lang].pageTitle; }
-                try { localStorage.setItem('portfolioLang', lang); } catch (e) { console.warn("Could not save language preference."); }
-            }
-            if (langSwitcher) { langButtons.forEach(button => { button.addEventListener('click', (e) => { e.stopPropagation(); setLanguage(button.dataset.lang); }); }); }
-            let savedLang = 'id'; try { savedLang = localStorage.getItem('portfolioLang') || 'id'; } catch (e) { /* ignore */ } setLanguage(savedLang);
-
-            function closeMobileMenu(delay = 0) {
-                 if (navMenu && navMenu.classList.contains('open') && mobileMenuToggle) { setTimeout(() => { navMenu.classList.remove('open'); mobileMenuToggle.classList.remove('active'); mobileMenuToggle.setAttribute('aria-expanded', 'false'); }, delay); }
-            }
-            if (mobileMenuToggle && navMenu) {
-                 mobileMenuToggle.addEventListener('click', (e) => { e.stopPropagation(); const isOpen = navMenu.classList.toggle('open'); mobileMenuToggle.classList.toggle('active', isOpen); mobileMenuToggle.setAttribute('aria-expanded', isOpen); });
-                 allMobileNavClickables.forEach(clickable => { clickable.addEventListener('click', (e) => { if (clickable.classList.contains('internal-link')) { closeMobileMenu(250); } }); });
-                 document.addEventListener('click', (event) => { if (navMenu.classList.contains('open')) { const isClickInsideMenu = navMenu.contains(event.target); const isClickOnToggle = mobileMenuToggle.contains(event.target); if (!isClickInsideMenu && !isClickOnToggle) { closeMobileMenu(); } } });
-                 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && navMenu.classList.contains('open')) { closeMobileMenu(); } });
-            }
-
-            const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 70;
-            function scrollToSectionAndUpdateNav(targetId) {
-                const targetSection = document.getElementById(targetId);
-                if (targetSection) { const targetPosition = targetSection.offsetTop - navbarHeight - 10; window.scrollTo({ top: targetPosition, behavior: 'smooth' }); }
-            }
-            function setActiveNavLink(targetId) {
-                 navLinks.forEach(nav => nav.classList.remove('active')); const correspondingLink = document.querySelector(`.nav-menu a.nav-link[href="#${targetId}"]`); if (correspondingLink) { correspondingLink.classList.add('active'); }
-            }
-            internalLinks.forEach(link => { link.addEventListener('click', (event) => { const href = link.getAttribute('href'); if (href && href.startsWith('#')) { event.preventDefault(); const targetId = href.substring(1); if (targetId) { scrollToSectionAndUpdateNav(targetId); } } }); });
-
-            const navObserverOptions = { root: null, rootMargin: `-${navbarHeight}px 0px -40% 0px`, threshold: 0 };
-            let lastActiveSectionId = null;
-            const navObserverCallback = (entries) => {
-                let sectionToActivate = null;
-                entries.forEach(entry => { if (entry.isIntersecting) { if (!sectionToActivate || entry.target.offsetTop < sectionToActivate.offsetTop) { sectionToActivate = entry.target; } } });
-                if (sectionToActivate) { if (lastActiveSectionId !== sectionToActivate.id) { setActiveNavLink(sectionToActivate.id); lastActiveSectionId = sectionToActivate.id; } }
-                else if (window.pageYOffset < window.innerHeight * 0.5) { if (lastActiveSectionId !== 'home') { setActiveNavLink('home'); lastActiveSectionId = 'home'; } }
-            };
-            const navObserver = new IntersectionObserver(navObserverCallback, navObserverOptions);
-            document.querySelectorAll('section[id]').forEach(section => { navObserver.observe(section); });
-
-            const sectionObserverOptions = { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.1 };
-            const sectionObserverCallback = (entries, observer) => {
-                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); } else { entry.target.classList.remove('is-visible'); } });
-            };
-            const sectionObserver = new IntersectionObserver(sectionObserverCallback, sectionObserverOptions);
-            contentSections.forEach(section => { if (section.id !== 'home') { sectionObserver.observe(section); } });
-
-            setTimeout(() => {
-                  let currentActiveSectionId = 'home';
-                  for (const section of document.querySelectorAll('section[id]')) { const rect = section.getBoundingClientRect(); if (rect.top <= navbarHeight + 50) { currentActiveSectionId = section.id; } else { break; } }
-                  setActiveNavLink(currentActiveSectionId); lastActiveSectionId = currentActiveSectionId;
-             }, 100);
+        };
+        const navObserver = new IntersectionObserver(navObserverCallback, navObserverOptions);
+        document.querySelectorAll('section[id]').forEach(section => { 
+            navObserver.observe(section); 
         });
-    </script>
+
+        const sectionObserverOptions = { 
+            root: null, 
+            rootMargin: '0px 0px -10% 0px', 
+            threshold: 0.1 
+        };
+        const sectionObserverCallback = (entries, observer) => {
+            entries.forEach(entry => { 
+                if (entry.isIntersecting) { 
+                    entry.target.classList.add('is-visible'); 
+                } else { 
+                    entry.target.classList.remove('is-visible'); 
+                }
+            });
+        };
+        const sectionObserver = new IntersectionObserver(sectionObserverCallback, sectionObserverOptions);
+        contentSections.forEach(section => { 
+            if (section.id !== 'home') { 
+                sectionObserver.observe(section); 
+            }
+        });
+
+        setTimeout(() => {
+            let currentActiveSectionId = 'home';
+            for (const section of document.querySelectorAll('section[id]')) { 
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= navbarHeight + 50) { 
+                    currentActiveSectionId = section.id; 
+                } else { 
+                    break; 
+                }
+            }
+            setActiveNavLink(currentActiveSectionId);
+            lastActiveSectionId = currentActiveSectionId;
+        }, 100);
+
+        /* ----------------- Modal Portfolio Functionality ----------------- */
+        const modal = document.getElementById('portfolioModal');
+        const modalImage = document.getElementById('modal-image');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDescription = document.getElementById('modal-description');
+        const closeButton = document.querySelector('.close-button');
+
+        if (modal) {
+            document.querySelectorAll('.btn-view-more').forEach(button => {
+                button.addEventListener('click', function() {
+                    const imageSrc = this.getAttribute('data-image');
+                    const titleId = this.getAttribute('data-title-id');
+                    const titleEn = this.getAttribute('data-title-en');
+                    const extDescId = this.getAttribute('data-extdesc-id');
+                    const extDescEn = this.getAttribute('data-extdesc-en');
+                    
+                    modalImage.src = imageSrc;
+                    modalTitle.innerHTML = `<span class="lang-id">${titleId}</span><br><span class="lang-en">${titleEn}</span>`;
+                    modalDescription.innerHTML = `<span class="lang-id">${extDescId}</span><br><br><span class="lang-en">${extDescEn}</span>`;
+                    
+                    // Tampilkan modal dengan transisi
+                    modal.style.display = 'block';
+                    setTimeout(() => { modal.classList.add('show'); }, 10);
+                });
+            });
+
+            if (closeButton) {
+                closeButton.addEventListener('click', function() {
+                    modal.classList.remove('show');
+                    setTimeout(() => { modal.style.display = 'none'; }, 300);
+                });
+            }
+
+            window.addEventListener('click', function(event) {
+                if (event.target == modal) {
+                    modal.classList.remove('show');
+                    setTimeout(() => { modal.style.display = 'none'; }, 300);
+                }
+            });
+        }
+        /* ----------------- End Modal Portfolio Functionality ----------------- */
+    });
+</script>
+
 
 </body>
 </html>
