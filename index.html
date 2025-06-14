@@ -24,74 +24,114 @@
         }
         html { scroll-behavior: smooth; font-size: 16px; }
         body {
-            font-family: 'Poppins', sans-serif; background-color: #f4f7fc;
-            color: #343a40; line-height: 1.7; overflow-x: hidden;
+            font-family: 'Poppins', sans-serif; background-color: var(--light-bg); /* Menggunakan variabel */
+            color: var(--dark-text); /* Menggunakan variabel */
+            line-height: 1.7; overflow-x: hidden;
             -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+            transition: background-color 0.3s ease, color 0.3s ease; /* Transisi untuk dark mode */
         }
         body.loading { overflow: hidden; }
         .lang-en .lang-id, .lang-id .lang-en { display: none; }
 
+        /* --- PERUBAHAN 2 DIMULAI: Penambahan Variabel Warna & Dark Mode --- */
         :root {
-            --navbar-height: 70px; --primary-color: #0d47a1; --secondary-color: #ffc107;
-            --accent-color: #17a2b8; --light-bg: #f8f9fa; --dark-text: #343a40;
-            --light-text: #f8f9fa; --card-bg: #ffffff; --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.07);
-            --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1); --border-radius-sm: 5px;
-            --border-radius-md: 8px; --transition-speed: 0.3s;
+            --navbar-height: 70px;
+            /* Light Mode Colors */
+            --primary-color: #0d47a1;
+            --secondary-color: #ffc107;
+            --accent-color: #17a2b8;
+            --light-bg: #f4f7fc;
+            --card-bg: #ffffff;
+            --dark-text: #343a40;
+            --light-text: #f8f9fa;
+            --section-odd-bg: #ffffff;
+            --section-even-bg: #f4f7fc;
+            --heading-color: #0d47a1;
+            --paragraph-color: #495057;
+            --paragraph-secondary-color: #555;
+            --footer-bg: #0a3d7a;
+            --footer-text: rgba(255, 255, 255, 0.8);
+            /* Universal Properties */
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.07);
+            --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --border-radius-sm: 5px;
+            --border-radius-md: 8px;
+            --transition-speed: 0.3s;
         }
 
-        /* --- PERUBAHAN 1 DIMULAI: Animasi Loading Baru --- */
+        body.dark-mode {
+            /* Dark Mode Colors */
+            --primary-color: #42a5f5; /* Biru lebih terang */
+            --secondary-color: #ffca28; /* Kuning sedikit lebih cerah */
+            --accent-color: #26c6da; /* Accent lebih terang */
+            --light-bg: #121212; /* Background utama sangat gelap */
+            --card-bg: #1e1e1e; /* Background kartu/item sedikit lebih terang */
+            --dark-text: #e0e0e0; /* Teks utama putih keabu-abuan */
+            --light-text: #121212; /* Teks terang untuk kontras di tombol kuning */
+            --section-odd-bg: #1e1e1e;
+            --section-even-bg: #161616; /* Sedikit beda untuk section genap */
+            --heading-color: #42a5f5; /* Warna heading disamakan dengan primary */
+            --paragraph-color: #bdbdbd; /* Warna paragraf lebih soft */
+            --paragraph-secondary-color: #aaaaaa;
+            --footer-bg: #1a1a1a;
+            --footer-text: rgba(224, 224, 224, 0.8);
+            /* Shadow disesuaikan untuk dark mode */
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.25);
+            --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        /* --- PERUBAHAN 2 SELESAI --- */
+
+
+        /* --- PERUBAHAN 1 DIMULAI: Animasi Loading TikTok Style --- */
         .preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--primary-color);
+            background-color: #010101; /* Background hitam pekat */
             display: flex; justify-content: center; align-items: center;
             z-index: 9999;
             opacity: 1; visibility: visible;
-            transition: opacity var(--transition-speed) ease-out 0.3s, visibility var(--transition-speed) ease-out 0.3s; /* Tambah delay sedikit */
+            transition: opacity var(--transition-speed) ease-out 0.5s, visibility var(--transition-speed) ease-out 0.5s;
         }
         .preloader.hidden {
             opacity: 0; visibility: hidden; pointer-events: none;
         }
 
-        /* Container untuk dots */
-        .loader-dots {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .tiktok-loader {
+            width: 80px;
+            height: 80px;
+            position: relative;
         }
 
-        /* Style untuk setiap dot */
-        .dot {
-            width: 18px; /* Ukuran dot */
-            height: 18px;
-            margin: 0 6px; /* Jarak antar dot */
-            background-color: var(--secondary-color); /* Warna dot kuning */
+        .tiktok-loader::before,
+        .tiktok-loader::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            opacity: 0.8;
-            /* Terapkan animasi bounce */
-            animation: bounce 1.4s infinite ease-in-out both;
+            background-color: var(--color-1, #25f4ee); /* Warna cyan */
+            mix-blend-mode: screen; /* Efek blending warna */
+            animation: tiktok_loader_anim 1.2s infinite cubic-bezier(0.77, 0, 0.175, 1);
         }
 
-        /* Staggered delay untuk animasi */
-        .dot:nth-child(1) { animation-delay: -0.32s; }
-        .dot:nth-child(2) { animation-delay: -0.16s; }
-        /* .dot:nth-child(3) tidak perlu delay */
+        .tiktok-loader::after {
+            background-color: var(--color-2, #fe2c55); /* Warna magenta */
+            animation-delay: -0.6s;
+        }
 
-        /* Keyframes untuk animasi bounce */
-        @keyframes bounce {
-            0%, 80%, 100% {
-                transform: scale(0.8) translateY(0);
-                opacity: 0.8;
-            }
-            40% {
-                transform: scale(1) translateY(-15px); /* Naik dan membesar */
+        @keyframes tiktok_loader_anim {
+            0%, 100% {
+                transform: translateX(-35%) scale(0.6);
                 opacity: 1;
             }
+            50% {
+                transform: translateX(35%) scale(1.2);
+                opacity: 0.7;
+            }
         }
-        /* Hapus CSS .spinner dan @keyframes spin yang lama */
         /* --- PERUBAHAN 1 SELESAI --- */
 
 
-        /* --- Navbar Ditingkatkan (Tidak Berubah dari Versi Sebelumnya) --- */
+        /* --- Navbar Ditingkatkan --- */
         .navbar {
             position: fixed; top: 0; width: 100%; background-color: var(--primary-color);
             z-index: 1030; box-shadow: var(--shadow-md); height: var(--navbar-height);
@@ -135,7 +175,32 @@
         .navbar .nav-menu a.nav-link:hover::after, .navbar .nav-menu a.nav-link.active::after { left: 0; }
         .navbar .nav-menu a.nav-link:hover { background-color: rgba(255, 255, 255, 0.1); color: #fff; }
         .navbar .nav-menu a.nav-link.active { color: var(--secondary-color); font-weight: 600; }
-        .language-switcher { display: flex; align-items: center; margin-left: 20px; gap: 8px; }
+        
+        /* --- PERUBAHAN 2: Styling untuk Tombol Dark Mode --- */
+        .theme-toggle-button {
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--light-text);
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: var(--border-radius-sm);
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            font-size: 1.1rem;
+            margin-left: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .theme-toggle-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--secondary-color);
+        }
+        .theme-toggle-button .fa-sun { display: none; } /* Sembunyikan matahari di light mode */
+        body.dark-mode .theme-toggle-button .fa-moon { display: none; } /* Sembunyikan bulan di dark mode */
+        body.dark-mode .theme-toggle-button .fa-sun { display: inline-block; } /* Tampilkan matahari di dark mode */
+        /* --- PERUBAHAN 2 SELESAI --- */
+
+        .language-switcher { display: flex; align-items: center; margin-left: 8px; gap: 8px; }
         .language-switcher button {
             background: none; border: 1px solid rgba(255, 255, 255, 0.3); color: var(--light-text);
             font-size: 0.8rem; font-weight: 500; cursor: pointer; padding: 5px 10px;
@@ -146,19 +211,20 @@
             background-color: var(--secondary-color); color: var(--primary-color);
             font-weight: 600; border-color: var(--secondary-color);
         }
+        body.dark-mode .language-switcher button.active {
+             color: var(--dark-text); /* Ganti warna teks tombol bahasa aktif di dark mode */
+        }
         .logout-button {
             background-color: #dc3545; border: none; cursor: pointer; transition: background-color var(--transition-speed) ease, transform 0.1s ease;
             font-size: 0.95rem; padding: 10px 15px; border-radius: var(--border-radius-sm); color: white; text-decoration: none; margin-left: 20px; font-weight: 500;
         }
         .logout-button:hover { background-color: #c82333; }
         .logout-button:active { transform: scale(0.95); }
-
-
         /* --- PERUBAHAN 2 DIMULAI: Home Section dengan Animasi Background --- */
         #home {
             min-height: 100vh; display: flex; align-items: center; justify-content: center;
             position: relative; padding: var(--navbar-height) 30px 40px 30px; box-sizing: border-box;
-            background-image: url('images/rencang-rencang.jpg'); background-repeat: no-repeat;
+            background-image: url('images/Foto_bersama_angkatan_2025.JPG'); background-repeat: no-repeat;
             background-size: cover;
             /* Initial position (akan dioverride oleh animasi) */
             background-position: center center;
@@ -166,7 +232,7 @@
             /* background-attachment: fixed; */
             text-align: center; color: var(--light-text);
             /* Terapkan animasi panning */
-            animation: backgroundPan 30s linear infinite alternate; /* Durasi 30s */
+            animation: backgroundPan 50s linear infinite alternate; /* Durasi 30s */
         }
         #home::before { /* Overlay Gradien (Tetap) */
             content: ''; position: absolute; width: 100%; height: 100%;
@@ -207,6 +273,9 @@
             font-size: clamp(0.95rem, 2.5vw, 1.1rem); font-weight: 600; display: inline-block; cursor: pointer;
             box-shadow: var(--shadow-sm); border: none;
         }
+        body.dark-mode .home-content .cta-button {
+            color: var(--dark-text); /* Pastikan teks kontras di dark mode */
+        }
         .home-content .cta-button:hover {
             background-color: #ffca2c; color: var(--primary-color); box-shadow: var(--shadow-md); transform: translateY(-3px);
         }
@@ -214,14 +283,15 @@
         /* --- PERUBAHAN 2 SELESAI --- */
 
 
-        /* --- General Section Styling (Tidak Berubah dari Versi Sebelumnya) --- */
+        /* --- General Section Styling (Disesuaikan untuk Dark Mode) --- */
         .content-section {
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             padding: 80px 30px; box-sizing: border-box; width: 100%; text-align: center;
             position: relative; overflow: hidden;
+            transition: background-color var(--transition-speed) ease;
         }
-        .content-section:nth-of-type(odd) { background-color: var(--card-bg); }
-        .content-section:nth-of-type(even) { background-color: #f4f7fc; }
+        .content-section:nth-of-type(odd) { background-color: var(--section-odd-bg); }
+        .content-section:nth-of-type(even) { background-color: var(--section-even-bg); }
         #home, footer { background-color: initial; } /* Override */
         .content-section .content-wrapper {
             max-width: 900px; width: 100%; position: relative; z-index: 3;
@@ -231,8 +301,9 @@
         }
         .content-section.is-visible .content-wrapper { opacity: 1; transform: translateY(0); }
         .content-section h2 {
-             font-size: clamp(1.8rem, 5vw, 2.5rem); color: var(--primary-color); margin-bottom: 40px;
+             font-size: clamp(1.8rem, 5vw, 2.5rem); color: var(--heading-color); margin-bottom: 40px;
              font-weight: 700; position: relative; display: inline-block; padding-bottom: 10px;
+             transition: color var(--transition-speed) ease;
         }
         .content-section h2::after {
              content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
@@ -245,12 +316,12 @@
         @keyframes zoomIn { 0% { opacity: 0; transform: scale(0.5); } 100% { opacity: 1; transform: scale(1); } }
         .list-section ul {
             list-style: none; padding: 0; max-width: 750px; margin: 25px auto 0 auto;
-            font-size: clamp(0.95rem, 2.5vw, 1.05rem); color: #555; line-height: 1.8;
+            font-size: clamp(0.95rem, 2.5vw, 1.05rem); color: var(--paragraph-secondary-color); line-height: 1.8;
         }
         .list-section li {
             background-color: var(--card-bg); padding: 18px 20px 18px 60px; border-radius: var(--border-radius-md);
             position: relative; text-align: left; margin-bottom: 18px; box-shadow: var(--shadow-sm);
-            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease, border-left-color var(--transition-speed) ease;
             overflow: hidden; border-left: 5px solid transparent;
         }
         .list-section li:hover {
@@ -262,8 +333,8 @@
             width: 25px; text-align: center;
         }
         .list-section li:hover i { color: var(--secondary-color); transform: translateY(-50%) rotate(10deg); }
-        #keahlian li i { color: #007bff; }
-        #pendidikan li i { color: #6f42c1; }
+        #keahlian li i { color: var(--accent-color); }
+        #pendidikan li i { color: #6f42c1; } /* Warna ikon bisa di-hardcode jika diinginkan */
         #pengalaman li i { color: #198754; }
         #organisasi li i { color: #fd7e14; }
         #kontak li .fa-whatsapp { color: #25D366; } #kontak li .fa-instagram { color: #E1306C; }
@@ -271,26 +342,28 @@
         #kontak ul { max-width: 500px; }
         #kontak li { background-color: transparent; box-shadow: none; border-left: none; padding-left: 55px; }
         #kontak li:hover { transform: none; box-shadow: none; background-color: rgba(0,0,0,0.02); }
+        body.dark-mode #kontak li:hover { background-color: rgba(255,255,255,0.05); }
         #kontak a {
             color: var(--primary-color); text-decoration: none; font-weight: 500;
             transition: color var(--transition-speed) ease, letter-spacing var(--transition-speed) ease; display: inline-block;
         }
         #kontak a:hover { color: var(--accent-color); letter-spacing: 0.5px; }
 
-        /* Penyesuaian Section Spesifik (Tidak Berubah) */
+        /* Penyesuaian Section Spesifik (Disesuaikan untuk Dark Mode) */
         #tentang .content-wrapper { max-width: 850px; }
         #tentang img { display: block; width: 160px; height: 160px; border-radius: 50%; margin: 30px auto 30px auto; object-fit: cover; object-position: center 20%; border: 5px solid #fff; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease; }
         #tentang img:hover { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); transform: scale(1.05) rotate(2deg); }
-        #tentang p { text-align: justify; max-width: 700px; margin: 0 auto; font-size: clamp(1rem, 2.5vw, 1.1rem); line-height: 1.8; color: #495057; }
+        #tentang p { text-align: justify; max-width: 700px; margin: 0 auto; font-size: clamp(1rem, 2.5vw, 1.1rem); line-height: 1.8; color: var(--paragraph-color); }
         #tentang p strong { color: var(--primary-color); } #tentang p span[style*="color"] { color: var(--accent-color) !important; font-weight: 600;}
         #keahlian img.skill-photo { display: block; max-height: 280px; width: auto; max-width: 90%; object-fit: contain; margin: 30px auto 35px auto; border-radius: var(--border-radius-md); box-shadow: var(--shadow-sm); }
         #pklCarousel { max-width: 700px; margin: 30px auto 35px auto; border-radius: var(--border-radius-md); overflow: hidden; box-shadow: var(--shadow-md); }
         #pklCarousel .carousel-inner { border-radius: var(--border-radius-md); }
-        #pklCarousel .carousel-item img { display: block; width: 100%; height: auto; max-height: 400px; object-fit: contain; }
+        #pklCarousel .carousel-item img { display: block; width: 100%; height: auto; max-height: 400px; object-fit: contain; background-color: rgba(255,255,255,0.1); }
         .carousel-control-prev-icon, .carousel-control-next-icon { background-color: rgba(0, 0, 0, 0.6); background-size: 60%; border-radius: 50%; padding: 15px; }
         .carousel-control-prev, .carousel-control-next { opacity: 0.7; transition: opacity var(--transition-speed) ease; }
         .carousel-control-prev:hover, .carousel-control-next:hover { opacity: 1; }
         #pengalaman .experience-details { font-size: 0.9em; color: #6c757d; display: block; margin-top: 5px; text-align: justify; }
+        body.dark-mode #pengalaman .experience-details { color: #9e9e9e; }
         #pengalaman li { padding-right: 20px; }
         #organisasi img.profile-photo { display: block; max-height: 300px; width: auto; max-width: 90%; object-fit: contain; margin: 30px auto 35px auto; border-radius: var(--border-radius-md); box-shadow: var(--shadow-sm); }
         #portofolio .content-wrapper { max-width: 1100px; }
@@ -300,24 +373,29 @@
         #portofolio .portfolio-item img { width: 100%; height: 180px; object-fit: cover; margin-bottom: 0; }
         .portfolio-item-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
         #portofolio .project-title { font-weight: 600; margin-bottom: 10px; color: var(--primary-color); font-size: 1.1rem; line-height: 1.4; }
-        #portofolio .project-desc { font-size: 0.95rem; color: #555; text-align: justify; flex-grow: 1; margin-bottom: 15px; }
+        #portofolio .project-desc { font-size: 0.95rem; color: var(--paragraph-secondary-color); text-align: justify; flex-grow: 1; margin-bottom: 15px; }
         #portofolio .portfolio-note { margin-top: 40px; font-style: italic; color: #666; font-size: 1rem; }
-        #kontak .content-wrapper > p { font-size: clamp(1rem, 2.5vw, 1.1rem); color: #555; margin-bottom: 35px; margin-top: 0; }
+        body.dark-mode #portofolio .portfolio-note { color: #888; }
+        #kontak .content-wrapper > p { font-size: clamp(1rem, 2.5vw, 1.1rem); color: var(--paragraph-secondary-color); margin-bottom: 35px; margin-top: 0; }
 
-        /* Footer Ditingkatkan (Tidak Berubah) */
-        footer { background-color: #0a3d7a; color: rgba(255, 255, 255, 0.8); text-align: center; padding: 50px 20px 30px 20px; margin-top: 0; border-top: 5px solid var(--secondary-color); position: relative; }
+        /* Footer Ditingkatkan (Disesuaikan untuk Dark Mode) */
+        footer { background-color: var(--footer-bg); color: var(--footer-text); text-align: center; padding: 50px 20px 30px 20px; margin-top: 0; border-top: 5px solid var(--secondary-color); position: relative; transition: background-color var(--transition-speed) ease; }
         footer h4 { font-size: 1.3rem; font-weight: 600; margin-bottom: 25px; color: #fff; }
+        body.dark-mode footer h4 { color: var(--dark-text); }
         footer .social-icon { margin-bottom: 30px; }
-        footer .social-icon a { color: rgba(255, 255, 255, 0.8); font-size: 1.6rem; margin: 0 12px; transition: color var(--transition-speed) ease, transform var(--transition-speed) ease; text-decoration: none; display: inline-block; }
+        footer .social-icon a { color: var(--footer-text); font-size: 1.6rem; margin: 0 12px; transition: color var(--transition-speed) ease, transform var(--transition-speed) ease; text-decoration: none; display: inline-block; }
         footer .social-icon a:hover { transform: translateY(-4px) scale(1.1); color: #fff; }
+        body.dark-mode footer .social-icon a:hover { color: #fff; }
         footer .social-icon a:hover .fa-whatsapp { color: #25D366; } footer .social-icon a:hover .fa-instagram { color: #E1306C; }
         footer .social-icon a:hover .fa-facebook { color: #1877F2; } footer .social-icon a:hover .fa-envelope { color: #dc3545; }
         footer p { margin-bottom: 15px; font-size: 1rem; }
         footer p i.fa-map-marker-alt { color: var(--secondary-color); margin-right: 8px; }
         footer .copyright { font-size: 0.9rem; margin-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 25px; opacity: 0.9; color: rgba(255, 255, 255, 0.7); }
+        body.dark-mode footer .copyright { border-top-color: rgba(255, 255, 255, 0.1); color: rgba(224, 224, 224, 0.7); }
         footer .copyright a { color: var(--secondary-color); text-decoration: none; font-weight: 600; }
         footer .copyright a:hover { text-decoration: underline; color: #fff; }
 
+        /* Sisa CSS (Animasi & Responsif) tidak perlu banyak diubah karena berbasis struktur */
         /* CSS ANIMASI Section Visibility Ditingkatkan (Tidak Berubah) */
         .content-section { opacity: 0; transition: opacity 0.5s ease-out; }
         .content-section.is-visible { opacity: 1; }
@@ -342,6 +420,7 @@
             :root { --navbar-height: 65px; }
             .navbar-container { padding: 0 20px; }
             .navbar .nav-menu a.nav-link { padding: 8px 12px; font-size: 0.9rem; }
+            .theme-toggle-button { margin-left: 10px; }
             .language-switcher { margin-left: 15px; gap: 6px;}
             .language-switcher button { font-size: 0.75rem; padding: 4px 8px; }
             .content-section { padding: 70px 20px; }
@@ -363,6 +442,9 @@
                 border-top: 1px solid rgba(255, 255, 255, 0.1); transform: translateY(-100%);
                 opacity: 0; transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s ease; z-index: 999;
             }
+            body.dark-mode .navbar .nav-menu {
+                background-color: rgba(18, 18, 18, 0.95); /* Dark mode menu background */
+            }
             .navbar .nav-menu.open { display: flex; transform: translateY(0); opacity: 1; }
             .navbar .nav-menu > li { width: 100%; }
             .navbar .nav-menu a.nav-link, .navbar .nav-menu .logout-button {
@@ -372,7 +454,14 @@
             .navbar .nav-menu a.nav-link:last-of-type { border-bottom: none; margin-bottom: 10px; }
             .navbar .nav-menu a.nav-link:hover { background-color: rgba(255, 255, 255, 0.15); }
             .navbar .nav-menu a.nav-link.active { background-color: var(--secondary-color); color: var(--primary-color); }
+            body.dark-mode .navbar .nav-menu a.nav-link.active { color: var(--dark-text); }
             .logout-button { margin-top: 10px; background-color: #dc3545; text-align: center; }
+            .theme-toggle-button {
+                 margin: 10px 0;
+                 padding: 10px 15px;
+                 width: 100%;
+                 font-size: 1rem;
+            }
             .language-switcher {
                  display: flex; width: 100%; justify-content: center; margin: 15px 0 10px 0; padding: 10px 0;
                  border-top: 1px solid rgba(255, 255, 255, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.1); gap: 10px;
@@ -452,90 +541,92 @@
         #kontak ul li { text-align: left; }
 
         /* Modal CSS untuk Portfolio dengan responsivitas dan animasi */
-#portfolioModal {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.8);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
+        #portfolioModal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
-#portfolioModal.show {
-  display: block;
-  opacity: 1;
-}
+        #portfolioModal.show {
+            display: block;
+            opacity: 1;
+        }
 
-/* Modal content responsif dengan animasi tampil */
-#portfolioModal .modal-content {
-  background-color: #fff;
-  margin: 5% auto;
-  padding: 20px;
-  border-radius: 5px;
-  max-width: 800px;
-  width: 90%; /* Lebar 90% agar nyaman di perangkat kecil */
-  position: relative;
-  animation: modalShow 0.5s ease-out;
-}
+        /* Modal content responsif dengan animasi tampil */
+        #portfolioModal .modal-content {
+            background-color: var(--card-bg); /* Menggunakan variabel */
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 800px;
+            width: 90%; /* Lebar 90% agar nyaman di perangkat kecil */
+            position: relative;
+            animation: modalShow 0.5s ease-out;
+            color: var(--dark-text); /* Menggunakan variabel */
+        }
+        body.dark-mode #portfolioModal .modal-content #modal-title {
+             color: var(--heading-color);
+        }
 
-/* Keyframes untuk animasi modal */
-@keyframes modalShow {
-  from {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
+        /* Keyframes untuk animasi modal */
+        @keyframes modalShow {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
 
-/* Styling untuk tombol close modal */
-#portfolioModal .close-button {
-  position: absolute;
-  right: 15px;
-  top: 10px;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-}
+        /* Styling untuk tombol close modal */
+        #portfolioModal .close-button {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--paragraph-secondary-color);
+        }
+        #portfolioModal .close-button:hover {
+            color: var(--dark-text);
+        }
 
-/* Tombol "Lihat Selengkapnya" dengan animasi klik */
-.btn-view-more {
-  margin-top: 10px;
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-.btn-view-more:hover {
-  background-color: #0056b3;
-}
-.btn-view-more:active {
-  transform: scale(0.95);
-}
-
-
-
+        /* Tombol "Lihat Selengkapnya" dengan animasi klik */
+        .btn-view-more {
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+        .btn-view-more:hover {
+            background-color: #0056b3;
+        }
+        .btn-view-more:active {
+            transform: scale(0.95);
+        }
     </style>
 </head>
 
 <body class="lang-id">
     <div class="preloader">
-        <div class="loader-dots">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </div>
+        <div class="tiktok-loader"></div>
     </div>
+    
     <nav class="navbar">
         <div class="navbar-container">
             <a href="#home" class="logo internal-link">
@@ -554,6 +645,14 @@
                 <li><a href="#organisasi" class="nav-link organization-link internal-link"><span class="lang-id">Organisasi</span><span class="lang-en">Organization</span></a></li>
                 <li><a href="#portofolio" class="nav-link portfolio-link internal-link"><span class="lang-id">Portofolio</span><span class="lang-en">Portfolio</span></a></li>
                 <li><a href="#kontak" class="nav-link contact-link internal-link"><span class="lang-id">Kontak</span><span class="lang-en">Contact</span></a></li>
+                
+                <li class="theme-toggle-li">
+                    <button class="theme-toggle-button" id="theme-toggle" aria-label="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                    </button>
+                </li>
+                
                 <li class="language-switcher-li">
                     <div class="language-switcher">
                         <button data-lang="id" class="active">ID</button>
@@ -697,7 +796,6 @@
             </ul>
         </div>
     </section>
-
     <section id="portofolio" class="content-section">
         <div class="content-wrapper">
           <h2>
@@ -705,7 +803,6 @@
             <span class="lang-en">Project Gallery</span>
           </h2>
           <div class="portfolio-container">
-            <!-- Contoh Portfolio Item: Desktop Financial Management -->
             <div class="portfolio-item">
               <img src="images/aplikasicatatankeuangan(netbeanside8.2).png" alt="Aplikasi Manajemen Keuangan Desktop">
               <div class="portfolio-item-content">
@@ -717,7 +814,6 @@
                   <span class="lang-id">Proyek latihan pribadi Java Swing (NetBeans IDE 8.2), menyajikan solusi pengelolaan keuangan sederhana dengan antarmuka intuitif.</span>
                   <span class="lang-en">A personal learning project with Java Swing (NetBeans IDE 8.2), delivering a streamlined solution for finances with an intuitive interface.</span>
                 </p>
-                <!-- Tombol Lihat Selengkapnya -->
                 <button class="btn-view-more"
                   data-image="images/aplikasicatatankeuangan(netbeanside8.2).png"
                   data-title-id="Manajemen Keuangan Desktop - Detail"
@@ -728,7 +824,6 @@
               </div>
             </div>
       
-            <!-- Contoh Portfolio Item: Discount Calculator App (Laravel) -->
             <div class="portfolio-item">
               <img src="images/projeklaravelujikom.png" alt="Aplikasi Perhitungan Diskon Laravel">
               <div class="portfolio-item-content">
@@ -750,7 +845,6 @@
               </div>
             </div>
       
-            <!-- Contoh Portfolio Item: Store Banner Design (Canva) -->
             <div class="portfolio-item">
               <img src="images/desaincanva.jpeg" alt="Banner Desain Warung 3 Putri Teh Ika">
               <div class="portfolio-item-content">
@@ -772,7 +866,6 @@
               </div>
             </div>
       
-            <!-- Portfolio Item 4: Banner Ucapan Selamat Datang (Ponpes Al-Hidayah) -->
             <div class="portfolio-item">
               <img src="images/banner_ucapan_selamat_datang_di_ponpes_alhidayah.jpeg" alt="Banner Ucapan Selamat Datang di Ponpes Al-Hidayah">
               <div class="portfolio-item-content">
@@ -790,7 +883,6 @@
               </div>
             </div>
       
-            <!-- Portfolio Item 5: Banner Walimatul Khitan Abizar -->
             <div class="portfolio-item">
               <img src="images/banner_walimatul_khitan_abizar.jpeg" alt="Banner Walimatul Khitan Abizar">
               <div class="portfolio-item-content">
@@ -808,7 +900,6 @@
               </div>
             </div>
       
-            <!-- Portfolio Item 6: Logo Majelis Ta'lim Saung Ngopi (New) -->
             <div class="portfolio-item">
               <img src="images/logo_majelis_ta'lim_saung_ngopi_new.jpeg" alt="Logo Majelis Ta'lim Saung Ngopi Baru">
               <div class="portfolio-item-content">
@@ -826,7 +917,6 @@
               </div>
             </div>
       
-            <!-- Portfolio Item 7: Logo Majelis Ta'lim Saung Ngopi (Classic) -->
             <div class="portfolio-item">
               <img src="images/logo_majelis_ta'lim_saungngopi_old.jpeg" alt="Logo Majelis Ta'lim Saung Ngopi Klasik">
               <div class="portfolio-item-content">
@@ -844,7 +934,6 @@
               </div>
             </div>
       
-            <!-- Portfolio Item 8: Logo Persatuan Dai Muda (Persada) -->
             <div class="portfolio-item">
               <img src="images/logo_persatuan_dai_muda(persada).jpeg" alt="Logo Persatuan Dai Muda (Persada)">
               <div class="portfolio-item-content">
@@ -862,7 +951,6 @@
               </div>
             </div>
       
-            <!-- Portfolio Item 9: Logo Seni Beladiri Pencak Silat Macanputih -->
             <div class="portfolio-item">
               <img src="images/logo_seni_beladiri_pencak_silat_macanputih.jpeg" alt="Logo Seni Beladiri Pencak Silat Macanputih">
               <div class="portfolio-item-content">
@@ -880,7 +968,6 @@
               </div>
             </div>
       
-            <!-- Portfolio Item 10: Logo Seni Terbangan Sholawat Allatif -->
             <div class="portfolio-item">
               <img src="images/logo_seni_terbangan_sholawat_allatif.jpeg" alt="Logo Seni Terbangan Sholawat Allatif">
               <div class="portfolio-item-content">
@@ -898,7 +985,6 @@
               </div>
             </div>
       
-            <!-- Portfolio Item 11: Pamflet Penerimaan Santri Baru -->
             <div class="portfolio-item">
               <img src="images/pamplet_menerima santri baru alhidayah gratis.png" alt="Pamflet Penerimaan Santri Baru Al-Hidayah">
               <div class="portfolio-item-content">
@@ -916,7 +1002,6 @@
               </div>
             </div>
       
-            <!-- Portfolio Item 12: Pamflet Rotib dan Manaqib -->
             <div class="portfolio-item">
               <img src="images/pamplet_rotib dan manaqib.png" alt="Pamflet Rotib dan Manaqib">
               <div class="portfolio-item-content">
@@ -953,10 +1038,9 @@
           </p>
         </div>
       </section>
-      <!-- Modal Structure -->
-<div id="portfolioModal" class="modal">
+      <div id="portfolioModal" class="modal">
     <div class="modal-content">
-      <span class="close-button">&times;</span>
+      <span class="close-button">×</span>
       <img id="modal-image" src="" alt="" style="max-width:100%; height:auto;">
       <h3 id="modal-title"></h3>
       <p id="modal-description"></p>
@@ -1029,11 +1113,11 @@
         </div>
         <p><i class="fas fa-map-marker-alt"></i> <span class="lang-id">Solokanjeruk - Bandung, Jawa Barat</span><span class="lang-en">Solokanjeruk - Bandung, West Java</span></p>
         <p class="copyright">
-            <span class="lang-id">Dirancang & Dikembangkan oleh</span><span class="lang-en">Designed & Developed by</span> <a href="#home" class="internal-link">Wildan Hidayat</a> &copy; <span id="currentYear"></span>
+            <span class="lang-id">Dirancang & Dikembangkan oleh</span><span class="lang-en">Designed & Developed by</span> <a href="#home" class="internal-link">Wildan Hidayat</a> © <span id="currentYear"></span>
         </p>
     </div>
 </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const body = document.querySelector('body');
@@ -1052,6 +1136,33 @@
             'id': { pageTitle: 'Wildan Hidayat - Portofolio Profesional' },
             'en': { pageTitle: 'Wildan Hidayat - Professional Portfolio' }
         };
+
+        /* ----------------- PERUBAHAN 2: Logika Dark/Light Mode ----------------- */
+        const themeToggleButton = document.getElementById('theme-toggle');
+        
+        // Fungsi untuk menerapkan tema berdasarkan class di body
+        const applyTheme = () => {
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('portfolioTheme', 'dark');
+            } else {
+                localStorage.setItem('portfolioTheme', 'light');
+            }
+        };
+
+        // Cek tema dari localStorage saat halaman pertama kali dimuat
+        if (localStorage.getItem('portfolioTheme') === 'dark') {
+            body.classList.add('dark-mode');
+        }
+
+        // Event listener untuk tombol tema
+        if (themeToggleButton) {
+            themeToggleButton.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                applyTheme(); // Simpan tema baru ke localStorage
+            });
+        }
+        /* ----------------- AKHIR PERUBAHAN 2 ----------------- */
+
 
         if (currentYearSpan) { 
             currentYearSpan.textContent = new Date().getFullYear();
@@ -1280,6 +1391,6 @@
     });
 </script>
 
-
 </body>
 </html>
+
