@@ -619,6 +619,29 @@
         .btn-view-more:active {
             transform: scale(0.95);
         }
+        /* Menyamakan ukuran dengan carousel Pengalaman */
+#organisasiCarousel {
+    max-width: 700px; /* Ukuran standar agar tidak terlalu besar */
+    margin: 0 auto 30px auto; /* Tengah secara horizontal & beri jarak bawah */
+    border-radius: 15px; /* Sesuaikan lengkungan sudut agar estetik */
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Shadow halus agar terlihat elegan */
+}
+
+#organisasiCarousel .carousel-item img {
+    width: 100%;
+    height: 380px;    /* Sesuaikan tinggi agar seragam dengan slide Pengalaman */
+    object-fit: cover; /* Foto tetap rapi & tidak penyet meskipun ukurannya beda-beda */
+}
+
+/* Opsional: Jika ingin panah navigasi lebih terlihat di background gelap */
+#organisasiCarousel .carousel-control-prev-icon, 
+#organisasiCarousel .carousel-control-next-icon {
+    filter: invert(1); /* Mengubah warna panah jadi hitam jika foto kamu terang */
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    padding: 10px;
+}
     </style>
 </head>
 
@@ -665,28 +688,24 @@
 
     <section id="home">
         <div class="home-content">
-            <img src="images/calik.jpeg" alt="Foto Profil Wildan Hidayat">
+            <img src="images/Topiputihduduk.png" alt="Foto Profil Wildan Hidayat">
             <h1>
                 <span class="lang-id">Selamat Datang di Portofolio Saya!</span>
                 <span class="lang-en">Welcome to My Portfolio!</span>
             </h1>
             <p>
-                <span class="lang-id">
-                    Perkenalkan, saya Wildan Hidayat, individu yang berdedikasi dan memiliki latar belakang pendidikan Rekayasa Perangkat Lunak lulusan tahun <span style="color: #ffc107;">2025</span>. 
-                    Saya memiliki minat besar dan kemampuan di bidang 
-                    <span style="color: #ffc107;">teknologi</span>, 
-                    <span style="color: #ffc107;">administrasi</span>, dan 
-                    <span style="color: #ffc107;">operasional</span>. 
-                    Saya berkomitmen untuk memberikan kontribusi terbaik, terus belajar, dan berkembang secara profesional dalam berbagai tantangan industri.
-                </span>
-                <span class="lang-en">
-                    Let me introduce myself, I am Wildan Hidayat, a dedicated individual with a Software Engineering educational background, graduated in <span style="color: #ffc107;">2025</span>. 
-                    I have a strong interest and skills in 
-                    <span style="color: #ffc107;">technology</span>, 
-                    <span style="color: #ffc107;">administration</span>, and 
-                    <span style="color: #ffc107;">operations</span>. 
-                    I am committed to providing my best contribution, continuously learning, and growing professionally across various industrial challenges.
-                </span>
+                <p>
+                    <span class="lang-id">
+                        Perkenalkan, saya <strong>Wildan Hidayat</strong>, seorang individu yang berdedikasi tinggi dengan fokus pada 
+                        <span style="color: #ffc107;">efisiensi kerja</span> dan ketepatan hasil. Saya memiliki kemampuan adaptasi yang cepat serta berkomitmen untuk memberikan 
+                        <span style="color: #ffc107;">performa terbaik</span> dalam setiap tanggung jawab profesional demi kemajuan perusahaan.
+                    </span>
+                    <span class="lang-en">
+                        Let me introduce myself, I am <strong>Wildan Hidayat</strong>, a highly dedicated individual focused on 
+                        <span style="color: #ffc107;">work efficiency</span> and precision. I possess strong adaptability and am committed to delivering 
+                        <span style="color: #ffc107;">top performance</span> in every professional responsibility for the company's advancement.
+                    </span>
+                </p>
             </p>
             <a href="#tentang" class="cta-button internal-link">
                 <span class="lang-id">Selengkapnya Tentang Saya</span>
@@ -701,25 +720,13 @@
                 <span class="lang-id">Tentang Saya</span>
                 <span class="lang-en">About Me</span>
             </h2>
-            <img src="images/ninggaljam.jpeg" alt="Foto Wildan Hidayat">
+            <img src="images/Topiputihberdiri.png" alt="Foto Wildan Hidayat">
             <p>
                 <span class="lang-id">
-                    Saya <strong>Wildan Hidayat</strong>, lulusan tahun <strong>2025</strong> dari 
-                    <strong>SMK PGRI 35 Solokanjeruk</strong> dengan jurusan <strong>Rekayasa Perangkat Lunak</strong>. 
-                    Saya adalah pribadi yang disiplin, teliti, dan memiliki minat besar pada perkembangan 
-                    <span style="color: #007BFF;">teknologi</span>, 
-                    <span style="color: #007BFF;">administrasi</span>, serta 
-                    <span style="color: #007BFF;">manajemen operasional</span>. 
-                    Saya terbiasa bekerja secara kolaboratif maupun mandiri, serta memiliki komitmen kuat untuk memberikan hasil kerja yang akurat dan efisien di setiap tanggung jawab yang diberikan.
+                    Saya adalah pribadi yang disiplin dan teliti, dengan latar belakang pendidikan yang membentuk ketajaman analisis serta kemampuan teknis saya. Memiliki minat besar pada manajemen <span style="color: #ffc107;">administrasi</span> dan <span style="color: #ffc107;">operasional</span>, saya terbiasa bekerja dengan standar akurasi yang tinggi. Saya mampu bekerja secara kolaboratif maupun mandiri, dengan visi untuk selalu memberikan solusi yang <span style="color: #ffc107;">akurat dan efisien</span> di berbagai dinamika industri.
                 </span>
                 <span class="lang-en">
-                    I am <strong>Wildan Hidayat</strong>, a <strong>2025</strong> graduate from 
-                    <strong>SMK PGRI 35 Solokanjeruk</strong>, majoring in <strong>Software Engineering</strong>. 
-                    I am a disciplined and detail-oriented individual with a strong interest in 
-                    <span style="color: #007BFF;">technology</span>, 
-                    <span style="color: #007BFF;">administration</span>, and 
-                    <span style="color: #007BFF;">operational management</span>. 
-                    I am accustomed to working both collaboratively and independently, with a strong commitment to delivering accurate and efficient results in every assigned responsibility.
+                    I am a disciplined and detail-oriented individual, with an educational background that has shaped my analytical sharpness and technical skills. With a strong interest in <span style="color: #ffc107;">administration</span> and <span style="color: #ffc107;">operational management</span>, I am accustomed to working with high accuracy standards. I am capable of working both collaboratively and independently, with a vision to always provide <span style="color: #ffc107;">accurate and efficient</span> solutions across various industry dynamics.
                 </span>
             </p>
         </div>
@@ -731,7 +738,7 @@
                 <span class="lang-id">Kompetensi & Keahlian</span>
                 <span class="lang-en">Core Competencies</span>
             </h2>
-            <img src="images/pcproyekpribadi.jpeg" alt="Ilustrasi Keahlian" class="skill-photo" />
+            <img src="images/PC_Meja.jpg" alt="Ilustrasi Keahlian" class="skill-photo" />
             <ul>
                 <li><i class="fas fa-laptop-code"></i><div>
                     <span class="lang-id"><strong>Teknologi & Web:</strong> Pengembangan web menggunakan Laravel, PHP, dan framework modern (Bootstrap 5/AdminLTE).</span>
@@ -826,21 +833,47 @@
         </div>
     </section>
 
-    <section id="organisasi" class="content-section list-section">
-        <div class="content-wrapper">
-            <h2>
-                <span class="lang-id">Pengalaman Organisasi</span>
-                <span class="lang-en">Organization Activities</span>
-            </h2>
-            <img src="images/ustadz.jpeg" alt="Foto Kegiatan Organisasi" class="profile-photo" />
-            <ul>
-                <li><i class="fas fa-users-cog"></i><div><span class="lang-id"><strong>IPNU (Ikatan Pelajar Nahdlatul Ulama):</strong> Berkontribusi aktif dalam kegiatan kepelajaran dan sosial keagamaan tingkat lokal.</span><span class="lang-en"><strong>IPNU (Nahdlatul Ulama Student Association):</strong> Actively contributed to local student and religious social activities.</span></div></li>
-                <li><i class="fas fa-shield-alt"></i><div><span class="lang-id"><strong>BANSER (Barisan Ansor Serbaguna):</strong> Berperan sebagai kader dalam pengamanan acara dan kegiatan pengabdian masyarakat.</span><span class="lang-en"><strong>BANSER (Multipurpose Ansor Front):</strong> Served as a cadre in securing events and community service activities.</span></div></li>
-                <li><i class="fas fa-book-reader"></i><div><span class="lang-id"><strong>Rijalul Ansor:</strong> Mengikuti kajian keagamaan rutin dan aktivitas kepemudaan NU.</span><span class="lang-en"><strong>Rijalul Ansor:</strong> Participated in regular religious studies and NU youth activities.</span></div></li>
-                <li><i class="fas fa-mosque"></i><div><span class="lang-id"><strong>IRMA (Ikatan Remaja Masjid):</strong> Pernah menjabat sebagai ketua, memimpin dan mengelola kegiatan peribadatan, bakti sosial, dan pengembangan remaja masjid.</span><span class="lang-en"><strong>IRMA (Mosque Youth Association):</strong> Served as chairman, leading and managing worship activities, community service, and youth development at the mosque.</span></div></li>
-            </ul>
+            <section id="organisasi" class="content-section list-section">
+    <div class="content-wrapper">
+        <h2>
+            <span class="lang-id">Pengalaman Organisasi</span>
+            <span class="lang-en">Organization Activities</span>
+        </h2>
+
+        <div id="organisasiCarousel" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="3000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="images/Organisasi1.jpg" class="d-block w-100" alt="Organisasi 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="images/Organisasi2.jpg" class="d-block w-100" alt="Organisasi 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="images/Organisasi3.jpg" class="d-block w-100" alt="Organisasi 3">
+                </div>
+                <div class="carousel-item">
+                    <img src="images/Organisasi4.jpg" class="d-block w-100" alt="Organisasi 4">
+                </div>
+            </div>
+            
+            <button class="carousel-control-prev" type="button" data-bs-target="#organisasiCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#organisasiCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-    </section>
+
+        <ul>
+            <li><i class="fas fa-users-cog"></i><div><span class="lang-id"><strong>IPNU:</strong> Berkontribusi aktif dalam kegiatan kepelajaran dan sosial keagamaan.</span><span class="lang-en"><strong>IPNU:</strong> Actively contributed to local student and religious social activities.</span></div></li>
+            <li><i class="fas fa-shield-alt"></i><div><span class="lang-id"><strong>BANSER:</strong> Berperan sebagai kader dalam pengamanan acara dan pengabdian masyarakat.</span><span class="lang-en"><strong>BANSER:</strong> Served as a cadre in securing events and community service activities.</span></div></li>
+            <li><i class="fas fa-book-reader"></i><div><span class="lang-id"><strong>Rijalul Ansor:</strong> Mengikuti kajian keagamaan rutin dan aktivitas kepemudaan.</span><span class="lang-en"><strong>Rijalul Ansor:</strong> Participated in regular religious studies and youth activities.</span></div></li>
+            <li><i class="fas fa-mosque"></i><div><span class="lang-id"><strong>IRMA:</strong> Pernah menjabat sebagai ketua, memimpin dan mengelola kegiatan remaja masjid.</span><span class="lang-en"><strong>IRMA:</strong> Served as chairman, leading and managing youth development at the mosque.</span></div></li>
+        </ul>
+    </div>
+</section>            
     <section id="portofolio" class="content-section">
         <div class="content-wrapper">
             <h2>
