@@ -945,7 +945,9 @@
             .home-content h1 .typing-target {
                 border-right: 3px solid #ffc107;
                 padding-right: 4px;
-                white-space: nowrap;
+                white-space: normal; /* Diubah agar teks bisa turun ke bawah di HP */
+                word-break: break-word; /* Mencegah teks melimpah keluar layar */
+                display: inline;
                 animation: caretBlink 0.75s infinite;
             }
             @keyframes caretBlink {
