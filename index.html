@@ -1213,8 +1213,8 @@
                 <span class="lang-en typing-target-pendidikan" data-text="Education & Certifications"></span>
             </h2>
             
-            <!-- Daftar Sekolah (SD, MTsS, SMK Kembali Utuh & Sejajar) -->
-            <ul>
+            <!-- Daftar Sekolah -->
+            <ul class="edu-list">
                 <li>
                     <i class="fas fa-school"></i>
                     <div>
@@ -1238,7 +1238,7 @@
                 </li>
             </ul>
     
-            <!-- Kartu Sertifikat Terkunci Di Dalam Content Wrapper -->
+            <!-- Kartu Sertifikat -->
             <div class="cert-card-clean">
                 <div class="cert-clean-header">
                     <div class="cert-clean-info">
@@ -1251,18 +1251,20 @@
                             <span class="lang-en">Novice Programmer</span>
                         </h3>
                         
-                        <!-- Penambahan Nama Pemilik -->
                         <p class="cert-clean-holder">
-                            <span class="lang-id">Diberikan Kepada:</span>
-                            <span class="lang-en">Awarded To:</span>
-                            <strong>Wildan Hidayat</strong>
+                            <span class="holder-label">
+                                <span class="lang-id">Diberikan Kepada:</span>
+                                <span class="lang-en">Awarded To:</span>
+                            </span>
+                            <strong class="holder-name">Wildan Hidayat</strong>
                         </p>
-            
+    
                         <p class="cert-clean-issuer">SMK PGRI 35 Solokanjeruk & PT. Cakrawala Global Yaksa</p>
                     </div>
                     
-                    <!-- Stempel Nilai Ringkas & Animasi Ketokan -->
+                    <!-- Badge Nilai dengan Garis Putus-putus Berputar -->
                     <div class="cert-stamp-badge">
+                        <div class="stamp-spin-border"></div>
                         <div class="stamp-inner">
                             <span class="stamp-score">85</span>
                             <span class="stamp-text">
@@ -1272,9 +1274,8 @@
                         </div>
                     </div>
                 </div>
-            
+    
                 <div class="cert-clean-body">
-                    <!-- Metadata Bersekat Vertikal -->
                     <div class="cert-clean-meta">
                         <div class="meta-col">
                             <span class="meta-label">
@@ -1297,8 +1298,7 @@
                             </span>
                         </div>
                     </div>
-            
-                    <!-- Unit Kompetensi -->
+    
                     <div class="cert-clean-skills">
                         <span class="skills-label">
                             <span class="lang-id">Unit Kompetensi Teruji:</span>
@@ -1331,25 +1331,130 @@
                     </div>
                 </div>
             </div>
-    
         </div>
     
-        <!-- Style Khusus Animasi Ketikan Judul Pendidikan -->
         <style>
+            /* Perbaikan Judul & Efek Ketik (Typewriter) Agar Bisa Turun ke Bawah */
+            #pendidikan h2 {
+                text-align: left;
+                margin-bottom: 1.5rem;
+                font-size: 1.6rem;
+                line-height: 1.3;
+            }
+    
             #pendidikan h2 .typing-target-pendidikan {
                 border-right: 3px solid #ffc107;
                 padding-right: 4px;
-                white-space: nowrap;
-                display: inline-block;
+                white-space: pre-wrap; /* Mengizinkan teks mengetik turun ke bawah baris berikutnya secara rapi */
+                word-break: break-word;
+                display: inline;
                 animation: caretBlinkPendidikan 0.75s infinite;
             }
+    
             @keyframes caretBlinkPendidikan {
                 0%, 100% { border-color: transparent; }
                 50% { border-color: #ffc107; }
             }
+    
+            /* Layout Header Sertifikat */
+            .cert-clean-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 12px;
+                margin-bottom: 15px;
+            }
+    
+            .cert-clean-info {
+                flex: 1;
+                min-width: 0;
+            }
+    
+            .cert-clean-holder {
+                margin: 6px 0;
+                line-height: 1.4;
+            }
+    
+            .holder-name {
+                display: inline-block;
+                white-space: nowrap;
+            }
+    
+            /* Badge Nilai & Animasi Garis Putus-Putus Berputar */
+            .cert-stamp-badge {
+                position: relative;
+                width: 80px;
+                height: 80px;
+                flex-shrink: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 4px;
+            }
+    
+            .stamp-spin-border {
+                position: absolute;
+                inset: 0;
+                border-radius: 12px;
+                border: 2px dashed #059669;
+                animation: rotateStampBorder 8s linear infinite;
+            }
+    
+            .stamp-inner {
+                position: relative;
+                z-index: 1;
+                background: #ffffff;
+                width: 100%;
+                height: 100%;
+                border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+    
+            .stamp-score {
+                font-size: 1.4rem;
+                font-weight: 800;
+                color: #059669;
+                line-height: 1;
+            }
+    
+            .stamp-text {
+                font-size: 0.65rem;
+                font-weight: 700;
+                color: #059669;
+                margin-top: 2px;
+                letter-spacing: 0.5px;
+            }
+    
+            @keyframes rotateStampBorder {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+    
+            /* Responsif Mobile */
+            @media (max-width: 480px) {
+                #pendidikan h2 {
+                    font-size: 1.3rem;
+                }
+    
+                .cert-stamp-badge {
+                    width: 70px;
+                    height: 70px;
+                }
+    
+                .stamp-score {
+                    font-size: 1.2rem;
+                }
+    
+                .stamp-text {
+                    font-size: 0.55rem;
+                }
+            }
         </style>
     
-        <!-- Script JavaScript Penulis Otomatis Section Pendidikan -->
         <script>
             (function() {
                 let loopTimeoutPendidikan;
@@ -1676,11 +1781,13 @@
                                 <i class="fas fa-external-link-alt"></i> 
                                 <span class="lang-id">Tautan Akses:</span>
                                 <span class="lang-en">Access Link:</span>
+                            </p>
+                            <p>
                                 <a href="https://simulasi-judol-will.freedev.app" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: underline; margin-left: 4px;">https://simulasi-judol-will.freedev.app</a>
                             </p>
-                            <p style="margin: 0; font-size: 0.8rem; color: #666;">
-                                <span class="lang-id"><strong>Catatan Akses Demo:</strong> Saat di halaman login, Anda dapat masuk menggunakan akun Google. Jika muncul instruksi verifikasi email, tidak perlu membuka email (fitur maintenance). Cukup tekan tombol kembali/back pada browser ke halaman login, lalu klik "Masuk dengan Google" sekali lagi untuk langsung menuju halaman dashboard.</span>
-                                <span class="lang-en"><strong>Demo Access Note:</strong> On the login page, sign in using Google. If an email verification prompt appears, skip checking email (maintenance mode). Press back on your browser to the login page, then click "Sign in with Google" again to proceed directly to the dashboard.</span>
+                            <p style="margin-top: 12px; margin-bottom: 0; font-size: 0.8rem; color: #666; text-align: justify; line-height: 1.4;">
+                                <span class="lang-id"><strong>Catatan Akses Demo:</strong><br>Saat di halaman login, Anda dapat masuk menggunakan akun Google. Jika muncul instruksi verifikasi email, tidak perlu membuka email (fitur masih dalam tahap maintenance). Cukup tekan tombol kembali/back pada browser ke halaman login, lalu klik "Masuk dengan Google" sekali lagi untuk langsung menuju halaman dashboard.</span>
+                                <span class="lang-en"><strong>Demo Access Note:</strong><br>On the login page, sign in using Google. If an email verification prompt appears, skip checking email (The feature is still under maintenance). Press back on your browser to the login page, then click "Sign in with Google" again to proceed directly to the dashboard.</span>
                             </p>
                         </div>
                     </div>
@@ -2376,119 +2483,19 @@
     }
 }
 </script>
-<div id="music-container" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999; display: flex; align-items: center; background: rgba(255, 255, 255, 0.9); padding: 10px; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 1px solid #ddd; backdrop-filter: blur(5px);"> 
-    <span id="music-status" style="font-size: 12px; margin-right: 10px; color: #333; font-weight: bold; display: flex; align-items: center;">
-        <span class="lang-id typing-target-music" data-text="Sambil Putar Musik?"></span>
-        <span class="lang-en typing-target-music" data-text="While Playing Music?"></span>
+<div id="music-container" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999; display: flex; align-items: center; background: rgba(255, 255, 255, 0.9); padding: 10px; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 1px solid #ddd;">
+    <span id="music-status" style="font-size: 12px; margin-right: 10px; color: #333; font-weight: bold;">
+        <span class="lang-id">Sambil Putar Musik?</span>
+        <span class="lang-en">While Playing Music?</span>
     </span>
-
     <button id="music-btn" onclick="toggleMusic()" style="background: #007bff; border: none; color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s;">
-        <i id="music-icon" class="fas fa-play"></i> 
-    </button>
-
-    <audio id="bg-music" loop preload="metadata">
+        <i id="music-icon" class="fas fa-play"></i> </button>
+    <audio id="bg-music" loop>
         <source src="assets/music/vibes ngoding.mp3" type="audio/mpeg">
         Browser Anda tidak mendukung elemen audio.
     </audio>
+</div> 
 
-    <!-- Style Khusus Animasi Ketikan Teks Musik -->
-    <style>
-        #music-status .typing-target-music {
-            border-right: 2px solid #007bff;
-            padding-right: 3px;
-            white-space: nowrap;
-            display: inline-block;
-            animation: caretBlinkMusic 0.75s infinite;
-        }
-        @keyframes caretBlinkMusic {
-            0%, 100% { border-color: transparent; }
-            50% { border-color: #007bff; }
-        }
-        #music-btn.playing {
-            background: #28a745 !important;
-        }
-    </style>
-
-    <!-- Script JavaScript Penulis Otomatis & Toggle Musik -->
-    <script>
-        (function() {
-            let loopTimeoutMusic;
-
-            window.playTypewriterMusic = function() {
-                if (loopTimeoutMusic) clearTimeout(loopTimeoutMusic);
-
-                const targets = document.querySelectorAll('#music-status .typing-target-music');
-                
-                targets.forEach(el => {
-                    const style = window.getComputedStyle(el);
-                    if (style.display === 'none') {
-                        el.textContent = '';
-                        if (el.typingInterval) clearInterval(el.typingInterval);
-                        return;
-                    }
-
-                    const text = el.getAttribute('data-text');
-                    if (!text) return;
-                    
-                    if (el.typingInterval) clearInterval(el.typingInterval);
-                    el.textContent = '';
-                    
-                    let i = 0;
-                    el.typingInterval = setInterval(() => {
-                        if (i < text.length) {
-                            el.textContent += text.charAt(i);
-                            i++;
-                        } else {
-                            clearInterval(el.typingInterval);
-                            loopTimeoutMusic = setTimeout(() => {
-                                playTypewriterMusic();
-                            }, 3000);
-                        }
-                    }, 90);
-                });
-            };
-
-            window.toggleMusic = function() {
-                const music = document.getElementById('bg-music');
-                const btn = document.getElementById('music-btn');
-                const icon = document.getElementById('music-icon');
-                const targetId = document.querySelector('#music-status .lang-id');
-                const targetEn = document.querySelector('#music-status .lang-en');
-
-                if (music.paused) {
-                    music.play().then(() => {
-                        btn.classList.add('playing');
-                        icon.className = 'fas fa-pause';
-                        if (targetId) targetId.setAttribute('data-text', 'Memutar Musik ♪');
-                        if (targetEn) targetEn.setAttribute('data-text', 'Playing Music ♪');
-                        playTypewriterMusic();
-                    }).catch(err => {
-                        console.log('Autoplay ditolak oleh browser:', err);
-                    });
-                } else {
-                    music.pause();
-                    btn.classList.remove('playing');
-                    icon.className = 'fas fa-play';
-                    if (targetId) targetId.setAttribute('data-text', 'Sambil Putar Musik?');
-                    if (targetEn) targetEn.setAttribute('data-text', 'While Playing Music?');
-                    playTypewriterMusic();
-                }
-            };
-
-            if (document.readyState === 'loading') {
-                document.addEventListener("DOMContentLoaded", playTypewriterMusic);
-            } else {
-                playTypewriterMusic();
-            }
-
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('#lang-switch, .lang-btn, #ID, #EN')) {
-                    setTimeout(playTypewriterMusic, 100);
-                }
-            });
-        })();
-    </script>
-</div>
 </body>
 </html>
 
